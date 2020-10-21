@@ -10,7 +10,6 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
     public class AdminController : Controller
     {
         Vehicle_Showroom_Management_SystemEntities db = new Vehicle_Showroom_Management_SystemEntities();
-        UserAccount userCurrent;
         // GET: Admin/Admin
         public ActionResult Index()
         {

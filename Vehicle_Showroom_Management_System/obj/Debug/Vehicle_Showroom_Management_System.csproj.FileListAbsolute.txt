@@ -162,3 +162,4 @@ C:\Users\Admin\Desktop\VehicleShowroomManagementSystem\Vehicle_Showroom_Manageme
 C:\Users\Admin\Desktop\VehicleShowroomManagementSystem\Vehicle_Showroom_Management_System\obj\Debug\Vehicle_Showroom_Management_System.dll
 C:\Users\Admin\Desktop\VehicleShowroomManagementSystem\Vehicle_Showroom_Management_System\obj\Debug\Vehicle_Showroom_Management_System.pdb
 >>>>>>> c7e3ac4e1dd8738f0d4ba3174edfcd1235dc786e
+C:\Users\tranq\source\repos\Vehicle_Showroom_Management_System\Vehicle_Showroom_Management_System\obj\Debug\Vehicle_Showroom_Management_System.csprojAssemblyReference.cache
