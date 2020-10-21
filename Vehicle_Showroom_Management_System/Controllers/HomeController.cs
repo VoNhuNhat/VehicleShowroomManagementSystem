@@ -26,5 +26,12 @@ namespace Vehicle_Showroom_Management_System.Controllers
 
             return View();
         }
+
+        public ActionResult Test()
+        {
+            ViewBag.Message = "Your test page.";
+
+            return View();
+        }
     }
 }
