@@ -149,6 +149,8 @@
     <Compile Include="Areas\Admin\Data\UserAccount.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\BlogController.cs" />
+    <Compile Include="Controllers\CarsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -178,6 +180,64 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\bootstrap-theme.css" />
+    <Content Include="Content\css\bootstrap-theme.min.css" />
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\datepicker.css" />
+    <Content Include="Content\css\fontAwesome.css" />
+    <Content Include="Content\css\fonts\flexslider-icon.svg" />
+    <Content Include="Content\css\hero-slider.css" />
+    <Content Include="Content\css\owl-carousel.css" />
+    <Content Include="Content\css\style.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\img\about-1-720x480.jpg" />
+    <Content Include="Content\img\banner-image-1-1920x300.jpg" />
+    <Content Include="Content\img\banner-image-2-1920x300.jpg" />
+    <Content Include="Content\img\banner-image-3-1920x300.jpg" />
+    <Content Include="Content\img\banner-image-4-1920x300.jpg" />
+    <Content Include="Content\img\banner-image-5-1920x300.jpg" />
+    <Content Include="Content\img\banner-image-6-1920x300.jpg" />
+    <Content Include="Content\img\blog-1-720x480.jpg" />
+    <Content Include="Content\img\blog-2-720x480.jpg" />
+    <Content Include="Content\img\blog-3-720x480.jpg" />
+    <Content Include="Content\img\blog-4-720x480.jpg" />
+    <Content Include="Content\img\blog-5-720x480.jpg" />
+    <Content Include="Content\img\blog-6-720x480.jpg" />
+    <Content Include="Content\img\blog-image-fullscren-1-1920x700.jpg" />
+    <Content Include="Content\img\close.png" />
+    <Content Include="Content\img\contact-image-1-1920x700.jpg" />
+    <Content Include="Content\img\footer_logo.png" />
+    <Content Include="Content\img\homepage-banner-image-1920x700.jpg" />
+    <Content Include="Content\img\loading.gif" />
+    <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\next.png" />
+    <Content Include="Content\img\popular_item_1.jpg" />
+    <Content Include="Content\img\popular_item_2.jpg" />
+    <Content Include="Content\img\popular_item_3.jpg" />
+    <Content Include="Content\img\popular_item_4.jpg" />
+    <Content Include="Content\img\popular_item_5.jpg" />
+    <Content Include="Content\img\popular_item_6.jpg" />
+    <Content Include="Content\img\prev.png" />
+    <Content Include="Content\img\product-1-720x480.jpg" />
+    <Content Include="Content\img\product-2-720x480.jpg" />
+    <Content Include="Content\img\product-3-720x480.jpg" />
+    <Content Include="Content\img\product-4-720x480.jpg" />
+    <Content Include="Content\img\product-5-720x480.jpg" />
+    <Content Include="Content\img\product-6-720x480.jpg" />
+    <Content Include="Content\img\team-image-1-646x680.jpg" />
+    <Content Include="Content\img\team-image-2-646x680.jpg" />
+    <Content Include="Content\img\team-image-3-646x680.jpg" />
+    <Content Include="Content\img\team-image-4-646x680.jpg" />
+    <Content Include="Content\js\datepicker.js" />
+    <Content Include="Content\js\main.js" />
+    <Content Include="Content\js\plugins.js" />
+    <Content Include="Content\js\vendor\bootstrap.js" />
+    <Content Include="Content\js\vendor\bootstrap.min.js" />
+    <Content Include="Content\js\vendor\jquery-1.11.2.min.js" />
+    <Content Include="Content\js\vendor\modernizr-2.8.3-respond-1.4.2.min.js" />
+    <Content Include="Content\js\vendor\npm.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -195,6 +255,19 @@
     <Content Include="Areas\Admin\Data\Database.edmx.diagram">
       <DependentUpon>Database.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\css\bootstrap-theme.css.map" />
+    <Content Include="Content\css\bootstrap.css.map" />
+    <Content Include="Content\css\fonts\flexslider-icon.eot" />
+    <Content Include="Content\css\fonts\flexslider-icon.ttf" />
+    <Content Include="Content\css\fonts\flexslider-icon.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -220,7 +293,14 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Test.cshtml" />
+    <Content Include="Views\Cars\Index.cshtml" />
+    <Content Include="Views\Blog\Index.cshtml" />
+    <Content Include="Views\Home\Team.cshtml" />
+    <Content Include="Views\Home\Testimonials.cshtml" />
+    <Content Include="Views\Home\FAQ.cshtml" />
+    <Content Include="Views\Home\Terms.cshtml" />
+    <Content Include="Views\Cars\CarDetails.cshtml" />
+    <Content Include="Views\Blog\BlogDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
