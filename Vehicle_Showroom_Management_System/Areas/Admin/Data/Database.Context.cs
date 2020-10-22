@@ -12,6 +12,8 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class Vehicle_Showroom_Management_SystemEntities : DbContext
     {
@@ -26,5 +28,34 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         }
     
         public virtual DbSet<UserAccount> UserAccounts { get; set; }
+    
+        public virtual int Insert_UserAccount(string fullName, string userName, string password, string address, string email, string phoneNumber)
+        {
+            var fullNameParameter = fullName != null ?
+                new ObjectParameter("FullName", fullName) :
+                new ObjectParameter("FullName", typeof(string));
+    
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("Password", password) :
+                new ObjectParameter("Password", typeof(string));
+    
+            var addressParameter = address != null ?
+                new ObjectParameter("Address", address) :
+                new ObjectParameter("Address", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var phoneNumberParameter = phoneNumber != null ?
+                new ObjectParameter("PhoneNumber", phoneNumber) :
+                new ObjectParameter("PhoneNumber", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_UserAccount", fullNameParameter, userNameParameter, passwordParameter, addressParameter, emailParameter, phoneNumberParameter);
+        }
     }
 }

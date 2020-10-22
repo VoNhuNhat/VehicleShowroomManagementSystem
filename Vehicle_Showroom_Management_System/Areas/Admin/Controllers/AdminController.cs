@@ -46,5 +46,31 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             }
                 return View();
         }
+
+        public ActionResult UserInformation()
+        {
+            List<UserAccount> list =  db.UserAccounts.ToList();
+            return View(list);
+        }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Create(string fullName,string userName,string password,string address, string email, string phoneNumber)
+        {
+            db.Insert_UserAccount(fullName, userName, password, address, email, phoneNumber);
+            db.SaveChanges();
+            return RedirectToAction("UserInformation");
+        }
+        [HttpPost]
+        public JsonResult CheckUserName(string userName)
+        {
+            bool check = db.UserAccounts.ToList().Exists(u => u.UserName.Equals(userName, StringComparison.CurrentCultureIgnoreCase));
+            return Json(check);
+        }
+
     }
 }

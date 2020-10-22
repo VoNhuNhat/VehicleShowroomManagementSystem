@@ -17,5 +17,13 @@
   </EntityType>
   <EntityContainer Name="Vehicle_Showroom_Management_SystemEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="UserAccounts" EntityType="Self.UserAccount" />
+    <FunctionImport Name="Insert_UserAccount">
+      <Parameter Name="FullName" Mode="In" Type="String" />
+      <Parameter Name="UserName" Mode="In" Type="String" />
+      <Parameter Name="Password" Mode="In" Type="String" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="PhoneNumber" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
 </Schema>
