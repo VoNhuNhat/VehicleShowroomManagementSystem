@@ -14,6 +14,7 @@
     <Property Name="CreatedDate" Type="DateTime" Precision="0" />
     <Property Name="UpdatedDate" Type="DateTime" Precision="0" />
     <Property Name="Status" Type="Int32" />
+    <NavigationProperty Name="Customers" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Customers__UserI__440B1D61" FromRole="UserAccount" ToRole="Customer" />
   </EntityType>
   <EntityContainer Name="Vehicle_Showroom_Management_SystemEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="UserAccounts" EntityType="Self.UserAccount" />
@@ -25,5 +26,225 @@
       <Parameter Name="Email" Mode="In" Type="String" />
       <Parameter Name="PhoneNumber" Mode="In" Type="String" />
     </FunctionImport>
+    <EntitySet Name="Brands" EntityType="Vehicle_Showroom_Management_SystemModel.Brand" />
+    <EntitySet Name="Cars" EntityType="Vehicle_Showroom_Management_SystemModel.Car" />
+    <EntitySet Name="Customers" EntityType="Vehicle_Showroom_Management_SystemModel.Customer" />
+    <EntitySet Name="Images" EntityType="Vehicle_Showroom_Management_SystemModel.Image" />
+    <EntitySet Name="ModelCars" EntityType="Vehicle_Showroom_Management_SystemModel.ModelCar" />
+    <EntitySet Name="Orders" EntityType="Vehicle_Showroom_Management_SystemModel.Order" />
+    <EntitySet Name="PurchaseOrders" EntityType="Vehicle_Showroom_Management_SystemModel.PurchaseOrder" />
+    <EntitySet Name="sysdiagrams" EntityType="Vehicle_Showroom_Management_SystemModel.sysdiagram" />
+    <AssociationSet Name="FK__ModelCars__Brand__38996AB5" Association="Vehicle_Showroom_Management_SystemModel.FK__ModelCars__Brand__38996AB5">
+      <End Role="Brand" EntitySet="Brands" />
+      <End Role="ModelCar" EntitySet="ModelCars" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Cars__PurchaseOr__59FA5E80" Association="Vehicle_Showroom_Management_SystemModel.FK__Cars__PurchaseOr__59FA5E80">
+      <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+      <End Role="Car" EntitySet="Cars" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Orders__ModerNum__5CD6CB2B" Association="Vehicle_Showroom_Management_SystemModel.FK__Orders__ModerNum__5CD6CB2B">
+      <End Role="Car" EntitySet="Cars" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Customers__UserI__440B1D61" Association="Vehicle_Showroom_Management_SystemModel.FK__Customers__UserI__440B1D61">
+      <End Role="UserAccount" EntitySet="UserAccounts" />
+      <End Role="Customer" EntitySet="Customers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Orders__Customer__5DCAEF64" Association="Vehicle_Showroom_Management_SystemModel.FK__Orders__Customer__5DCAEF64">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Images__ModelCar__3B75D760" Association="Vehicle_Showroom_Management_SystemModel.FK__Images__ModelCar__3B75D760">
+      <End Role="ModelCar" EntitySet="ModelCars" />
+      <End Role="Image" EntitySet="Images" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PurchaseO__Model__3E52440B" Association="Vehicle_Showroom_Management_SystemModel.FK__PurchaseO__Model__3E52440B">
+      <End Role="ModelCar" EntitySet="ModelCars" />
+      <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="Brand">
+    <Key>
+      <PropertyRef Name="BrandId" />
+    </Key>
+    <Property Name="BrandId" Type="Int32" Nullable="false" />
+    <Property Name="BrandName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+    <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ModelCars" Relationship="Vehicle_Showroom_Management_SystemModel.FK__ModelCars__Brand__38996AB5" FromRole="Brand" ToRole="ModelCar" />
+  </EntityType>
+  <EntityType Name="Car">
+    <Key>
+      <PropertyRef Name="ModerNumber" />
+    </Key>
+    <Property Name="ModerNumber" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PurchaseOrderId" Type="Int32" />
+    <Property Name="CarName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+    <Property Name="PriceInput" Type="Double" />
+    <Property Name="SeatQuantity" Type="Int32" />
+    <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Gearbox" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+    <Property Name="Engine" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+    <Property Name="FuelConsumption" Type="Double" />
+    <Property Name="KilometerGone" Type="Double" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="Checking" Type="Int32" />
+    <NavigationProperty Name="PurchaseOrder" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Cars__PurchaseOr__59FA5E80" FromRole="Car" ToRole="PurchaseOrder" />
+    <NavigationProperty Name="Orders" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Orders__ModerNum__5CD6CB2B" FromRole="Car" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="Int32" Nullable="false" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="FullName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+    <Property Name="Phone" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="UserAccount" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Customers__UserI__440B1D61" FromRole="Customer" ToRole="UserAccount" />
+    <NavigationProperty Name="Orders" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Orders__Customer__5DCAEF64" FromRole="Customer" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="Image">
+    <Key>
+      <PropertyRef Name="ImageId" />
+    </Key>
+    <Property Name="ImageId" Type="Int32" Nullable="false" />
+    <Property Name="ModelCarId" Type="Int32" />
+    <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ModelCar" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Images__ModelCar__3B75D760" FromRole="Image" ToRole="ModelCar" />
+  </EntityType>
+  <EntityType Name="ModelCar">
+    <Key>
+      <PropertyRef Name="ModelCarId" />
+    </Key>
+    <Property Name="ModelCarId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ModelCarName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+    <Property Name="BrandId" Type="Int32" />
+    <Property Name="PriceOutput" Type="Double" />
+    <NavigationProperty Name="Brand" Relationship="Vehicle_Showroom_Management_SystemModel.FK__ModelCars__Brand__38996AB5" FromRole="ModelCar" ToRole="Brand" />
+    <NavigationProperty Name="Images" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Images__ModelCar__3B75D760" FromRole="ModelCar" ToRole="Image" />
+    <NavigationProperty Name="PurchaseOrders" Relationship="Vehicle_Showroom_Management_SystemModel.FK__PurchaseO__Model__3E52440B" FromRole="ModelCar" ToRole="PurchaseOrder" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="Int32" Nullable="false" />
+    <Property Name="ModerNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CustomerId" Type="Int32" />
+    <Property Name="TotalMoney" Type="Double" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="0" />
+    <Property Name="Status" Type="Int32" />
+    <NavigationProperty Name="Car" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Orders__ModerNum__5CD6CB2B" FromRole="Order" ToRole="Car" />
+    <NavigationProperty Name="Customer" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Orders__Customer__5DCAEF64" FromRole="Order" ToRole="Customer" />
+  </EntityType>
+  <EntityType Name="PurchaseOrder">
+    <Key>
+      <PropertyRef Name="PurchaseOrderId" />
+    </Key>
+    <Property Name="PurchaseOrderId" Type="Int32" Nullable="false" />
+    <Property Name="ModelCarId" Type="Int32" />
+    <Property Name="TotalPriceOutput" Type="Double" />
+    <Property Name="QuantityInput" Type="Int32" />
+    <Property Name="PurchaseDate" Type="DateTime" Precision="0" />
+    <Property Name="Status" Type="Int32" />
+    <NavigationProperty Name="Cars" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Cars__PurchaseOr__59FA5E80" FromRole="PurchaseOrder" ToRole="Car" />
+    <NavigationProperty Name="ModelCar" Relationship="Vehicle_Showroom_Management_SystemModel.FK__PurchaseO__Model__3E52440B" FromRole="PurchaseOrder" ToRole="ModelCar" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK__ModelCars__Brand__38996AB5">
+    <End Type="Vehicle_Showroom_Management_SystemModel.Brand" Role="Brand" Multiplicity="0..1" />
+    <End Type="Vehicle_Showroom_Management_SystemModel.ModelCar" Role="ModelCar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Brand">
+        <PropertyRef Name="BrandId" />
+      </Principal>
+      <Dependent Role="ModelCar">
+        <PropertyRef Name="BrandId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Cars__PurchaseOr__59FA5E80">
+    <End Type="Vehicle_Showroom_Management_SystemModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="0..1" />
+    <End Type="Vehicle_Showroom_Management_SystemModel.Car" Role="Car" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PurchaseOrder">
+        <PropertyRef Name="PurchaseOrderId" />
+      </Principal>
+      <Dependent Role="Car">
+        <PropertyRef Name="PurchaseOrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Orders__ModerNum__5CD6CB2B">
+    <End Type="Vehicle_Showroom_Management_SystemModel.Car" Role="Car" Multiplicity="0..1" />
+    <End Type="Vehicle_Showroom_Management_SystemModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Car">
+        <PropertyRef Name="ModerNumber" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="ModerNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Customers__UserI__440B1D61">
+    <End Type="Vehicle_Showroom_Management_SystemModel.UserAccount" Role="UserAccount" Multiplicity="0..1" />
+    <End Type="Vehicle_Showroom_Management_SystemModel.Customer" Role="Customer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserAccount">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Customer">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Orders__Customer__5DCAEF64">
+    <End Type="Vehicle_Showroom_Management_SystemModel.Customer" Role="Customer" Multiplicity="0..1" />
+    <End Type="Vehicle_Showroom_Management_SystemModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Images__ModelCar__3B75D760">
+    <End Type="Vehicle_Showroom_Management_SystemModel.ModelCar" Role="ModelCar" Multiplicity="0..1" />
+    <End Type="Vehicle_Showroom_Management_SystemModel.Image" Role="Image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ModelCar">
+        <PropertyRef Name="ModelCarId" />
+      </Principal>
+      <Dependent Role="Image">
+        <PropertyRef Name="ModelCarId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PurchaseO__Model__3E52440B">
+    <End Type="Vehicle_Showroom_Management_SystemModel.ModelCar" Role="ModelCar" Multiplicity="0..1" />
+    <End Type="Vehicle_Showroom_Management_SystemModel.PurchaseOrder" Role="PurchaseOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ModelCar">
+        <PropertyRef Name="ModelCarId" />
+      </Principal>
+      <Dependent Role="PurchaseOrder">
+        <PropertyRef Name="ModelCarId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

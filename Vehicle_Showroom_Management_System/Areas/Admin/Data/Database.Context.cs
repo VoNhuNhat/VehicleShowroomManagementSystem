@@ -28,6 +28,14 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         }
     
         public virtual DbSet<UserAccount> UserAccounts { get; set; }
+        public virtual DbSet<Brand> Brands { get; set; }
+        public virtual DbSet<Car> Cars { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Image> Images { get; set; }
+        public virtual DbSet<ModelCar> ModelCars { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     
         public virtual int Insert_UserAccount(string fullName, string userName, string password, string address, string email, string phoneNumber)
         {

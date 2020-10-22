@@ -34,3 +34,76 @@ create proc Insert_UserAccount
 	insert into UserAccount values(@FullName,@UserName,@Password,@Address,@Email,@PhoneNumber,CURRENT_TIMESTAMP,NULl,0)
 	end
 	go
+
+create table Brands(
+BrandId int primary key,
+BrandName varchar(256),
+image text
+)
+go
+
+create table ModelCars(
+ModelCarId int primary key identity,
+ModelCarName varchar(256),
+BrandId int references Brands(BrandId),
+PriceOutput float
+)
+go
+
+create table Images(
+ImageId int primary key,
+ModelCarId int references ModelCars(ModelCarId),
+name text
+)
+go
+
+create table PurchaseOrders(
+PurchaseOrderId int primary key,
+ModelCarId int references ModelCars(ModelCarId),
+TotalPriceOutput float,
+QuantityInput int,
+PurchaseDate Date,
+Status int
+)
+go
+
+create table Cars(
+ModerNumber varchar(100) primary key,
+PurchaseOrderId int references PurchaseOrders(PurchaseOrderId),
+CarName varchar(256),
+PriceInput float,
+SeatQuantity int,
+Color varchar(50),
+Gearbox varchar(256),
+Engine varchar(256),
+FuelConsumption float,
+KilometerGone float,
+Status int,
+Checking int,
+)
+go
+
+create table Customers(
+CustomerId int primary key,
+UserId int references UserAccount(UserId),
+FullName varchar(256),
+Address text,
+Email varchar(256),
+Phone varchar(256),
+CreatedDate Date,
+)
+go
+
+
+create table Orders(
+OrderId int primary key,
+ModerNumber varchar(100) references Cars(ModerNumber),	
+CustomerId int references Customers(CustomerId), 
+TotalMoney float,
+CreatedDate Date,
+UpdateDate Date,
+Status int
+)
+go
+
+

@@ -18,5 +18,100 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="Insert_UserAccount" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_UserAccount" />
+    <EntitySetMapping Name="Brands">
+      <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Brand">
+        <MappingFragment StoreEntitySet="Brands">
+          <ScalarProperty Name="image" ColumnName="image" />
+          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+          <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Cars">
+      <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Car">
+        <MappingFragment StoreEntitySet="Cars">
+          <ScalarProperty Name="Checking" ColumnName="Checking" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="KilometerGone" ColumnName="KilometerGone" />
+          <ScalarProperty Name="FuelConsumption" ColumnName="FuelConsumption" />
+          <ScalarProperty Name="Engine" ColumnName="Engine" />
+          <ScalarProperty Name="Gearbox" ColumnName="Gearbox" />
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="SeatQuantity" ColumnName="SeatQuantity" />
+          <ScalarProperty Name="PriceInput" ColumnName="PriceInput" />
+          <ScalarProperty Name="CarName" ColumnName="CarName" />
+          <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
+          <ScalarProperty Name="ModerNumber" ColumnName="ModerNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Customer">
+        <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Images">
+      <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Image">
+        <MappingFragment StoreEntitySet="Images">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="ModelCarId" ColumnName="ModelCarId" />
+          <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ModelCars">
+      <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.ModelCar">
+        <MappingFragment StoreEntitySet="ModelCars">
+          <ScalarProperty Name="PriceOutput" ColumnName="PriceOutput" />
+          <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+          <ScalarProperty Name="ModelCarName" ColumnName="ModelCarName" />
+          <ScalarProperty Name="ModelCarId" ColumnName="ModelCarId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Order">
+        <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="ModerNumber" ColumnName="ModerNumber" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PurchaseOrders">
+      <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.PurchaseOrder">
+        <MappingFragment StoreEntitySet="PurchaseOrders">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
+          <ScalarProperty Name="QuantityInput" ColumnName="QuantityInput" />
+          <ScalarProperty Name="TotalPriceOutput" ColumnName="TotalPriceOutput" />
+          <ScalarProperty Name="ModelCarId" ColumnName="ModelCarId" />
+          <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="definition" ColumnName="definition" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

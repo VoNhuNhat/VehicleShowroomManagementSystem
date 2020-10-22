@@ -1,0 +1,200 @@
+﻿@model Vehicle_Showroom_Management_System.Areas.Admin.Data.UserAccount
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
+}
+<div class="container">
+    <h2 style="text-align: center">Add new user</h2>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
+                </b>
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control", @id = "FullName" } })
+                    @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+                </b>
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @id = "UserName" } })
+                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                </b>
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @id = "Password" } })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                </b>
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @id = "Address" } })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                </b>
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "Email" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                </b>
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber" } })
+                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <button type="submit" id="btnSubmit" disabled hidden class="btn btn-success">add</button>
+        </div>
+    }
+    <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+            <a onclick="clicktest()" class="btn btn-success" style="color: white"><b>Add new user</b></a>&nbsp
+            <a href="/Admin/UserAccount" class="btn btn-primary"><b>Back to List</b></a>
+        </div>
+    </div>
+
+    <script>
+            function clicktest() {
+                var i = 0;
+                if (i==0 && $("#FullName").val() == "") {
+                    swal("There was a problem !!!", "Please enter Fullname", "error").then(() => { $("#FullName").focus(); });
+                   
+                } else {
+                    if (i == 0 && $("#FullName").val().length > 256) {
+                        swal("There was a problem !!!", "Fullname Maximum is 256 characters", "error").then(() => { $("#FullName").focus(); });
+                    } else {
+                        i++;
+                    }
+                }
+                if (i == 1 && $("#UserName").val() == "") {
+                    swal("There was a problem !!!", "Please enter UserName", "error").then(() => { $("#UserName").focus(); });
+                } else {
+                    if (i == 1) {
+                        var userName = $("#UserName").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/UserAccount/CheckUserName",
+                        data: '{userName: "' + userName + '" }',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            if (response) {
+                                swal("There was a problem !!!", "UserName already existed", "error").then(() => { $("#UserName").focus(); });
+                            }
+                            else {
+                                i++;
+                            }
+                            if (i == 2 && $("#Password").val() == "") {
+                                swal("There was a problem !!!", "Please enter Password", "error").then(() => { $("#Password").focus(); });
+                            } else {
+                                if (i == 2 && $("#Password").val().length < 6) {
+                                    swal("There was a problem !!!", "Password at least 6 characters", "error").then(() => { $("#Password").focus(); });
+                                } else {
+                                    i++;
+                                }
+                            }
+
+                            if (i == 3 && $("#Address").val() == "") {
+                                swal("There was a problem !!!", "Please enter Address", "error").then(() => { $("#Address").focus(); });
+                            } else {
+                                i++;
+                            }
+
+                            if (i == 4 && $("#Email").val() == "") {
+                                swal("There was a problem !!!", "Please enter Email", "error").then(() => { $("#Email").focus(); });
+                            } else {
+                                if (i == 4) {
+                                    var regex = /^([\w-\.]+\u0040([\w-]+\.)+[\w-]{2,4})?$/;
+                                    var email = $("#Email").val();
+                        if (regex.test(email)) {
+                            $.ajax({
+                                type: "POST",
+                                url: "/Admin/UserAccount/CheckEmail",
+                                data: '{email: "' + email + '" }',
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+                                    if (response) {
+                                        swal("There was a problem !!!", "Email already existed", "error").then(() => { $("#Email").focus(); });
+                                    } else {
+                                        i++;
+                                    }
+                                    if (i == 5 && $("#PhoneNumber").val() == "") {
+                                        swal("There was a problem !!!", "Please enter PhoneNumber", "error").then(() => { $("#PhoneNumber").focus(); });
+                                    } else {
+                                        if (i == 5) {
+                                            var phoneNumber = $("#PhoneNumber").val();
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "/Admin/UserAccount/CheckPhoneNumber",
+                                                data: '{phoneNumber: "' + phoneNumber + '" }',
+                                                contentType: "application/json; charset=utf-8",
+                                                dataType: "json",
+                                                success: function (response) {
+                                                    if (response) {
+                                                        swal("There was a problem !!!", "PhoneNumber already existed", "error").then(() => { $("#PhoneNumber").focus(); });
+                                                    } else {
+                                                        i++;
+                                                    }
+                                                    if (i == 6) {
+                                                        setTimeout(function () {
+                                                            swal({
+                                                                title: "Add user success",
+                                                                icon: "success",
+                                                                buttons: false,
+                                                                dangerMode: false,
+                                                            })
+                                                            setTimeout(function () {
+                                                                $("#btnSubmit").removeAttr('disabled');
+                                                                $("#btnSubmit").click();
+                                                            }, 888);
+                                                        }, 130);
+                                                    }
+                                                }
+                                            })
+                                        }
+                                    }
+                                }
+                            });
+                        } else {
+                            swal("There was a problem !!!", "Please enter a valid email address", "error").then(() => { $("#Email").focus(); });
+                        }
+                                }
+                            }
+                        }
+                    });
+                    }
+                }
+            }
+    </script>
+</div>

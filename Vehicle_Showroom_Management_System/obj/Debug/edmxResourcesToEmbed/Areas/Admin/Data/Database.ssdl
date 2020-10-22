@@ -1,5 +1,92 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="Vehicle_Showroom_Management_SystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Brands">
+    <Key>
+      <PropertyRef Name="BrandId" />
+    </Key>
+    <Property Name="BrandId" Type="int" Nullable="false" />
+    <Property Name="BrandName" Type="varchar" MaxLength="256" />
+    <Property Name="image" Type="text" />
+  </EntityType>
+  <EntityType Name="Cars">
+    <Key>
+      <PropertyRef Name="ModerNumber" />
+    </Key>
+    <Property Name="ModerNumber" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="PurchaseOrderId" Type="int" />
+    <Property Name="CarName" Type="varchar" MaxLength="256" />
+    <Property Name="PriceInput" Type="float" />
+    <Property Name="SeatQuantity" Type="int" />
+    <Property Name="Color" Type="varchar" MaxLength="50" />
+    <Property Name="Gearbox" Type="varchar" MaxLength="256" />
+    <Property Name="Engine" Type="varchar" MaxLength="256" />
+    <Property Name="FuelConsumption" Type="float" />
+    <Property Name="KilometerGone" Type="float" />
+    <Property Name="Status" Type="int" />
+    <Property Name="Checking" Type="int" />
+  </EntityType>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="FullName" Type="varchar" MaxLength="256" />
+    <Property Name="Address" Type="text" />
+    <Property Name="Email" Type="varchar" MaxLength="256" />
+    <Property Name="Phone" Type="varchar" MaxLength="256" />
+    <Property Name="CreatedDate" Type="date" />
+  </EntityType>
+  <EntityType Name="Images">
+    <Key>
+      <PropertyRef Name="ImageId" />
+    </Key>
+    <Property Name="ImageId" Type="int" Nullable="false" />
+    <Property Name="ModelCarId" Type="int" />
+    <Property Name="name" Type="text" />
+  </EntityType>
+  <EntityType Name="ModelCars">
+    <Key>
+      <PropertyRef Name="ModelCarId" />
+    </Key>
+    <Property Name="ModelCarId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ModelCarName" Type="varchar" MaxLength="256" />
+    <Property Name="BrandId" Type="int" />
+    <Property Name="PriceOutput" Type="float" />
+  </EntityType>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="int" Nullable="false" />
+    <Property Name="ModerNumber" Type="varchar" MaxLength="100" />
+    <Property Name="CustomerId" Type="int" />
+    <Property Name="TotalMoney" Type="float" />
+    <Property Name="CreatedDate" Type="date" />
+    <Property Name="UpdateDate" Type="date" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="PurchaseOrders">
+    <Key>
+      <PropertyRef Name="PurchaseOrderId" />
+    </Key>
+    <Property Name="PurchaseOrderId" Type="int" Nullable="false" />
+    <Property Name="ModelCarId" Type="int" />
+    <Property Name="TotalPriceOutput" Type="float" />
+    <Property Name="QuantityInput" Type="int" />
+    <Property Name="PurchaseDate" Type="date" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
   <EntityType Name="UserAccount">
     <Key>
       <PropertyRef Name="UserId" />
@@ -15,6 +102,90 @@
     <Property Name="UpdatedDate" Type="date" />
     <Property Name="Status" Type="int" />
   </EntityType>
+  <Association Name="FK__Cars__PurchaseOr__59FA5E80">
+    <End Role="PurchaseOrders" Type="Self.PurchaseOrders" Multiplicity="0..1" />
+    <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PurchaseOrders">
+        <PropertyRef Name="PurchaseOrderId" />
+      </Principal>
+      <Dependent Role="Cars">
+        <PropertyRef Name="PurchaseOrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Customers__UserI__440B1D61">
+    <End Role="UserAccount" Type="Self.UserAccount" Multiplicity="0..1" />
+    <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserAccount">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Customers">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Images__ModelCar__3B75D760">
+    <End Role="ModelCars" Type="Self.ModelCars" Multiplicity="0..1" />
+    <End Role="Images" Type="Self.Images" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ModelCars">
+        <PropertyRef Name="ModelCarId" />
+      </Principal>
+      <Dependent Role="Images">
+        <PropertyRef Name="ModelCarId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ModelCars__Brand__38996AB5">
+    <End Role="Brands" Type="Self.Brands" Multiplicity="0..1" />
+    <End Role="ModelCars" Type="Self.ModelCars" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Brands">
+        <PropertyRef Name="BrandId" />
+      </Principal>
+      <Dependent Role="ModelCars">
+        <PropertyRef Name="BrandId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Orders__Customer__5DCAEF64">
+    <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+    <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Orders__ModerNum__5CD6CB2B">
+    <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
+    <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cars">
+        <PropertyRef Name="ModerNumber" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="ModerNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PurchaseO__Model__3E52440B">
+    <End Role="ModelCars" Type="Self.ModelCars" Multiplicity="0..1" />
+    <End Role="PurchaseOrders" Type="Self.PurchaseOrders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ModelCars">
+        <PropertyRef Name="ModelCarId" />
+      </Principal>
+      <Dependent Role="PurchaseOrders">
+        <PropertyRef Name="ModelCarId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Function Name="Insert_UserAccount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="FullName" Type="varchar" Mode="In" />
     <Parameter Name="UserName" Type="varchar" Mode="In" />
@@ -24,6 +195,42 @@
     <Parameter Name="PhoneNumber" Type="varchar" Mode="In" />
   </Function>
   <EntityContainer Name="Vehicle_Showroom_Management_SystemModelStoreContainer">
+    <EntitySet Name="Brands" EntityType="Self.Brands" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cars" EntityType="Self.Cars" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ModelCars" EntityType="Self.ModelCars" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PurchaseOrders" EntityType="Self.PurchaseOrders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserAccount" EntityType="Self.UserAccount" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Cars__PurchaseOr__59FA5E80" Association="Self.FK__Cars__PurchaseOr__59FA5E80">
+      <End Role="PurchaseOrders" EntitySet="PurchaseOrders" />
+      <End Role="Cars" EntitySet="Cars" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Customers__UserI__440B1D61" Association="Self.FK__Customers__UserI__440B1D61">
+      <End Role="UserAccount" EntitySet="UserAccount" />
+      <End Role="Customers" EntitySet="Customers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Images__ModelCar__3B75D760" Association="Self.FK__Images__ModelCar__3B75D760">
+      <End Role="ModelCars" EntitySet="ModelCars" />
+      <End Role="Images" EntitySet="Images" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ModelCars__Brand__38996AB5" Association="Self.FK__ModelCars__Brand__38996AB5">
+      <End Role="Brands" EntitySet="Brands" />
+      <End Role="ModelCars" EntitySet="ModelCars" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Orders__Customer__5DCAEF64" Association="Self.FK__Orders__Customer__5DCAEF64">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Orders__ModerNum__5CD6CB2B" Association="Self.FK__Orders__ModerNum__5CD6CB2B">
+      <End Role="Cars" EntitySet="Cars" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PurchaseO__Model__3E52440B" Association="Self.FK__PurchaseO__Model__3E52440B">
+      <End Role="ModelCars" EntitySet="ModelCars" />
+      <End Role="PurchaseOrders" EntitySet="PurchaseOrders" />
+    </AssociationSet>
   </EntityContainer>
 </Schema>

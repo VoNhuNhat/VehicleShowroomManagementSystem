@@ -12,26 +12,24 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class UserAccount
+    public partial class ModelCar
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public UserAccount()
+        public ModelCar()
         {
-            this.Customers = new HashSet<Customer>();
+            this.Images = new HashSet<Image>();
+            this.PurchaseOrders = new HashSet<PurchaseOrder>();
         }
     
-        public int UserId { get; set; }
-        public string FullName { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string Address { get; set; }
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<System.DateTime> UpdatedDate { get; set; }
-        public Nullable<int> Status { get; set; }
+        public int ModelCarId { get; set; }
+        public string ModelCarName { get; set; }
+        public Nullable<int> BrandId { get; set; }
+        public Nullable<double> PriceOutput { get; set; }
     
+        public virtual Brand Brand { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Customer> Customers { get; set; }
+        public virtual ICollection<Image> Images { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
     }
 }
