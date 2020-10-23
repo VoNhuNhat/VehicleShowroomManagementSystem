@@ -113,5 +113,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Update_UserAccount" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_UserAccount" />
   </EntityContainerMapping>
 </Mapping>

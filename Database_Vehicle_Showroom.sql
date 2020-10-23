@@ -16,11 +16,16 @@ create table UserAccount (
 	Status int 
 )
 go
+
 select * from UserAccount
 go
 
-insert into UserAccount values('Demo','admin','123456','ha noi','admin@gmail.com','1234567890',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1)
+insert into UserAccount values('Administrator','admin','MTIzNDU2','ha noi','admin@gmail.com','1234567890',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1)
 go
+/*
+mk: 123456
+*/
+ 
 
 create proc Insert_UserAccount
 	@FullName varchar(256),
@@ -33,7 +38,23 @@ create proc Insert_UserAccount
 	begin
 	insert into UserAccount values(@FullName,@UserName,@Password,@Address,@Email,@PhoneNumber,CURRENT_TIMESTAMP,NULl,0)
 	end
-	go
+go
+
+create proc Update_UserAccount
+	@UserId int,
+	@FullName varchar(256),
+	@UserName varchar(256),
+	@Password varchar(256),
+	@Address text,
+	@Email varchar(100),
+	@PhoneNumber varchar(50)
+	as
+	begin
+	update UserAccount set FullName = @FullName, UserName = @UserName, Password = @Password, Address = @Address,PhoneNumber = @PhoneNumber,UpdatedDate = CURRENT_TIMESTAMP where UserId = @UserId
+	end
+go
+
+
 
 create table Brands(
 BrandId int primary key,

@@ -65,5 +65,38 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_UserAccount", fullNameParameter, userNameParameter, passwordParameter, addressParameter, emailParameter, phoneNumberParameter);
         }
+    
+        public virtual int Update_UserAccount(Nullable<int> userId, string fullName, string userName, string password, string address, string email, string phoneNumber)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var fullNameParameter = fullName != null ?
+                new ObjectParameter("FullName", fullName) :
+                new ObjectParameter("FullName", typeof(string));
+    
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("Password", password) :
+                new ObjectParameter("Password", typeof(string));
+    
+            var addressParameter = address != null ?
+                new ObjectParameter("Address", address) :
+                new ObjectParameter("Address", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var phoneNumberParameter = phoneNumber != null ?
+                new ObjectParameter("PhoneNumber", phoneNumber) :
+                new ObjectParameter("PhoneNumber", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_UserAccount", userIdParameter, fullNameParameter, userNameParameter, passwordParameter, addressParameter, emailParameter, phoneNumberParameter);
+        }
     }
 }

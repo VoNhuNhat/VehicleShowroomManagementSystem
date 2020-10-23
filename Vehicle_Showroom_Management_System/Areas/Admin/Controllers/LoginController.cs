@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Vehicle_Showroom_Management_System.Areas.Admin.Data;
+using Vehicle_Showroom_Management_System.Areas.Admin.Controllers;
 
 namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
 {
@@ -22,7 +23,9 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserAccount userCheck = db.UserAccounts.Where(ua => ua.UserName == username && ua.Password == password).FirstOrDefault();
+                UserAccountController uac = new UserAccountController();
+                string ePassword = uac.EncryptPassword(password);
+                UserAccount userCheck = db.UserAccounts.Where(ua => ua.UserName == username && ua.Password == ePassword).FirstOrDefault();
                 if (userCheck != null)
                 {
                     Session["username"] = userCheck.UserName;
