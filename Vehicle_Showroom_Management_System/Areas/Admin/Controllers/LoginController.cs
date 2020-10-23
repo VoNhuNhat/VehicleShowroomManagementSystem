@@ -33,5 +33,21 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             }
             return View();
         }
+
+        [HttpPost]
+        public JsonResult CheckLogin(string username, string password)
+        {
+            UserAccount userCheck = db.UserAccounts.Where(ua => ua.UserName == username && ua.Password == password).FirstOrDefault();
+            if (userCheck != null)
+            {
+                bool check = true;
+                return Json(check);
+            }
+            else
+            {
+                bool check = false;
+                return Json(check);
+            }            
+        }
     }
 }
