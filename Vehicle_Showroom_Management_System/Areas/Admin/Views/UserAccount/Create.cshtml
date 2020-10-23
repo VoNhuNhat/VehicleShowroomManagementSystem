@@ -5,7 +5,7 @@
     Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
 }
 <div class="container">
-    <h2 style="text-align: center">Add new user</h2>
+    <h2 style="text-align: center"><b>Add new user</b></h2>
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
@@ -38,8 +38,10 @@
                     @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
                 </b>
                 <div class="col-md-9">
-                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @id = "Password" } })
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @id = "Password", @type = "password" } })
+                    <span onclick="showPassword()" class="fa fa-eye" style="font-size: 20px;position: absolute;top: 50%;right: 3%;transform:translateY(-50%);cursor:pointer " id="showPassword"></span>
                     @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+
                 </div>
             </div>
 
@@ -68,7 +70,7 @@
                     @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                 </b>
                 <div class="col-md-9">
-                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber" } })
+                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber",@type = "number" } })
                     @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -78,17 +80,27 @@
     <div class="row">
         <div class="col-md-6"></div>
         <div class="col-md-6">
-            <a onclick="clicktest()" class="btn btn-success" style="color: white"><b>Add new user</b></a>&nbsp
+            <a onclick="clickTest()" class="btn btn-success" style="color: white"><b>Add new user</b></a>&nbsp;
             <a href="/Admin/UserAccount" class="btn btn-primary"><b>Back to List</b></a>
         </div>
     </div>
 
     <script>
-            function clicktest() {
+        function showPassword() {
+            var password = $('#Password');
+            if (password.prop('type') == 'password') {
+                $('#showPassword').addClass('fa-eye-slash');
+                password.attr('type', 'text');
+            } else {
+                $('#showPassword').removeClass('fa-eye-slash');
+                $('#showPassword').addClass('fa-eye');
+                password.attr('type', 'password');
+            }
+        }
+            function clickTest() {
                 var i = 0;
                 if (i==0 && $("#FullName").val() == "") {
                     swal("There was a problem !!!", "Please enter Fullname", "error").then(() => { $("#FullName").focus(); });
-                   
                 } else {
                     if (i == 0 && $("#FullName").val().length > 256) {
                         swal("There was a problem !!!", "Fullname Maximum is 256 characters", "error").then(() => { $("#FullName").focus(); });
@@ -152,6 +164,9 @@
                                     if (i == 5 && $("#PhoneNumber").val() == "") {
                                         swal("There was a problem !!!", "Please enter PhoneNumber", "error").then(() => { $("#PhoneNumber").focus(); });
                                     } else {
+                                        if (i == 5 && $("#PhoneNumber").val().length < 10) {
+                                            swal("There was a problem !!!", "PhoneNumber at least 10 characters", "error").then(() => { $("#PhoneNumber").focus(); });
+                                        } else {
                                         if (i == 5) {
                                             var phoneNumber = $("#PhoneNumber").val();
                                             $.ajax({
@@ -169,7 +184,7 @@
                                                     if (i == 6) {
                                                         setTimeout(function () {
                                                             swal({
-                                                                title: "Add user success",
+                                                                title: "Add user success!",
                                                                 icon: "success",
                                                                 buttons: false,
                                                                 dangerMode: false,
@@ -177,11 +192,12 @@
                                                             setTimeout(function () {
                                                                 $("#btnSubmit").removeAttr('disabled');
                                                                 $("#btnSubmit").click();
-                                                            }, 888);
-                                                        }, 130);
+                                                            }, 800);
+                                                        }, 100);
                                                     }
                                                 }
                                             })
+                                        }
                                         }
                                     }
                                 }

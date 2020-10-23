@@ -7,31 +7,31 @@
 
 
 <div class="container">
-    <h2 style="text-align: center">List of Users</h2>
+    <h2 style="text-align: center"><b>List of Users</b></h2>
     <br />
     <p>
-        <a href="/Admin/UserAccount/Create" class="btn btn-primary">Add new user</a>
+        <a href="/Admin/UserAccount/Create" class="btn btn-primary"><b>Add new user</b></a>
     </p>
     <table class="table table-bordered">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FullName)
+                <b>@Html.DisplayNameFor(model => model.FullName)</b>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
+                <b>@Html.DisplayNameFor(model => model.UserName)</b>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                <b>@Html.DisplayNameFor(model => model.Email)</b>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
+                <b>@Html.DisplayNameFor(model => model.PhoneNumber)</b>
             </th>
             <th></th>
         </tr>
 
         @foreach (var item in Model)
         {
-            <tr>
+            <tr id="@item.UserId">
                 <td>
                     @Html.DisplayFor(modelItem => item.FullName)
                 </td>
@@ -44,13 +44,54 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.PhoneNumber)
                 </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.UserId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.UserId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.UserId })
+                <td style="width: 250px;">
+                    @Html.ActionLink("Details", "Details", new { userId = item.UserId }, new { @class = "btn btn-info", @style = "font-weight: bold" })
+                    @Html.ActionLink("Edit", "Edit", new { userId = item.UserId},new { @class = "btn btn-success", @style = "font-weight: bold" })
+                    <a style="color: white" class="btn btn-danger" onclick="deleteUser(@item.UserId)"><b>Delete</b></a>
                 </td>
             </tr>
         }
 
     </table>
 </div>
+
+<script>
+    function deleteUser(userId) {
+        var tmp;
+        swal({
+            title: "Are you sure you want to delete?",
+            text: "Once deleted, you will not be able to recover this user!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((logOut) => {
+            if (logOut) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/UserAccount/Delete",
+                    data: '{userId: "' + userId + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        console.log("deleted");
+                    }
+                });
+                    $("#" + userId).remove();
+                    setTimeout(function () {
+                        swal({
+                            title: "Poof! User has been deleted!",
+                            icon: "success",
+                            button: true,
+                            dangerMode: false,
+                        });
+                    }, 100);
+                
+            }
+        });
+
+        function getDataAjax(data) {
+            tmp = data;
+        }
+        
+    }
+</script>

@@ -300,6 +300,8 @@
     <Content Include="Areas\Admin\Views\Login\Index.cshtml" />
     <Content Include="Areas\Admin\Views\UserAccount\Index.cshtml" />
     <Content Include="Areas\Admin\Views\UserAccount\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\UserAccount\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\UserAccount\Details.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
