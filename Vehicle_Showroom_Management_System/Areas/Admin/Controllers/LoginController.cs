@@ -40,7 +40,9 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult CheckLogin(string username, string password)
         {
-            UserAccount userCheck = db.UserAccounts.Where(ua => ua.UserName == username && ua.Password == password).FirstOrDefault();
+            UserAccountController uac = new UserAccountController();
+            string ePassword = uac.EncryptPassword(password);
+            UserAccount userCheck = db.UserAccounts.Where(ua => ua.UserName == username && ua.Password == ePassword).FirstOrDefault();
             if (userCheck != null)
             {
                 bool check = true;
