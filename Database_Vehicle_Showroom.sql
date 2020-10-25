@@ -19,13 +19,12 @@ go
 
 select * from UserAccount
 go
-
 insert into UserAccount values('Administrator','admin','MTIzNDU2','ha noi','admin@gmail.com','1234567890',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1)
 go
 /*
 mk: 123456
 */
- 
+
 
 create proc Insert_UserAccount
 	@FullName varchar(256),
@@ -54,6 +53,14 @@ create proc Update_UserAccount
 	end
 go
 
+create proc Update_Password
+	@UserId int,
+	@Password varchar(256)
+	as
+	begin
+	update UserAccount set Password = @Password,UpdatedDate = CURRENT_TIMESTAMP where UserId = @UserId
+	end
+go
 
 
 create table Brands(

@@ -157,6 +157,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Admin\Data\EmailService.cs" />
     <Compile Include="Areas\Admin\Data\Image.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
@@ -302,6 +303,10 @@
     <Content Include="Areas\Admin\Views\UserAccount\Create.cshtml" />
     <Content Include="Areas\Admin\Views\UserAccount\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\UserAccount\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Login\Shared\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Login\ForgotPassword.cshtml" />
+    <Content Include="Areas\Admin\Views\Login\NotificationForgotPassword.cshtml" />
+    <Content Include="Areas\Admin\Views\Login\ResetPassword.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
