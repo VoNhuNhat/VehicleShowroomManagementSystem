@@ -63,12 +63,26 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult ForgotPassword(string email)
         {
+            char[] charArr = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+            Random rd = new Random();
+            string randomPassword = String.Empty;
+            for (int i = 0; i < 10; i++)
+            {
+                int pos = rd.Next(1, charArr.Length);
+                if (!randomPassword.Contains(charArr.GetValue(pos).ToString()))
+                {
+                    randomPassword += charArr.GetValue(pos);
+                }
+                else
+                {
+                    i--;
+                }
+            }
             UserAccount userAccount = db.UserAccounts.Where(ua => ua.Email == email).FirstOrDefault();
-            userAccount.Password = "";
+            userAccount.Password = randomPassword;
             db.SaveChanges();
 
-            string urlComputer = Request.Url.Scheme + "://" + Request.Url.Authority + "/Admin/Login/ResetPassword?userId=";
-
+            string urlComputer = Request.Url.Scheme + "://" + Request.Url.Authority + "/Admin/Login/ResetPassword/";
             string smtpUserName = "c1808j1@gmail.com";
             string smtpPassword = "c1808j1@123";
             string smtpHost = "smtp.gmail.com";
@@ -76,7 +90,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             string emailTo = email;
             string subject = "Reset password";
             string body = string.Format("You received email from: <b>{0}</b><br/>Email: {1}<br/>Nội dung: {2}</br>",
-               "Vehicle Showroom Management System", "c1808j1@gmail.com", "Click this link to reset password: "+ urlComputer+userAccount.UserId);
+               "Vehicle Showroom Management System", "c1808j1@gmail.com", "Click this link to reset password: "+ urlComputer+userAccount.UserId+"/"+randomPassword);
            
            
 
@@ -103,14 +117,40 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult ResetPassword(int userId)
+        [Route("Admin/Login/ResetPassword/{userId}/{randomPassword}")]
+        public ActionResult ResetPassword(int userId,string randomPassword)
         {
-            return View();
+            UserAccount userAccount = db.UserAccounts.Where(ua => ua.UserId == userId).FirstOrDefault();
+            if (userAccount != null)
+            {
+                if (randomPassword != null)
+                {
+                    if (userAccount.Password == randomPassword)
+                    {
+                    return View();
+                    }
+                    return RedirectToAction("Index");
+                }
+                    return RedirectToAction("Index");
+            }
+                return RedirectToAction("Index");
         }
         [HttpPost]
-        public ActionResult ResetPassword(string password)
+        public ActionResult ResetPassword(int userId, string randomPassword, string password)
         {
-            return RedirectToAction("Index");
+            UserAccount userAccount = db.UserAccounts.Where(ua => ua.UserId == userId).FirstOrDefault();
+            UserAccountController uac = new UserAccountController();
+            string ePassword = uac.EncryptPassword(password);
+            userAccount.Password = ePassword;
+            int check = db.SaveChanges();
+            if (check > 0)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View("ResetPassword");
+            }
         }
     }
 }

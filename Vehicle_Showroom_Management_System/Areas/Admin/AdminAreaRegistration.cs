@@ -19,6 +19,12 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin
                 "Admin/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
+
+            context.MapRoute(
+                "Reset_Password",
+                "Admin/{controller}/{action}/{userId}/{randomPassword}",
+                new { controller = "Login", action = "ResetPassword", userId = UrlParameter.Optional, randomPassword = UrlParameter.Optional }
+            );
         }
     }
 }

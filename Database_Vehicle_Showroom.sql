@@ -19,7 +19,7 @@ go
 
 select * from UserAccount
 go
-insert into UserAccount values('Administrator','admin','MTIzNDU2','ha noi','admin@gmail.com','1234567890',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1)
+insert into UserAccount values('Administrator','admin','MTIzNDU2','Bach Khoa Aptech','c1808j1@gmail.com','1234567890',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1)
 go
 /*
 mk: 123456
