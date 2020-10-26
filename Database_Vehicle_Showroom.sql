@@ -53,18 +53,8 @@ create proc Update_UserAccount
 	end
 go
 
-create proc Update_Password
-	@UserId int,
-	@Password varchar(256)
-	as
-	begin
-	update UserAccount set Password = @Password,UpdatedDate = CURRENT_TIMESTAMP where UserId = @UserId
-	end
-go
-
-
 create table Brands(
-BrandId int primary key,
+BrandId int primary key identity,
 BrandName varchar(256),
 image text
 )
@@ -79,14 +69,14 @@ PriceOutput float
 go
 
 create table Images(
-ImageId int primary key,
+ImageId int primary key identity,
 ModelCarId int references ModelCars(ModelCarId),
 name text
 )
 go
 
 create table PurchaseOrders(
-PurchaseOrderId int primary key,
+PurchaseOrderId int primary key identity,
 ModelCarId int references ModelCars(ModelCarId),
 TotalPriceOutput float,
 QuantityInput int,
@@ -112,7 +102,7 @@ Checking int,
 go
 
 create table Customers(
-CustomerId int primary key,
+CustomerId int primary key identity,
 UserId int references UserAccount(UserId),
 FullName varchar(256),
 Address text,
@@ -124,7 +114,7 @@ go
 
 
 create table Orders(
-OrderId int primary key,
+OrderId int primary key identity,
 ModerNumber varchar(100) references Cars(ModerNumber),	
 CustomerId int references Customers(CustomerId), 
 TotalMoney float,
@@ -133,5 +123,3 @@ UpdateDate Date,
 Status int
 )
 go
-
-
