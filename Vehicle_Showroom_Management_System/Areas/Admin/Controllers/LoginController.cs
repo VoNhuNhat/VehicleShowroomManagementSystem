@@ -89,10 +89,8 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             int smtpPort = 25;
             string emailTo = email;
             string subject = "Reset password";
-            string body = string.Format("You received email from: <b>{0}</b><br/>Email: {1}<br/>Nội dung: {2}</br>",
-               "Vehicle Showroom Management System", "c1808j1@gmail.com", "Click this link to reset password: "+ urlComputer+userAccount.UserId+"/"+randomPassword);
-           
-           
+            string body = string.Format("We heard that you lost your password. Sorry about that!<br/><br/>But don’t worry! You can use the following link to reset your password:<br/><br/>{0}</br><br/>WARNING: If you don't do this just contact with admin to report this issue !<br/><br/><br/>Thanks,<br/>Vehicle Showroom Management System",
+               "Click this link to reset password: "+ urlComputer+userAccount.UserId+"/"+randomPassword);
 
             EmailService service = new EmailService();
             bool result = service.Send(smtpUserName, smtpPassword, smtpHost, smtpPort, emailTo, subject, body);
