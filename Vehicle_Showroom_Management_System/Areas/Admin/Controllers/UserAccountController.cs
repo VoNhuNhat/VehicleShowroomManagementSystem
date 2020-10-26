@@ -108,7 +108,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             return decryptedPassword;
         }
         [HttpPost]
-        public bool Delete(int userId)
+        public JsonResult Delete(int userId)
         {
             bool deleted;
             db.UserAccounts.Remove(db.UserAccounts.Where(ua => ua.UserId == userId).FirstOrDefault());
@@ -121,7 +121,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             {
                 deleted = false;
             }
-            return deleted;
+            return Json(deleted);
         }
         [HttpGet]
         public ActionResult Details(int userId)

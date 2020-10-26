@@ -73,18 +73,22 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
-                        console.log("deleted");
+                        if (response) {
+                            $("#" + userId).remove();
+                            setTimeout(function () {
+                                swal({
+                                    title: "Poof! User has been deleted!",
+                                    icon: "success",
+                                    button: true,
+                                    dangerMode: false,
+                                });
+                            }, 100);
+                        } else {
+                            swal("Can not delete user!", "error");
+                        }
                     }
                 });
-                    $("#" + userId).remove();
-                    setTimeout(function () {
-                        swal({
-                            title: "Poof! User has been deleted!",
-                            icon: "success",
-                            button: true,
-                            dangerMode: false,
-                        });
-                    }, 100);
+                   
                 
             }
         });
