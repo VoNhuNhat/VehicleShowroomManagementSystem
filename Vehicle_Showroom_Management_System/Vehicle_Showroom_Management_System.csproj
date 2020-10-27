@@ -306,6 +306,8 @@
     <Content Include="Areas\Admin\Views\Login\NotificationForgotPassword.cshtml" />
     <Content Include="Areas\Admin\Views\Login\ResetPassword.cshtml" />
     <Content Include="Areas\Admin\Views\Customer\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Profile.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\EditCurrentUser.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

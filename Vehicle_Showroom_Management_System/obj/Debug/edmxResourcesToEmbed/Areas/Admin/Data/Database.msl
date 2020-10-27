@@ -1,23 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="Vehicle_Showroom_Management_SystemModelStoreContainer" CdmEntityContainer="Vehicle_Showroom_Management_SystemEntities">
-    <EntitySetMapping Name="UserAccounts">
-      <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.UserAccount">
-        <MappingFragment StoreEntitySet="UserAccount">
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="FullName" ColumnName="FullName" />
-          <ScalarProperty Name="UserName" ColumnName="UserName" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="Insert_UserAccount" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_UserAccount" />
+    <FunctionImportMapping FunctionImportName="Update_UserAccount" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_UserAccount" />
     <EntitySetMapping Name="Brands">
       <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Brand">
         <MappingFragment StoreEntitySet="Brands">
@@ -30,6 +15,8 @@
     <EntitySetMapping Name="Cars">
       <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Car">
         <MappingFragment StoreEntitySet="Cars">
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="Checking" ColumnName="Checking" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="KilometerGone" ColumnName="KilometerGone" />
@@ -41,14 +28,16 @@
           <ScalarProperty Name="PriceInput" ColumnName="PriceInput" />
           <ScalarProperty Name="CarName" ColumnName="CarName" />
           <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
-          <ScalarProperty Name="ModerNumber" ColumnName="ModerNumber" />
+          <ScalarProperty Name="ModelNumber" ColumnName="ModelNumber" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Customers">
       <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Customer">
         <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Birthday" ColumnName="Birthday" />
           <ScalarProperty Name="Phone" ColumnName="Phone" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Address" ColumnName="Address" />
@@ -85,7 +74,7 @@
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
           <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-          <ScalarProperty Name="ModerNumber" ColumnName="ModerNumber" />
+          <ScalarProperty Name="ModelNumber" ColumnName="ModelNumber" />
           <ScalarProperty Name="OrderId" ColumnName="OrderId" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -94,6 +83,8 @@
       <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.PurchaseOrder">
         <MappingFragment StoreEntitySet="PurchaseOrders">
           <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
           <ScalarProperty Name="QuantityInput" ColumnName="QuantityInput" />
           <ScalarProperty Name="TotalPriceOutput" ColumnName="TotalPriceOutput" />
@@ -102,6 +93,22 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="Update_UserAccount" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_UserAccount" />
+    <EntitySetMapping Name="UserAccounts">
+      <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.UserAccount">
+        <MappingFragment StoreEntitySet="UserAccount">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

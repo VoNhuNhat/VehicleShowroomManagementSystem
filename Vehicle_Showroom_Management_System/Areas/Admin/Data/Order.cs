@@ -15,7 +15,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
     public partial class Order
     {
         public int OrderId { get; set; }
-        public string ModerNumber { get; set; }
+        public string ModelNumber { get; set; }
         public Nullable<int> CustomerId { get; set; }
         public Nullable<double> TotalMoney { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }

@@ -25,6 +25,8 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         public Nullable<double> TotalPriceOutput { get; set; }
         public Nullable<int> QuantityInput { get; set; }
         public Nullable<System.DateTime> PurchaseDate { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<System.DateTime> UpdatedDate { get; set; }
         public Nullable<int> Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

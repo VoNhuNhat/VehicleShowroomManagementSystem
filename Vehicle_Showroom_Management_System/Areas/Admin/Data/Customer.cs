@@ -26,7 +26,9 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         public string Address { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+        public Nullable<System.DateTime> Birthday { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<System.DateTime> UpdatedDate { get; set; }
     
         public virtual UserAccount UserAccount { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

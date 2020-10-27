@@ -27,7 +27,6 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<UserAccount> UserAccounts { get; set; }
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<Car> Cars { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
@@ -35,8 +34,9 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         public virtual DbSet<ModelCar> ModelCars { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+        public virtual DbSet<UserAccount> UserAccounts { get; set; }
     
-        public virtual int Insert_UserAccount(string fullName, string userName, string password, string address, string email, string phoneNumber)
+        public virtual int Insert_UserAccount(string fullName, string userName, string password, string address, string email, string phoneNumber, Nullable<System.DateTime> birthday)
         {
             var fullNameParameter = fullName != null ?
                 new ObjectParameter("FullName", fullName) :
@@ -62,10 +62,14 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
                 new ObjectParameter("PhoneNumber", phoneNumber) :
                 new ObjectParameter("PhoneNumber", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_UserAccount", fullNameParameter, userNameParameter, passwordParameter, addressParameter, emailParameter, phoneNumberParameter);
+            var birthdayParameter = birthday.HasValue ?
+                new ObjectParameter("Birthday", birthday) :
+                new ObjectParameter("Birthday", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_UserAccount", fullNameParameter, userNameParameter, passwordParameter, addressParameter, emailParameter, phoneNumberParameter, birthdayParameter);
         }
     
-        public virtual int Update_UserAccount(Nullable<int> userId, string fullName, string userName, string password, string address, string email, string phoneNumber)
+        public virtual int Update_UserAccount(Nullable<int> userId, string fullName, string userName, string password, string address, string email, string phoneNumber, Nullable<System.DateTime> birthday)
         {
             var userIdParameter = userId.HasValue ?
                 new ObjectParameter("UserId", userId) :
@@ -95,7 +99,11 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
                 new ObjectParameter("PhoneNumber", phoneNumber) :
                 new ObjectParameter("PhoneNumber", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_UserAccount", userIdParameter, fullNameParameter, userNameParameter, passwordParameter, addressParameter, emailParameter, phoneNumberParameter);
+            var birthdayParameter = birthday.HasValue ?
+                new ObjectParameter("Birthday", birthday) :
+                new ObjectParameter("Birthday", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_UserAccount", userIdParameter, fullNameParameter, userNameParameter, passwordParameter, addressParameter, emailParameter, phoneNumberParameter, birthdayParameter);
         }
     }
 }

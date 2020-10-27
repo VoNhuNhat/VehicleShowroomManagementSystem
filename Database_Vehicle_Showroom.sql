@@ -11,15 +11,16 @@ create table UserAccount (
 	Address text,
 	Email varchar(100),
 	PhoneNumber varchar(50),
-	CreatedDate Date,
-	UpdatedDate Date,
+	Birthday Date,
+	CreatedDate DateTime,
+	UpdatedDate DateTime,
 	Status int 
 )
 go
 
 select * from UserAccount
 go
-insert into UserAccount values('Administrator','admin','MTIzNDU2','Bach Khoa Aptech','c1808j1@gmail.com','1234567890',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1)
+insert into UserAccount values('Administrator','admin','MTIzNDU2','Bach Khoa Aptech','c1808j1@gmail.com','1234567890',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1)
 go
 /*
 mk: 123456
@@ -32,10 +33,11 @@ create proc Insert_UserAccount
 	@Password varchar(256),
 	@Address text,
 	@Email varchar(100),
-	@PhoneNumber varchar(50)
+	@PhoneNumber varchar(50),
+	@Birthday Date
 	as
 	begin
-	insert into UserAccount values(@FullName,@UserName,@Password,@Address,@Email,@PhoneNumber,CURRENT_TIMESTAMP,NULl,0)
+	insert into UserAccount values(@FullName,@UserName,@Password,@Address,@Email,@PhoneNumber,@Birthday,CURRENT_TIMESTAMP,NULl,0)
 	end
 go
 
@@ -46,10 +48,11 @@ create proc Update_UserAccount
 	@Password varchar(256),
 	@Address text,
 	@Email varchar(100),
-	@PhoneNumber varchar(50)
+	@PhoneNumber varchar(50),
+	@Birthday Date
 	as
 	begin
-	update UserAccount set FullName = @FullName, UserName = @UserName, Password = @Password, Address = @Address,PhoneNumber = @PhoneNumber,UpdatedDate = CURRENT_TIMESTAMP where UserId = @UserId
+	update UserAccount set FullName = @FullName, UserName = @UserName, Password = @Password,Email = @Email, Address = @Address,PhoneNumber = @PhoneNumber,Birthday = @Birthday,UpdatedDate = CURRENT_TIMESTAMP where UserId = @UserId
 	end
 go
 
@@ -81,12 +84,14 @@ ModelCarId int references ModelCars(ModelCarId),
 TotalPriceOutput float,
 QuantityInput int,
 PurchaseDate Date,
+CreatedDate DateTime,
+UpdatedDate DateTime,
 Status int
 )
 go
 
 create table Cars(
-ModerNumber varchar(100) primary key,
+ModelNumber varchar(100) primary key,
 PurchaseOrderId int references PurchaseOrders(PurchaseOrderId),
 CarName varchar(256),
 PriceInput float,
@@ -98,6 +103,8 @@ FuelConsumption float,
 KilometerGone float,
 Status int,
 Checking int,
+CreatedDate DateTime,
+UpdatedDate DateTime,
 )
 go
 
@@ -108,18 +115,20 @@ FullName varchar(256),
 Address text,
 Email varchar(256),
 Phone varchar(256),
-CreatedDate Date,
+Birthday Date,
+CreatedDate DateTime,
+UpdatedDate DateTime,
 )
 go
 
 
 create table Orders(
 OrderId int primary key identity,
-ModerNumber varchar(100) references Cars(ModerNumber),	
+ModelNumber varchar(100) references Cars(ModelNumber),	
 CustomerId int references Customers(CustomerId), 
 TotalMoney float,
-CreatedDate Date,
-UpdateDate Date,
+CreatedDate DateTime,
+UpdateDate DateTime,
 Status int
 )
 go

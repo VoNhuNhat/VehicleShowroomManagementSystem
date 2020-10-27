@@ -10,9 +10,9 @@
   </EntityType>
   <EntityType Name="Cars">
     <Key>
-      <PropertyRef Name="ModerNumber" />
+      <PropertyRef Name="ModelNumber" />
     </Key>
-    <Property Name="ModerNumber" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="ModelNumber" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="PurchaseOrderId" Type="int" />
     <Property Name="CarName" Type="varchar" MaxLength="256" />
     <Property Name="PriceInput" Type="float" />
@@ -24,6 +24,8 @@
     <Property Name="KilometerGone" Type="float" />
     <Property Name="Status" Type="int" />
     <Property Name="Checking" Type="int" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="UpdatedDate" Type="datetime" />
   </EntityType>
   <EntityType Name="Customers">
     <Key>
@@ -35,7 +37,9 @@
     <Property Name="Address" Type="text" />
     <Property Name="Email" Type="varchar" MaxLength="256" />
     <Property Name="Phone" Type="varchar" MaxLength="256" />
-    <Property Name="CreatedDate" Type="date" />
+    <Property Name="Birthday" Type="date" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="UpdatedDate" Type="datetime" />
   </EntityType>
   <EntityType Name="Images">
     <Key>
@@ -59,11 +63,11 @@
       <PropertyRef Name="OrderId" />
     </Key>
     <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ModerNumber" Type="varchar" MaxLength="100" />
+    <Property Name="ModelNumber" Type="varchar" MaxLength="100" />
     <Property Name="CustomerId" Type="int" />
     <Property Name="TotalMoney" Type="float" />
-    <Property Name="CreatedDate" Type="date" />
-    <Property Name="UpdateDate" Type="date" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="UpdateDate" Type="datetime" />
     <Property Name="Status" Type="int" />
   </EntityType>
   <EntityType Name="PurchaseOrders">
@@ -75,6 +79,8 @@
     <Property Name="TotalPriceOutput" Type="float" />
     <Property Name="QuantityInput" Type="int" />
     <Property Name="PurchaseDate" Type="date" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="UpdatedDate" Type="datetime" />
     <Property Name="Status" Type="int" />
   </EntityType>
   <EntityType Name="UserAccount">
@@ -88,11 +94,12 @@
     <Property Name="Address" Type="text" />
     <Property Name="Email" Type="varchar" MaxLength="100" />
     <Property Name="PhoneNumber" Type="varchar" MaxLength="50" />
-    <Property Name="CreatedDate" Type="date" />
-    <Property Name="UpdatedDate" Type="date" />
+    <Property Name="Birthday" Type="date" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="UpdatedDate" Type="datetime" />
     <Property Name="Status" Type="int" />
   </EntityType>
-  <Association Name="FK__Cars__PurchaseOr__1FCDBCEB">
+  <Association Name="FK__Cars__PurchaseOr__1ED998B2">
     <End Role="PurchaseOrders" Type="Self.PurchaseOrders" Multiplicity="0..1" />
     <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
     <ReferentialConstraint>
@@ -104,7 +111,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Customers__UserI__22AA2996">
+  <Association Name="FK__Customers__UserI__21B6055D">
     <End Role="UserAccount" Type="Self.UserAccount" Multiplicity="0..1" />
     <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
     <ReferentialConstraint>
@@ -116,7 +123,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Images__ModelCar__1A14E395">
+  <Association Name="FK__Images__ModelCar__1920BF5C">
     <End Role="ModelCars" Type="Self.ModelCars" Multiplicity="0..1" />
     <End Role="Images" Type="Self.Images" Multiplicity="*" />
     <ReferentialConstraint>
@@ -128,7 +135,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ModelCars__Brand__173876EA">
+  <Association Name="FK__ModelCars__Brand__164452B1">
     <End Role="Brands" Type="Self.Brands" Multiplicity="0..1" />
     <End Role="ModelCars" Type="Self.ModelCars" Multiplicity="*" />
     <ReferentialConstraint>
@@ -140,7 +147,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Orders__Customer__267ABA7A">
+  <Association Name="FK__Orders__Customer__25869641">
     <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
     <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
     <ReferentialConstraint>
@@ -152,19 +159,19 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Orders__ModerNum__25869641">
+  <Association Name="FK__Orders__ModelNum__24927208">
     <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
     <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Cars">
-        <PropertyRef Name="ModerNumber" />
+        <PropertyRef Name="ModelNumber" />
       </Principal>
       <Dependent Role="Orders">
-        <PropertyRef Name="ModerNumber" />
+        <PropertyRef Name="ModelNumber" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PurchaseO__Model__1CF15040">
+  <Association Name="FK__PurchaseO__Model__1BFD2C07">
     <End Role="ModelCars" Type="Self.ModelCars" Multiplicity="0..1" />
     <End Role="PurchaseOrders" Type="Self.PurchaseOrders" Multiplicity="*" />
     <ReferentialConstraint>
@@ -183,6 +190,7 @@
     <Parameter Name="Address" Type="text" Mode="In" />
     <Parameter Name="Email" Type="varchar" Mode="In" />
     <Parameter Name="PhoneNumber" Type="varchar" Mode="In" />
+    <Parameter Name="Birthday" Type="date" Mode="In" />
   </Function>
   <Function Name="Update_UserAccount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="UserId" Type="int" Mode="In" />
@@ -192,6 +200,7 @@
     <Parameter Name="Address" Type="text" Mode="In" />
     <Parameter Name="Email" Type="varchar" Mode="In" />
     <Parameter Name="PhoneNumber" Type="varchar" Mode="In" />
+    <Parameter Name="Birthday" Type="date" Mode="In" />
   </Function>
   <EntityContainer Name="Vehicle_Showroom_Management_SystemModelStoreContainer">
     <EntitySet Name="Brands" EntityType="Self.Brands" Schema="dbo" store:Type="Tables" />
@@ -202,31 +211,31 @@
     <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PurchaseOrders" EntityType="Self.PurchaseOrders" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserAccount" EntityType="Self.UserAccount" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__Cars__PurchaseOr__1FCDBCEB" Association="Self.FK__Cars__PurchaseOr__1FCDBCEB">
+    <AssociationSet Name="FK__Cars__PurchaseOr__1ED998B2" Association="Self.FK__Cars__PurchaseOr__1ED998B2">
       <End Role="PurchaseOrders" EntitySet="PurchaseOrders" />
       <End Role="Cars" EntitySet="Cars" />
     </AssociationSet>
-    <AssociationSet Name="FK__Customers__UserI__22AA2996" Association="Self.FK__Customers__UserI__22AA2996">
+    <AssociationSet Name="FK__Customers__UserI__21B6055D" Association="Self.FK__Customers__UserI__21B6055D">
       <End Role="UserAccount" EntitySet="UserAccount" />
       <End Role="Customers" EntitySet="Customers" />
     </AssociationSet>
-    <AssociationSet Name="FK__Images__ModelCar__1A14E395" Association="Self.FK__Images__ModelCar__1A14E395">
+    <AssociationSet Name="FK__Images__ModelCar__1920BF5C" Association="Self.FK__Images__ModelCar__1920BF5C">
       <End Role="ModelCars" EntitySet="ModelCars" />
       <End Role="Images" EntitySet="Images" />
     </AssociationSet>
-    <AssociationSet Name="FK__ModelCars__Brand__173876EA" Association="Self.FK__ModelCars__Brand__173876EA">
+    <AssociationSet Name="FK__ModelCars__Brand__164452B1" Association="Self.FK__ModelCars__Brand__164452B1">
       <End Role="Brands" EntitySet="Brands" />
       <End Role="ModelCars" EntitySet="ModelCars" />
     </AssociationSet>
-    <AssociationSet Name="FK__Orders__Customer__267ABA7A" Association="Self.FK__Orders__Customer__267ABA7A">
+    <AssociationSet Name="FK__Orders__Customer__25869641" Association="Self.FK__Orders__Customer__25869641">
       <End Role="Customers" EntitySet="Customers" />
       <End Role="Orders" EntitySet="Orders" />
     </AssociationSet>
-    <AssociationSet Name="FK__Orders__ModerNum__25869641" Association="Self.FK__Orders__ModerNum__25869641">
+    <AssociationSet Name="FK__Orders__ModelNum__24927208" Association="Self.FK__Orders__ModelNum__24927208">
       <End Role="Cars" EntitySet="Cars" />
       <End Role="Orders" EntitySet="Orders" />
     </AssociationSet>
-    <AssociationSet Name="FK__PurchaseO__Model__1CF15040" Association="Self.FK__PurchaseO__Model__1CF15040">
+    <AssociationSet Name="FK__PurchaseO__Model__1BFD2C07" Association="Self.FK__PurchaseO__Model__1BFD2C07">
       <End Role="ModelCars" EntitySet="ModelCars" />
       <End Role="PurchaseOrders" EntitySet="PurchaseOrders" />
     </AssociationSet>

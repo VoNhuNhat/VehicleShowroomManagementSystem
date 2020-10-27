@@ -16,7 +16,7 @@
 </head>
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <a class="navbar-brand" href="/Admin/Admin"><b>Management</b></a>
+        <a class="navbar-brand" href="/Admin"><b>Management</b></a>
         <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
         <!-- Navbar Search-->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -32,8 +32,8 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="#">Profile</a>
-                    <a class="dropdown-item" href="#">Reset password</a>
+                    <a class="dropdown-item" href="/Admin/Profile/@Session["userId"]">Profile</a>
+                    <a class="dropdown-item" style="cursor:pointer" data-toggle="modal" data-target="#myModal" id="resetPassword">Reset password</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" style="cursor: pointer;" onclick="logOut()">Logout</a>
                 </div>
@@ -127,6 +127,155 @@
             </footer>
         </div>
     </div>
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="margin: 0 auto"><b>Reset Password</b></h4>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" id="formResetPassword" action="/Admin/Admin/ResetPasswordInAdminPage">
+                        <input class="form-control py-4" id="userId" name="userId" hidden value="@Session["userId"]"/>
+                        <div class="form-group">
+                            <label class="small mb-1" for="currentPassword"><b style="font-size: 20px">Current Password</b></label>
+                            <input class="form-control py-4" id="current_password" name="current_password" type="password" placeholder="Enter current password" />
+                            <span onclick="showCurrentPasswordModal()" class="fa fa-eye" style="font-size: 20px;position: absolute;top: 20%;right: 5%;transform:translateY(-50%);cursor:pointer " id="showCurrentPassword"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="small mb-1" for="password"><b style="font-size: 20px">New Password</b></label>
+                            <input class="form-control py-4" id="password" name="password" type="password" placeholder="Enter new password" />
+                            <span onclick="showNewPasswordModal()" class="fa fa-eye" style="font-size: 20px;position: absolute;top: 46.2%;right: 5%;transform:translateY(-50%);cursor:pointer " id="showNewPassword"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="small mb-1" for="confirm_password"><b style="font-size: 20px">Confirm New Password</b></label>
+                            <input class="form-control py-4" id="confirm_password" name="confirm_password" type="password" placeholder="Confirm new password" />
+                            <span onclick="showConfirmPasswordModal()" class="fa fa-eye" style="font-size: 20px;position: absolute;top: 72.3%;right: 5%;transform:translateY(-50%);cursor:pointer " id="showConfirmPassword"></span>
+                        </div>
+                        <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0" style="margin: 0 auto">
+                            <a class="btn btn-danger" data-dismiss="modal" style="color: white; font-size: 17px;"><b>Cancel</b></a>
+                            <a onclick="resetPassword()" class="btn btn-success" style="color: white; font-size: 17px;"><b>Reset Password</b></a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                
+                $("#formResetPassword").keydown(function (e) {
+                    if (e.which == 13) {
+                        resetPassword();
+                    }
+                })
+            });
+            function showNewPasswordModal() {
+                var password = $('#password');
+                if (password.prop('type') == 'password') {
+                    $('#showNewPassword').addClass('fa-eye-slash');
+                    password.attr('type', 'text');
+                } else {
+                    $('#showNewPassword').removeClass('fa-eye-slash');
+                    $('#showNewPassword').addClass('fa-eye');
+                    password.attr('type', 'password');
+                }
+            }
+            function showCurrentPasswordModal() {
+                var password = $('#current_password');
+                if (password.prop('type') == 'password') {
+                    $('#showCurrentPassword').addClass('fa-eye-slash');
+                    password.attr('type', 'text');
+                } else {
+                    $('#showCurrentPassword').removeClass('fa-eye-slash');
+                    $('#showCurrentPassword').addClass('fa-eye');
+                    password.attr('type', 'password');
+                }
+            }
+            function showConfirmPasswordModal() {
+                var password = $('#confirm_password');
+                if (password.prop('type') == 'password') {
+                    $('#showConfirmPassword').addClass('fa-eye-slash');
+                    password.attr('type', 'text');
+                } else {
+                    $('#showConfirmPassword').removeClass('fa-eye-slash');
+                    $('#showConfirmPassword').addClass('fa-eye');
+                    password.attr('type', 'password');
+                }
+            }
+
+            function resetPassword() {
+                var currentPassord = $("#current_password").val();
+                var newPassord = $("#password").val();
+                var confirmPassord = $("#confirm_password").val();
+                if (currentPassord == "") {
+                    swal("There was a problem !!!", "Please enter Current Password", "error").then(() => { $("#current_password").focus(); });
+                } else {
+                    if (currentPassord.length < 6) {
+                        swal("There was a problem !!!", "Current password contains at least 6 characters", "error").then(() => { $("#current_password").focus(); });
+                    } else {
+                if (newPassord == "") {
+                    swal("There was a problem !!!", "Please enter new Password", "error").then(() => { $("#password").focus(); });
+                } else {
+                    var regex = /^[a-zA-Z0-9]{1,1000}$/;
+                    if (regex.test(newPassord)) {
+                        if (newPassord.length < 6) {
+                            swal("There was a problem !!!", "New password contains at least 6 characters", "error").then(() => { $("#password").focus(); });
+                        } else {
+                            if (newPassord.length > 256) {
+                                swal("There was a problem !!!", "Maximum length of new password is 256 characters", "error").then(() => { $("#password").focus(); });
+                            } else {
+                                if (newPassord == currentPassord) {
+                            swal("There was a problem !!!", "New password must be different from current password", "error").then(() => { $("#password").focus(); });
+                                } else {
+                                if (confirmPassord == "") {
+                                    swal("There was a problem !!!", "Please confirm new Password", "error").then(() => { $("#confirm_password").focus(); });
+                                } else {
+                                    if (confirmPassord != newPassord) {
+                                        swal("There was a problem !!!", "Confirm password doesn't match", "error").then(() => { $("#confirm_password").focus(); });
+                                    } else {
+                                        var userId = $("#userId").val();
+                                        var current_password = $("#current_password").val();
+                                        var password = $("#password").val();
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/Admin/Admin/ResetPasswordInAdminPage",
+                                            data: '{userId: "' + userId + '",current_password: "' + current_password + '",password: "' + password + '" }',
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (response) {
+                                                if (response) {
+                                                    setTimeout(function () {
+                                                        swal({
+                                                            title: "Reset password success !",
+                                                            text: "Please login again",
+                                                            icon: "success",
+                                                            buttons: false,
+                                                            dangerMode: false,
+                                                        })
+                                                        setTimeout(function () {
+                                                            window.location.replace("/Admin/Login");
+                                                        }, 1000);
+                                                    }, 105);
+                                                } else {
+                                                    swal("There was a problem !!!", "Current password is wrong !", "error").then(() => { $("#current_password").focus(); });
+                                                }
+                                            }
+                                        });
+                                       
+                                    }
+                                }
+                                }
+                            }
+                        }
+                    } else {
+                        swal("There was a problem !!!", "Please enter new password without special characters, ", "error").then(() => { $("#password").focus(); });
+                    }
+                }
+                    }
+                }
+            }
+        </script>
+    </div>
     <script src="~/Areas/Admin/Contents/js/scripts.js"></script>
     <script src="~/Areas/Admin/Contents/js/sweetalert.js"></script>
     <script>
@@ -150,8 +299,8 @@
                         }, 800);
                     }, 100);
 
-                    }
-                });
+                }
+            });
         }
     </script>
 </body>

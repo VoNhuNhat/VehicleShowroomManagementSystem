@@ -23,10 +23,10 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Create(string fullName, string userName, string password, string address, string email, string phoneNumber)
+        public ActionResult Create(string fullName, string userName, string password, string address, string email, string phoneNumber,DateTime birthday)
         {
             string ePassword = EncryptPassword(password);
-            db.Insert_UserAccount(fullName, userName, ePassword, address, email, phoneNumber);
+            db.Insert_UserAccount(fullName, userName, ePassword, address, email, phoneNumber,birthday);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -57,10 +57,10 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             return View(userUpdate);
         }
         [HttpPost]
-        public ActionResult Edit(int userId, string fullName, string userName, string password, string address, string email, string phoneNumber)
+        public ActionResult Edit(int userId, string fullName, string userName, string password, string address, string email, string phoneNumber, DateTime birthday)
         {
             string ePassword = EncryptPassword(password);
-            db.Update_UserAccount(userId, fullName, userName, ePassword, address, email, phoneNumber);
+            db.Update_UserAccount(userId, fullName, userName, ePassword, address, email, phoneNumber, birthday);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -29,6 +29,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                 UserAccount userCheck = db.UserAccounts.Where(ua => ua.UserName == username && ua.Password == ePassword).FirstOrDefault();
                 if (userCheck != null)
                 {
+                    Session["userId"] = userCheck.UserId;
                     Session["username"] = userCheck.UserName;
                     Session["fullname"] = userCheck.FullName;
                     return RedirectToAction("Index","Admin");
@@ -82,7 +83,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             userAccount.Password = randomPassword;
             db.SaveChanges();
 
-            string urlComputer = Request.Url.Scheme + "://" + Request.Url.Authority + "/Admin/Login/ResetPassword/";
+            string urlComputer = Request.Url.Scheme + "://" + Request.Url.Authority + "/Admin/SetNewPassword/";
             string smtpUserName = "c1808j1@gmail.com";
             string smtpPassword = "c1808j1@123";
             string smtpHost = "smtp.gmail.com";
@@ -115,7 +116,6 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             return View();
         }
         [HttpGet]
-        [Route("Admin/Login/ResetPassword/{userId}/{randomPassword}")]
         public ActionResult ResetPassword(int userId,string randomPassword)
         {
             UserAccount userAccount = db.UserAccounts.Where(ua => ua.UserId == userId).FirstOrDefault();

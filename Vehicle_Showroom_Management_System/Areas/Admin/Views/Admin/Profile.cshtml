@@ -1,0 +1,72 @@
+﻿@model Vehicle_Showroom_Management_System.Areas.Admin.Data.UserAccount
+
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
+}
+<div class="container">
+    <hr />
+    <h2><b>Details of Username: @Html.DisplayFor(model => model.UserName)</b></h2>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <div class="row">
+                <div class="col-md-6">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.FullName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.FullName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Email)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PhoneNumber)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PhoneNumber)
+                    </dd>
+                </div>
+                <div class="col-md-6">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Address)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CreatedDate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CreatedDate)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.UpdatedDate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.UpdatedDate)
+                    </dd>
+                </div>
+            </div>
+        </dl>
+    </div>
+    <p>
+        <a href="/Admin" class="btn btn-primary" style="font-weight: bold">Back to MainBoard</a>
+        &nbsp;&nbsp;
+        <a href="/Admin/EditCurrentUser/@Model.UserId" class="btn btn-success" style="font-weight: bold">Edit</a>
+    </p>
+</div>

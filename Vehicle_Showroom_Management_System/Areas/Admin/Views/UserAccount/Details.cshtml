@@ -65,6 +65,7 @@
             </dl>
         </div>
         <p>
-            @Html.ActionLink("Back to List", "Index","UserAccount",new { @class = "btn btn-primary", @style = "font-weight: bold" })
+            <a href="/Admin/UserAccount" class="btn btn-primary" style="font-weight: bold">Back to List</a>&nbsp;&nbsp;
+            <a href="/Admin/UserAccount/Edit/@Model.UserId" class="btn btn-success" style="font-weight: bold">Edit</a>
         </p>
     </div>

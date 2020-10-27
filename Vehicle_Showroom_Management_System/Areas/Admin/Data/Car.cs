@@ -20,7 +20,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
             this.Orders = new HashSet<Order>();
         }
     
-        public string ModerNumber { get; set; }
+        public string ModelNumber { get; set; }
         public Nullable<int> PurchaseOrderId { get; set; }
         public string CarName { get; set; }
         public Nullable<double> PriceInput { get; set; }
@@ -32,6 +32,8 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         public Nullable<double> KilometerGone { get; set; }
         public Nullable<int> Status { get; set; }
         public Nullable<int> Checking { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<System.DateTime> UpdatedDate { get; set; }
     
         public virtual PurchaseOrder PurchaseOrder { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
