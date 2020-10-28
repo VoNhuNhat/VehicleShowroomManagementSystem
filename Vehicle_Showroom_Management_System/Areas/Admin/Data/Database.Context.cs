@@ -105,5 +105,35 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_UserAccount", userIdParameter, fullNameParameter, userNameParameter, passwordParameter, addressParameter, emailParameter, phoneNumberParameter, birthdayParameter);
         }
+    
+        public virtual int Insert_Brand(string brandName, string image)
+        {
+            var brandNameParameter = brandName != null ?
+                new ObjectParameter("BrandName", brandName) :
+                new ObjectParameter("BrandName", typeof(string));
+    
+            var imageParameter = image != null ?
+                new ObjectParameter("image", image) :
+                new ObjectParameter("image", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_Brand", brandNameParameter, imageParameter);
+        }
+    
+        public virtual int Update_Brand(Nullable<int> brandId, string brandName, string image)
+        {
+            var brandIdParameter = brandId.HasValue ?
+                new ObjectParameter("BrandId", brandId) :
+                new ObjectParameter("BrandId", typeof(int));
+    
+            var brandNameParameter = brandName != null ?
+                new ObjectParameter("BrandName", brandName) :
+                new ObjectParameter("BrandName", typeof(string));
+    
+            var imageParameter = image != null ?
+                new ObjectParameter("image", image) :
+                new ObjectParameter("image", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_Brand", brandIdParameter, brandNameParameter, imageParameter);
+        }
     }
 }

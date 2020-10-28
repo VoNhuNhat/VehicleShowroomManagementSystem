@@ -19,6 +19,11 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin
                "Admin/UserAccount",
                new { controller = "UserAccount", action = "Index"}
            );
+            context.MapRoute(
+               "Brand",
+               "Admin/Brand",
+               new { controller = "Brand", action = "Index"}
+           );
             
             context.MapRoute(
                "Admin",

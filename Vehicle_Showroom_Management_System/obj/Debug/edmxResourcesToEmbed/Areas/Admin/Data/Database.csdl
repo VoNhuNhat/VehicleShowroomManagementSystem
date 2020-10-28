@@ -56,6 +56,15 @@
       <End Role="ModelCar" EntitySet="ModelCars" />
       <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
     </AssociationSet>
+    <FunctionImport Name="Insert_Brand">
+      <Parameter Name="BrandName" Mode="In" Type="String" />
+      <Parameter Name="image" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Update_Brand">
+      <Parameter Name="BrandId" Mode="In" Type="Int32" />
+      <Parameter Name="BrandName" Mode="In" Type="String" />
+      <Parameter Name="image" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="Brand">
     <Key>
