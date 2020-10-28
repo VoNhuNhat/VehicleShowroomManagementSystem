@@ -63,6 +63,25 @@ image text
 )
 go
 
+
+create proc Insert_Brand
+	@BrandName varchar(256),
+	@image text 
+	as
+	begin
+	insert into Brands values(@BrandName,@image)
+	end
+	go
+
+create proc Update_Brand
+@BrandId int,
+@BrandName varchar(256),
+@image text
+as 
+begin 
+update Brands set BrandId=@BrandId, image = @image where BrandId= @BrandId
+end 
+go 
 create table ModelCars(
 ModelCarId int primary key identity,
 ModelCarName varchar(256),
