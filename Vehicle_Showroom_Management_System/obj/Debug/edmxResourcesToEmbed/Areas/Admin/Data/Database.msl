@@ -110,5 +110,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Insert_Brand" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_Brand" />
+    <FunctionImportMapping FunctionImportName="Update_Brand" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_Brand" />
   </EntityContainerMapping>
 </Mapping>

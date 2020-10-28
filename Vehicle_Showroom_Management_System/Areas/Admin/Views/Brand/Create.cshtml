@@ -1,0 +1,79 @@
+﻿@model Vehicle_Showroom_Management_System.Areas.Admin.Data.Brand
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
+}
+
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<div class="container">
+    <br />
+    <h2 style="text-align: center"><b>Add new user</b></h2>
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formCreate" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Brand</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "control-label col-md-2" })
+                </b>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.BrandName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.image, htmlAttributes: new { @class = "control-label col-md-2" })
+                </b>
+                <div class="col-md-10">
+
+                    @Html.EditorFor(model => model.image, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.image, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+            <div class="form-group" style="margin-left:138px;margin-top: 8px;">
+                <a onclick="clickTest()" class="btn btn-success" style="color: white"><b>Add new user</b></a>
+                <a href="/Admin/Brand" class="btn btn-primary"><b>Back to List</b></a>
+            </div>
+            <button type="submit" id="btnSubmit" disabled hidden class="btn btn-success">add</button>
+</div>
+    }
+<script>
+
+    function clickTest() {
+        var i = 0;
+        if (i == 0 && $("#BrandName").val() == "") {
+            swal("There was a problem !!!", "Please enter Fullname", "error").then(() => { $("#BrandName").focus(); });
+        } else {
+            if (i == 0 && $("#BrandName").val().length > 256) {
+                swal("There was a problem !!!", "Maximum length of Fullname is 256 characters", "error").then(() => { $("#BrandName").focus(); });
+            } else {
+                i++;
+            }
+        }
+        if (i == 1) {
+            setTimeout(function () {
+                swal({
+                    title: "Add user success!",
+                    icon: "success",
+                    buttons: false,
+                    dangerMode: false,
+                })
+                setTimeout(function () {
+                    $("#btnSubmit").removeAttr('disabled');
+                    $("#btnSubmit").click();
+                }, 800);
+            }, 100);
+        }
+    }
+</script>
+</div>
