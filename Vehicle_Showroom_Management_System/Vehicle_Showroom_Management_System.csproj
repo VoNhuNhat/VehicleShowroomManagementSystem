@@ -189,6 +189,12 @@
     <Content Include="Areas\Admin\Contents\assets\demo\chart-pie-demo.js" />
     <Content Include="Areas\Admin\Contents\assets\demo\datatables-demo.js" />
     <Content Include="Areas\Admin\Contents\assets\img\error-404-monochrome.svg" />
+    <Content Include="Areas\Admin\Contents\css\images\ui-icons_444444_256x240.png" />
+    <Content Include="Areas\Admin\Contents\css\images\ui-icons_555555_256x240.png" />
+    <Content Include="Areas\Admin\Contents\css\images\ui-icons_777620_256x240.png" />
+    <Content Include="Areas\Admin\Contents\css\images\ui-icons_777777_256x240.png" />
+    <Content Include="Areas\Admin\Contents\css\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Areas\Admin\Contents\css\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Areas\Admin\Contents\css\styles.css" />
     <Content Include="Areas\Admin\Contents\favicon.png" />
     <Content Include="Areas\Admin\Contents\js\all.min.js" />
@@ -307,12 +313,13 @@
     <Content Include="Areas\Admin\Views\Login\NotificationForgotPassword.cshtml" />
     <Content Include="Areas\Admin\Views\Login\ResetPassword.cshtml" />
     <Content Include="Areas\Admin\Views\Customer\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Admin\Profile.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\ProfileCurrentUser.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\EditCurrentUser.cshtml" />
     <Content Include="Areas\Admin\Views\Brand\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Brand\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Brand\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Brand\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\UserAccount\WarningUser.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

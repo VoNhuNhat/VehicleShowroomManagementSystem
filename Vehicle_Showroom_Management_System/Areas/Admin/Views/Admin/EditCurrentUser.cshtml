@@ -4,7 +4,8 @@
     ViewBag.Title = "Update";
     Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
 }
-
+<link href="~/Areas/Admin/Contents/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Areas/Admin/Contents/js/jquery-ui.js"></script>
 <div class="container">
     <br />
     <h2 style="text-align: center"><b>Edit User</b></h2>
@@ -47,7 +48,7 @@
                             @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                </div>  
+                </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <b>
@@ -68,9 +69,18 @@
                             @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                    <div class="form-group">
+                        <b>
+                            @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label col-md-2" })
+                        </b>
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control", @id = "Birthday", } })
+                            @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                     <div class="form-group" style="margin-left:140px;margin-top: 45px;">
                         <a onclick="clickTest()" class="btn btn-success" style="color: white"><b>Update user</b></a>&nbsp;&nbsp;&nbsp;
-                        <a href="/Admin/UserAccount" class="btn btn-primary"><b>Back to List</b></a>
+                        <a href="/Admin/Profile/@Model.UserId" class="btn btn-primary"><b>Back to Profile</b></a>
                     </div>
                     <button type="submit" id="btnSubmit" disabled hidden class="btn btn-success"></button>
                 </div>
@@ -78,8 +88,19 @@
         </div>
     }
 
-    <script>
+<script>
+    var url = window.location.origin + "/Admin/EditCurrentUser/" +@Session["userId"];
+    if (window.location.href != url) {
+            window.location.href = url;
+        }
         $(document).ready(function () {
+            $('#Birthday').datepicker({
+                dateFormat: 'mm/dd/yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1920:2020',
+            });
+            $('#Birthday').attr('readonly', 'readonly');
             $("#formEdit").keydown(function (e) {
                 if (e.which == 13) {
                     clickTest();
@@ -124,44 +145,17 @@
                             else {
                                 i++;
                             }
-                            if (i == 2 && $("#Password").val() == "") {
-                                swal("There was a problem !!!", "Please enter Password", "error").then(() => { $("#Password").focus(); });
-                            } else {
-                                var regex = /^[a-zA-Z0-9]{1,1000}$/;
-                                if (i == 2 && !regex.test($("#Password").val())) {
-                                    swal("There was a problem !!!", "Please enter new password without special characters, ", "error").then(() => { $("#Password").focus(); });
-                                } else {
-                                if (i == 2 && $("#Password").val().length < 6) {
-                                    swal("There was a problem !!!", "Password contains at least 6 characters", "error").then(() => { $("#Password").focus(); });
-                                } else {
-                                    if (i == 2 && $("#Password").val().length > 50) {
-                                        swal("There was a problem !!!", "Maximum length of Password is 50 characters", "error").then(() => { $("#Password").focus(); });
-                                    } else {
-                                        if (i == 2 && $("#ConfirmPassword").val() == "") {
-                                            swal("There was a problem !!!", "Please confirm Password", "error").then(() => { $("#ConfirmPassword").focus(); });
-                                        } else {
-                                            if (i == 2 && $("#ConfirmPassword").val() != $("#Password").val()) {
-                                                swal("There was a problem !!!", "Confirm Password does not match", "error").then(() => { $("#ConfirmPassword").focus(); });
-                                            } else {
-                                                i++;
-                                            }
-                                        }
-                                    }
-                                }
-                                }
-                            }
-
-                            if (i == 3 && $("#Address").val() == "") {
+                            if (i == 2 && $("#Address").val() == "") {
                                 swal("There was a problem !!!", "Please enter Address", "error").then(() => { $("#Address").focus(); });
                             } else {
                                 i++;
                             }
 
-                            if (i == 4 && $("#Email").val() == "") {
+                            if (i == 3 && $("#Email").val() == "") {
                                 swal("There was a problem !!!", "Please enter Email", "error").then(() => { $("#Email").focus(); });
                             } else {
-                                if (i == 4) {
-                                    if (i == 4 && $("#Email").val().length > 100) {
+                                if (i == 3) {
+                                    if (i == 3 && $("#Email").val().length > 100) {
                                         swal("There was a problem !!!", "Maximum length of Email is 100 characters", "error").then(() => { $("#Email").focus(); });
                                     } else {
                                     var regex = /^([\w-\.]+\u0040([\w-]+\.)+[\w-]{2,4})?$/;
@@ -180,16 +174,16 @@
                                                 } else {
                                                     i++;
                                                 }
-                                                if (i == 5 && $("#PhoneNumber").val() == "") {
+                                                if (i == 4 && $("#PhoneNumber").val() == "") {
                                                     swal("There was a problem !!!", "Please enter PhoneNumber", "error").then(() => { $("#PhoneNumber").focus(); });
                                                 } else {
-                                                    if (i == 5 && $("#PhoneNumber").val().length > 20) {
+                                                    if (i == 4 && $("#PhoneNumber").val().length > 20) {
                                                         swal("There was a problem !!!", "Maximum length of Phone Number is 20 numbers", "error").then(() => { $("#PhoneNumber").focus(); });
                                                     } else {
-                                                    if (i == 5 && $("#PhoneNumber").val().length < 10) {
+                                                    if (i == 4 && $("#PhoneNumber").val().length < 10) {
                                                         swal("There was a problem !!!", "PhoneNumber contains at least 10 numbers", "error").then(() => { $("#PhoneNumber").focus(); });
                                                     } else {
-                                                        if (i == 5) {
+                                                        if (i == 4) {
                                                         var oldPhoneNumber = @Html.Raw(Json.Encode(Model.PhoneNumber));
                                                         var newPhoneNumber = $("#PhoneNumber").val();
                                                         $.ajax({
@@ -204,7 +198,7 @@
                                                                 } else {
                                                                     i++;
                                                                 }
-                                                                if (i == 6) {
+                                                                if (i == 5) {
                                                                     setTimeout(function () {
                                                                         swal({
                                                                             title: "Update user success!",
@@ -239,5 +233,5 @@
                 }
             }
         }
-    </script>
+</script>
 </div>

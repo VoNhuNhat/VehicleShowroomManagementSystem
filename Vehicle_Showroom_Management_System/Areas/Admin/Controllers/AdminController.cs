@@ -36,22 +36,53 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             }
         }
         [HttpGet]
-        public ActionResult Profile(int userId)
+        public ActionResult ProfileCurrentUser(int userId)
         {
-            UserAccount userAccount = db.UserAccounts.Where(ua => ua.UserId == userId).FirstOrDefault();
-            return View(userAccount);
+            int sessionUserId = Convert.ToInt32(Session["userId"]);
+            if (userId == sessionUserId)
+            {
+                UserAccount userAccount = db.UserAccounts.Where(ua => ua.UserId == userId).FirstOrDefault();
+                return View(userAccount);
+            }
+            else
+            {
+                UserAccount userAccount = db.UserAccounts.Where(ua => ua.UserId == sessionUserId).FirstOrDefault();
+                return View(userAccount);
+            }
+             
         }
         
         [HttpGet]
         public ActionResult EditCurrentUser(int userId)
         {
+            int sessionUserId = Convert.ToInt32(Session["userId"]);
+            if (userId == sessionUserId)
+            {
             UserAccount userAccount = db.UserAccounts.Where(ua => ua.UserId == userId).FirstOrDefault();
-            UserAccountController uac = new UserAccountController();
-            userAccount.Password = uac.DecryptPassword(userAccount.Password);
             return View(userAccount);
+            }
+            else
+            {
+                UserAccount userAccount = db.UserAccounts.Where(ua => ua.UserId == sessionUserId).FirstOrDefault();
+                return View(userAccount);
+            }
+        }
+        [HttpPost]
+        public ActionResult EditCurrentUser(int userId, string fullName, string userName, string address, string email, string phoneNumber, DateTime birthday)
+        {
+            UserAccount userAccount = db.UserAccounts.Where(ua => ua.UserId == userId).FirstOrDefault();
+            userAccount.FullName = fullName;
+            userAccount.UserName = userName;
+            userAccount.Address = address;
+            userAccount.Email = email;
+            userAccount.PhoneNumber = phoneNumber;
+            userAccount.FullName = fullName;
+            userAccount.Birthday = birthday;
+            db.SaveChanges();
+            return RedirectToAction("ProfileCurrentUser", new {userId = userId });
         }
 
-       [HttpPost]
+        [HttpPost]
         public JsonResult ResetPasswordInAdminPage(int userId, string current_password, string password)
         {
             bool check;

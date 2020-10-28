@@ -52,7 +52,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin
             context.MapRoute(
                 "Profile",
                 "Admin/Profile/{userId}",
-                new { controller = "Admin", action = "Profile", userId = UrlParameter.Optional }
+                new { controller = "Admin", action = "ProfileCurrentUser", userId = UrlParameter.Optional }
             );
             
             context.MapRoute(

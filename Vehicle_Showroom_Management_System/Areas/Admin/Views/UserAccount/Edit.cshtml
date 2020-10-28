@@ -4,17 +4,18 @@
     ViewBag.Title = "Update";
     Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
 }
+<link href="~/Areas/Admin/Contents/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Areas/Admin/Contents/js/jquery-ui.js"></script>
+<div class="container">
+    <br />
+    <h2 style="text-align: center"><b>Edit User</b></h2>
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formEdit" }))
+    {
+        @Html.AntiForgeryToken()
 
-    <div class="container">
-        <br />
-        <h2 style="text-align: center"><b>Edit User</b></h2>
-        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formEdit" }))
-        {
-            @Html.AntiForgeryToken()
-
-            <div class="form-horizontal">
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="row">
                 <div class="col-md-6">
                     @Html.HiddenFor(model => model.UserId)
@@ -89,18 +90,34 @@
                             @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                    <div class="form-group">
+                        <b>
+                            @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label col-md-2" })
+                        </b>
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control", @id = "Birthday", } })
+                            @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                     <div class="form-group" style="margin-left:140px;margin-top: 45px;">
                         <a onclick="clickTest()" class="btn btn-success" style="color: white"><b>Update user</b></a>&nbsp;&nbsp;&nbsp;
                         <a href="/Admin/UserAccount" class="btn btn-primary"><b>Back to List</b></a>
                     </div>
-                            <button type="submit" id="btnSubmit" disabled hidden class="btn btn-success"></button>
+                    <button type="submit" id="btnSubmit" disabled hidden class="btn btn-success"></button>
                 </div>
             </div>
-            </div>
-        }
+        </div>
+    }
 
     <script>
         $(document).ready(function () {
+            $('#Birthday').datepicker({
+                dateFormat: 'mm/dd/yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1920:2020',
+            });
+            $('#Birthday').attr('readonly', 'readonly');
             $("#formEdit").keydown(function (e) {
                 if (e.which == 13) {
                     clickTest();
@@ -246,6 +263,9 @@
                                                                 if (response) {
                                                                     swal("There was a problem !!!", "PhoneNumber already existed", "error").then(() => { $("#PhoneNumber").focus(); });
                                                                 } else {
+                                                                    if ($("#Birthday").val() == "") {
+                                                                        swal("There was a problem !!!", "Please choose Birthday", "error").then(() => { $("#Birthday").focus(); });
+                                                                    }
                                                                     i++;
                                                                 }
                                                                 if (i == 6) {
@@ -284,4 +304,4 @@
             }
         }
     </script>
-    </div>
+</div>

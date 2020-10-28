@@ -94,7 +94,7 @@
     <Property Name="Address" Type="text" />
     <Property Name="Email" Type="varchar" MaxLength="100" />
     <Property Name="PhoneNumber" Type="varchar" MaxLength="50" />
-    <Property Name="Birthday" Type="date" />
+    <Property Name="Birthday" Type="date" Nullable="false" />
     <Property Name="CreatedDate" Type="datetime" />
     <Property Name="UpdatedDate" Type="datetime" />
     <Property Name="Status" Type="int" />

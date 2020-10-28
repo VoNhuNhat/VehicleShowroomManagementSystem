@@ -32,6 +32,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                     Session["userId"] = userCheck.UserId;
                     Session["username"] = userCheck.UserName;
                     Session["fullname"] = userCheck.FullName;
+                    Session["status"] = userCheck.Status;
                     return RedirectToAction("Index","Admin");
                 }
                 return View();

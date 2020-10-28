@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "WarningUser";
+    Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
+}
+    <br />
+<h2 style="margin: 0 auto">You don't have permission to access here !</h2>
+<script>
+     swal({
+         title: "WARNING !!!",
+         text: "You don't have permission to access here !",
+        icon: "warning",
+        button: true,
+        dangerMode: true,
+    })
+</script>
+

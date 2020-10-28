@@ -4,8 +4,8 @@
     ViewBag.Title = "Create";
     Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
 }
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<link href="~/Areas/Admin/Contents/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Areas/Admin/Contents/js/jquery-ui.js"></script>
 <div class="container">
     <br />
     <h2 style="text-align: center"><b>Add new user</b></h2>
@@ -97,8 +97,8 @@
                             @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label col-md-2" })
                         </b>
                         <div class="col-md-9">
-                            @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control", @id = "Birthday", @type = "datetime" } })
-                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control", @id = "Birthday", } })
+                            @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <br />
@@ -114,14 +114,18 @@
 
     <script>
         $(document).ready(function () {
-            $("#formCreate").keydown(function (e) {
-                if (e.which == 13) {
-                    clickTest();
-                }
-            });
             $('#Birthday').datepicker({
-                dateFormat: 'dd/mm/yy'
+                dateFormat: 'mm/dd/yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1920:2020',
             });
+            $('#Birthday').attr('readonly', 'readonly');
+                ; $("#formCreate").keydown(function (e) {
+                    if (e.which == 13) {
+                        clickTest();
+                    }
+                });
         });
         function showPassword() {
             var password = $('#Password');
@@ -260,7 +264,11 @@
                                                                                     if (response) {
                                                                                         swal("There was a problem !!!", "PhoneNumber already existed", "error").then(() => { $("#PhoneNumber").focus(); });
                                                                                     } else {
-                                                                                        i++;
+                                                                                        if ($("#Birthday").val() == "") {
+                                                                                            swal("There was a problem !!!", "Please choose Birthday", "error").then(() => { $("#Birthday").focus(); });
+                                                                                        } else {
+                                                                                            i++;
+                                                                                        }
                                                                                     }
                                                                                     if (i == 6) {
                                                                                         setTimeout(function () {
