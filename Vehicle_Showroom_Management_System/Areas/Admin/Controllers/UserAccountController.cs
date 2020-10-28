@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Vehicle_Showroom_Management_System.Areas.Admin.Data;
+using PagedList;
 
 namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
 {
@@ -11,12 +12,18 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
     {
         Vehicle_Showroom_Management_SystemEntities db = new Vehicle_Showroom_Management_SystemEntities();
        [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             if (Convert.ToInt32(Session["status"]) == 1)
             {
+                if (page == null)
+                {
+                    page = 1;
+                }
+                int pageSize = 1;
+                int pageNumber = (page ?? 1);
             List<UserAccount> list = db.UserAccounts.Where(ua=>ua.Status != 1).ToList();
-            return View(list);
+            return View(list.ToPagedList(pageNumber,pageSize));
             }
             else
             {
@@ -135,6 +142,20 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         {
             UserAccount detailUser = db.UserAccounts.Where(ua => ua.UserId == userId).FirstOrDefault();
             return View(detailUser);
+        }
+        [HttpPost]
+        public JsonResult Search(string searchUser)
+        {
+            if (searchUser != "")
+            {
+            List<UserAccount> list = db.UserAccounts.Where(ua => ua.FullName.Contains(searchUser) && ua.Status == 0).ToList();
+            return Json(list);
+            }
+            else
+            {
+                List<UserAccount> list = db.UserAccounts.Where(ua => ua.Status == 0).ToList();
+                return Json(list);
+            }
         }
     }
 }

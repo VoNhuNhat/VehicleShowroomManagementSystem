@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Vehicle_Showroom_Management_System.Areas.Admin.Data.UserAccount>
+﻿@model PagedList.IPagedList<Vehicle_Showroom_Management_System.Areas.Admin.Data.UserAccount>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "UserInformation";
@@ -11,53 +12,75 @@
     <br />
     <p>
         <a href="/Admin/UserAccount/Create" class="btn btn-primary"><b>Add new user</b></a>
+        <input style="float: right" class="form-control col-md-4" name="searchUser" id="searchUser" type="text" placeholder="Search Fullname..." aria-label="Search" aria-describedby="basic-addon2" />
     </p>
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="tableUser">
         <tr>
             <th>
-                <b>@Html.DisplayNameFor(model => model.FullName)</b>
+                <b>@Html.DisplayNameFor(model => model.First().FullName)</b>
             </th>
             <th>
-                <b>@Html.DisplayNameFor(model => model.UserName)</b>
+                <b>@Html.DisplayNameFor(model => model.First().UserName)</b>
             </th>
             <th>
-                <b>@Html.DisplayNameFor(model => model.Email)</b>
+                <b>@Html.DisplayNameFor(model => model.First().Email)</b>
             </th>
             <th>
-                <b>@Html.DisplayNameFor(model => model.PhoneNumber)</b>
+                <b>@Html.DisplayNameFor(model => model.First().PhoneNumber)</b>
             </th>
             <th></th>
         </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr id="@item.UserId">
-                <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                </td>
-                <td style="width: 250px;">
-                    @Html.ActionLink("Details", "Details", new { userId = item.UserId }, new { @class = "btn btn-info", @style = "font-weight: bold" })
-                    @Html.ActionLink("Edit", "Edit", new { userId = item.UserId},new { @class = "btn btn-success", @style = "font-weight: bold" })
-                    <a style="color: white" class="btn btn-danger" onclick="deleteUser(@item.UserId)"><b>Delete</b></a>
-                </td>
-            </tr>
-        }
-
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="dataTable" id="@item.UserId">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td style="width: 250px;">
+                        @Html.ActionLink("Details", "Details", new { userId = item.UserId }, new { @class = "btn btn-info", @style = "font-weight: bold" })
+                        @Html.ActionLink("Edit", "Edit", new { userId = item.UserId }, new { @class = "btn btn-success", @style = "font-weight: bold" })
+                        <a style="color: white" class="btn btn-danger" onclick="deleteUser(@item.UserId)"><b>Delete</b></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page}))
 </div>
 
 <script>
+    $("#searchUser").keyup(function () {
+        $("#tableUser").find('.dataTable').remove();
+        var searchUser = $("#searchUser").val();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/UserAccount/Search",
+            data: '{searchUser: "' + searchUser + '" }',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var row = "";
+                for (var i = 0; i < data.length; i++) {
+                    row += "<tr class='dataTable' id='" + data[i].UserId + "'>" + "<td>" + data[i].FullName + "</td>" + "<td>" + data[i].UserName + "</td>" + "<td>" + data[i].Email + "</td>" + "<td>" + data[i].PhoneNumber + "</td>" + "<td> <a href='/Admin/UserAccount/Details/" + data[i].UserId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/UserAccount/Edit/" + data[i].UserId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteUser(" + data[i].UserId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                }
+                $("#tableUser").append(row);
+            }
+        });
+    });
     function deleteUser(userId) {
-        var tmp;
         swal({
             title: "Are you sure you want to delete?",
             text: "Once deleted, you will not be able to recover this user!",
@@ -88,9 +111,10 @@
                         }
                     }
                 });
-                   
-                
+
+
             }
         });
     }
+
 </script>

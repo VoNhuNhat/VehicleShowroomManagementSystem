@@ -36,7 +36,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             }
         }
         [HttpGet]
-        public ActionResult ProfileCurrentUser(int userId)
+        public ActionResult ProfileCurrentUser(int? userId)
         {
             int sessionUserId = Convert.ToInt32(Session["userId"]);
             if (userId == sessionUserId)
@@ -53,7 +53,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         }
         
         [HttpGet]
-        public ActionResult EditCurrentUser(int userId)
+        public ActionResult EditCurrentUser(int? userId)
         {
             int sessionUserId = Convert.ToInt32(Session["userId"]);
             if (userId == sessionUserId)

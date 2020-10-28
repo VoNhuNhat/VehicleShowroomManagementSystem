@@ -63,7 +63,6 @@ image text
 )
 go
 
-
 create proc Insert_Brand
 	@BrandName varchar(256),
 	@image text 
@@ -71,7 +70,7 @@ create proc Insert_Brand
 	begin
 	insert into Brands values(@BrandName,@image)
 	end
-	go
+go
 
 create proc Update_Brand
 @BrandId int,
@@ -79,9 +78,10 @@ create proc Update_Brand
 @image text
 as 
 begin 
-update Brands set BrandId=@BrandId, image = @image where BrandId= @BrandId
+update Brands set BrandName=@BrandName, image = @image where BrandId= @BrandId
 end 
 go 
+
 create table ModelCars(
 ModelCarId int primary key identity,
 ModelCarName varchar(256),
