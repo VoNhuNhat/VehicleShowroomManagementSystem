@@ -10,9 +10,9 @@
     <link href="~/Areas/Admin/Contents/css/styles.css" rel="stylesheet" />
     <link rel="icon" type="image/png" href="~/Areas/Admin/Contents/favicon.png">
     <script src="~/Areas/Admin/Contents/js/jquery-3.5.1.min.js"></script>
+    <script src="~/Areas/Admin/Contents/js/sweetalert.js"></script>
     <script src="~/Areas/Admin/Contents/js/bootstrap.bundle.min.js"></script>
     <script src="~/Areas/Admin/Contents/js/all.min.js"></script>
-
 </head>
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -136,7 +136,7 @@
                 </div>
                 <div class="modal-body">
                     <form method="POST" id="formResetPassword" action="/Admin/Admin/ResetPasswordInAdminPage">
-                        <input class="form-control py-4" id="userId" name="userId" hidden value="@Session["userId"]"/>
+                        <input class="form-control py-4" id="userId" name="userId" hidden value="@Session["userId"]" />
                         <div class="form-group">
                             <label class="small mb-1" for="currentPassword"><b style="font-size: 20px">Current Password</b></label>
                             <input class="form-control py-4" id="current_password" name="current_password" type="password" placeholder="Enter current password" />
@@ -162,7 +162,6 @@
         </div>
         <script>
             $(document).ready(function () {
-                
                 $("#formResetPassword").keydown(function (e) {
                     if (e.which == 13) {
                         resetPassword();
@@ -213,95 +212,92 @@
                     if (currentPassord.length < 6) {
                         swal("There was a problem !!!", "Current password contains at least 6 characters", "error").then(() => { $("#current_password").focus(); });
                     } else {
-                if (newPassord == "") {
-                    swal("There was a problem !!!", "Please enter new Password", "error").then(() => { $("#password").focus(); });
-                } else {
-                    var regex = /^[a-zA-Z0-9]{1,1000}$/;
-                    if (regex.test(newPassord)) {
-                        if (newPassord.length < 6) {
-                            swal("There was a problem !!!", "New password contains at least 6 characters", "error").then(() => { $("#password").focus(); });
+                        if (newPassord == "") {
+                            swal("There was a problem !!!", "Please enter new Password", "error").then(() => { $("#password").focus(); });
                         } else {
-                            if (newPassord.length > 256) {
-                                swal("There was a problem !!!", "Maximum length of new password is 256 characters", "error").then(() => { $("#password").focus(); });
-                            } else {
-                                if (newPassord == currentPassord) {
-                            swal("There was a problem !!!", "New password must be different from current password", "error").then(() => { $("#password").focus(); });
+                            var regex = /^[a-zA-Z0-9]{1,1000}$/;
+                            if (regex.test(newPassord)) {
+                                if (newPassord.length < 6) {
+                                    swal("There was a problem !!!", "New password contains at least 6 characters", "error").then(() => { $("#password").focus(); });
                                 } else {
-                                if (confirmPassord == "") {
-                                    swal("There was a problem !!!", "Please confirm new Password", "error").then(() => { $("#confirm_password").focus(); });
-                                } else {
-                                    if (confirmPassord != newPassord) {
-                                        swal("There was a problem !!!", "Confirm password doesn't match", "error").then(() => { $("#confirm_password").focus(); });
+                                    if (newPassord.length > 256) {
+                                        swal("There was a problem !!!", "Maximum length of new password is 256 characters", "error").then(() => { $("#password").focus(); });
                                     } else {
-                                        var userId = $("#userId").val();
-                                        var current_password = $("#current_password").val();
-                                        var password = $("#password").val();
-                                        $.ajax({
-                                            type: "POST",
-                                            url: "/Admin/Admin/ResetPasswordInAdminPage",
-                                            data: '{userId: "' + userId + '",current_password: "' + current_password + '",password: "' + password + '" }',
-                                            contentType: "application/json; charset=utf-8",
-                                            dataType: "json",
-                                            success: function (response) {
-                                                if (response) {
-                                                    setTimeout(function () {
-                                                        swal({
-                                                            title: "Reset password success !",
-                                                            text: "Please login again",
-                                                            icon: "success",
-                                                            buttons: false,
-                                                            dangerMode: false,
-                                                        })
-                                                        setTimeout(function () {
-                                                            window.location.replace("/Admin/Login");
-                                                        }, 1000);
-                                                    }, 105);
+                                        if (newPassord == currentPassord) {
+                                            swal("There was a problem !!!", "New password must be different from current password", "error").then(() => { $("#password").focus(); });
+                                        } else {
+                                            if (confirmPassord == "") {
+                                                swal("There was a problem !!!", "Please confirm new Password", "error").then(() => { $("#confirm_password").focus(); });
+                                            } else {
+                                                if (confirmPassord != newPassord) {
+                                                    swal("There was a problem !!!", "Confirm password doesn't match", "error").then(() => { $("#confirm_password").focus(); });
                                                 } else {
-                                                    swal("There was a problem !!!", "Current password is wrong !", "error").then(() => { $("#current_password").focus(); });
+                                                    var userId = $("#userId").val();
+                                                    var current_password = $("#current_password").val();
+                                                    var password = $("#password").val();
+                                                    $.ajax({
+                                                        type: "POST",
+                                                        url: "/Admin/Admin/ResetPasswordInAdminPage",
+                                                        data: '{userId: "' + userId + '",current_password: "' + current_password + '",password: "' + password + '" }',
+                                                        contentType: "application/json; charset=utf-8",
+                                                        dataType: "json",
+                                                        success: function (response) {
+                                                            if (response) {
+                                                                setTimeout(function () {
+                                                                    swal({
+                                                                        title: "Reset password success !",
+                                                                        text: "Please login again",
+                                                                        icon: "success",
+                                                                        buttons: false,
+                                                                        dangerMode: false,
+                                                                    })
+                                                                    setTimeout(function () {
+                                                                        window.location.replace("/Admin/Login");
+                                                                    }, 1000);
+                                                                }, 105);
+                                                            } else {
+                                                                swal("There was a problem !!!", "Current password is wrong !", "error").then(() => { $("#current_password").focus(); });
+                                                            }
+                                                        }
+                                                    });
+
                                                 }
                                             }
-                                        });
-                                       
+                                        }
                                     }
                                 }
-                                }
+                            } else {
+                                swal("There was a problem !!!", "Please enter new password without special characters, ", "error").then(() => { $("#password").focus(); });
                             }
                         }
-                    } else {
-                        swal("There was a problem !!!", "Please enter new password without special characters, ", "error").then(() => { $("#password").focus(); });
                     }
                 }
+            };
+            function logOut() {
+                swal({
+                    title: "Are you sure you want to logout?",
+                    icon: "info",
+                    buttons: true,
+                    dangerMode: true
+                }).then((logOut) => {
+                    if (logOut) {
+                        setTimeout(function () {
+                            swal({
+                                title: "Logout success",
+                                icon: "success",
+                                buttons: false,
+                                dangerMode: false,
+                            })
+                            setTimeout(function () {
+                                window.location.replace("/Admin/Login");
+                            }, 800);
+                        }, 100);
+
                     }
-                }
+                });
             }
         </script>
+        <script src="~/Areas/Admin/Contents/js/scripts.js"></script>
     </div>
-    <script src="~/Areas/Admin/Contents/js/scripts.js"></script>
-    <script src="~/Areas/Admin/Contents/js/sweetalert.js"></script>
-    <script>
-        function logOut() {
-            swal({
-                title: "Are you sure you want to log out?",
-                icon: "info",
-                buttons: true,
-                dangerMode: true
-            }).then((logOut) => {
-                if (logOut) {
-                    setTimeout(function () {
-                        swal({
-                            title: "Log out success",
-                            icon: "success",
-                            buttons: false,
-                            dangerMode: false,
-                        })
-                        setTimeout(function () {
-                            window.location.replace("/Admin/Login");
-                        }, 800);
-                    }, 100);
-
-                }
-            });
-        }
-    </script>
 </body>
 </html>

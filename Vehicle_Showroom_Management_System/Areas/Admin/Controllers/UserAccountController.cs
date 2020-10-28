@@ -13,8 +13,15 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
        [HttpGet]
         public ActionResult Index()
         {
+            if (Convert.ToInt32(Session["status"]) == 1)
+            {
             List<UserAccount> list = db.UserAccounts.Where(ua=>ua.Status != 1).ToList();
             return View(list);
+            }
+            else
+            {
+                return View("WarningUser");
+            }
         }
 
         [HttpGet]
