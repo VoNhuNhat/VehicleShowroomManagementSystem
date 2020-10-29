@@ -206,6 +206,7 @@
     <Content Include="Areas\Admin\Contents\js\all.min.js" />
     <Content Include="Areas\Admin\Contents\js\bootstrap.bundle.min.js" />
     <Content Include="Areas\Admin\Contents\js\jquery-3.5.1.min.js" />
+    <Content Include="Areas\Admin\Contents\js\jquery.twbsPagination.min.js" />
     <Content Include="Areas\Admin\Contents\js\scripts.js" />
     <Content Include="Areas\Admin\Contents\js\sweetalert.js" />
     <Content Include="Areas\Admin\Data\Database.Context.tt">

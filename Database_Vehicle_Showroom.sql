@@ -10,7 +10,7 @@ create table UserAccount (
 	Password varchar(256),
 	Address text,
 	Email varchar(100),
-	PhoneNumber varchar(50),
+	PhoneNumber varchar(50),	
 	Birthday Date not null,
 	CreatedDate DateTime,
 	UpdatedDate DateTime,

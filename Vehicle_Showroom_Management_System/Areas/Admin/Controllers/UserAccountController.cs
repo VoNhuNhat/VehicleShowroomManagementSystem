@@ -12,22 +12,41 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
     {
         Vehicle_Showroom_Management_SystemEntities db = new Vehicle_Showroom_Management_SystemEntities();
        [HttpGet]
-        public ActionResult Index(int? page)
+        public ActionResult Index()
         {
             if (Convert.ToInt32(Session["status"]) == 1)
             {
-                if (page == null)
-                {
-                    page = 1;
-                }
-                int pageSize = 1;
-                int pageNumber = (page ?? 1);
             List<UserAccount> list = db.UserAccounts.Where(ua=>ua.Status != 1).ToList();
-            return View(list.ToPagedList(pageNumber,pageSize));
+            return View(list);
             }
             else
             {
                 return View("WarningUser");
+            }
+        }
+        [HttpGet]
+        public JsonResult LoadData(int page, int pageSize = 2)
+        {
+            List<UserAccount> list = db.UserAccounts.Where(ua => ua.Status != 1).OrderByDescending(ua => ua.CreatedDate).ToList();
+            var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+            var totalRow = list.Count;
+            if (totalRow > 1)
+            {
+                return Json(new
+                {
+                    data = model,
+                    total = totalRow,
+                    status = true
+                }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+            return Json(new
+            {
+               data = list,
+               total = totalRow,
+               status = true
+            }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -144,17 +163,46 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             return View(detailUser);
         }
         [HttpPost]
-        public JsonResult Search(string searchUser)
+        public JsonResult Search(string searchUser, int page, int pageSize)
         {
+            List<UserAccount> allUsers = db.UserAccounts.Where(ua => ua.Status == 0).ToList();
             if (searchUser != "")
             {
             List<UserAccount> list = db.UserAccounts.Where(ua => ua.FullName.Contains(searchUser) && ua.Status == 0).ToList();
-            return Json(list);
+                var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = list.Count;
+                if (totalRow > 1)
+                {
+                    return Json(new
+                    {
+                    data = model,
+                    users = allUsers,
+                    total = totalRow,
+                    status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = list,
+                        users = allUsers,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
             }
             else
             {
-                List<UserAccount> list = db.UserAccounts.Where(ua => ua.Status == 0).ToList();
-                return Json(list);
+                var model = allUsers.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = allUsers.Count;
+                return Json(new
+                {
+                    data = model,
+                    users = allUsers,
+                    total = totalRow,
+                    status = true
+                }, JsonRequestBehavior.AllowGet);
             }
         }
     }

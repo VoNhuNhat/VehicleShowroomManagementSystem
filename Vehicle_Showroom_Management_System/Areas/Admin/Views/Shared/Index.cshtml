@@ -13,6 +13,7 @@
     <script src="~/Areas/Admin/Contents/js/sweetalert.js"></script>
     <script src="~/Areas/Admin/Contents/js/bootstrap.bundle.min.js"></script>
     <script src="~/Areas/Admin/Contents/js/all.min.js"></script>
+    <script src="~/Areas/Admin/Contents/js/jquery.twbsPagination.min.js"></script>
 </head>
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -167,13 +168,11 @@
             </div>
         </div>
         <script>
-            $(document).ready(function () {
-                $("#formResetPassword").keydown(function (e) {
+            $("#formResetPassword").keydown(function (e) {
                     if (e.which == 13) {
                         resetPassword();
                     }
                 })
-            });
             function showNewPasswordModal() {
                 var password = $('#password');
                 if (password.prop('type') == 'password') {

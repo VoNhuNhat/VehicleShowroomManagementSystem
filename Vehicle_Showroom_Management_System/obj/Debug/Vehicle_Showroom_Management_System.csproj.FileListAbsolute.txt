@@ -80,7 +80,6 @@ C:\Users\tranq\source\repos\Vehicle_Showroom_Management_System\Vehicle_Showroom_
 C:\Users\tranq\source\repos\Vehicle_Showroom_Management_System\Vehicle_Showroom_Management_System\obj\Debug\Vehicle_Showroom_Management_System.csproj.CopyComplete
 C:\Users\tranq\source\repos\Vehicle_Showroom_Management_System\Vehicle_Showroom_Management_System\obj\Debug\Vehicle_Showroom_Management_System.dll
 C:\Users\tranq\source\repos\Vehicle_Showroom_Management_System\Vehicle_Showroom_Management_System\obj\Debug\Vehicle_Showroom_Management_System.pdb
-C:\Users\tranq\source\repos\Vehicle_Showroom_Management_System\Vehicle_Showroom_Management_System\obj\Debug\Vehicle_Showroom_Management_System.csprojAssemblyReference.cache
 C:\Users\Admin\Desktop\VehicleShowroomManagementSystem\Vehicle_Showroom_Management_System\bin\Vehicle_Showroom_Management_System.dll.config
 C:\Users\Admin\Desktop\VehicleShowroomManagementSystem\Vehicle_Showroom_Management_System\bin\Vehicle_Showroom_Management_System.dll
 C:\Users\Admin\Desktop\VehicleShowroomManagementSystem\Vehicle_Showroom_Management_System\bin\Vehicle_Showroom_Management_System.pdb
@@ -251,3 +250,4 @@ C:\Users\tranq\source\repos\Vehicle_Showroom_Management_System\Vehicle_Showroom_
 C:\Users\tranq\source\repos\Vehicle_Showroom_Management_System\Vehicle_Showroom_Management_System\bin\PagedList.Mvc.dll
 C:\Users\tranq\source\repos\Vehicle_Showroom_Management_System\Vehicle_Showroom_Management_System\bin\PagedList.xml
 C:\Users\tranq\source\repos\Vehicle_Showroom_Management_System\Vehicle_Showroom_Management_System\bin\PagedList.Mvc.xml
+C:\Users\tranq\source\repos\Vehicle_Showroom_Management_System\Vehicle_Showroom_Management_System\obj\Debug\Vehicle_Showroom_Management_System.csprojAssemblyReference.cache
