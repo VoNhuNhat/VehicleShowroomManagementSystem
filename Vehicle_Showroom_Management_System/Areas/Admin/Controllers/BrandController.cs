@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -45,6 +46,31 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        /*[HttpPost]
+        public ActionResult UploadImage(HttpPostedFileBase file)
+        {
+           var path = "";
+            if (file != null)
+            {
+                if (file.ContentLength>0)
+                {
+                    if(Path.GetExtension(file.FileName).ToLower()==".jpg"
+                        || Path.GetExtension(file.FileName).ToLower() == ".png"
+                        || Path.GetExtension(file.FileName).ToLower() == ".gif"
+                        || Path.GetExtension(file.FileName).ToLower() == ".jpeg")
+                    {
+                        path = Path.Combine(Server.MapPath("/Admin/Content/Images"), file.FileName);
+                        file.SaveAs(path);
+                        ViewBag.UploadSuccess = true;
+                    }
+
+                }
+            }
+
+            return View();
+        }*/
+        
 
         [HttpPost]
         public bool Delete(int brandId)

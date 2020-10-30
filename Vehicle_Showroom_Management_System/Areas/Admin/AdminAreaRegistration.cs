@@ -24,6 +24,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin
                "Admin/Brand",
                new { controller = "Brand", action = "Index"}
            );
+          
             
             context.MapRoute(
                "Admin",
@@ -48,7 +49,11 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin
               "Admin/ResetPassword",
               new { controller = "Admin", action = "ResetPasswordInAdminPage" }
           );
-
+            context.MapRoute(
+             "Brand_Edit",
+             "Admin/Brand/Edit/{brandId}",
+             new { controller = "Brand", action = "Edit", brandId = UrlParameter.Optional }
+         );
             context.MapRoute(
                 "Profile",
                 "Admin/Profile/{userId}",

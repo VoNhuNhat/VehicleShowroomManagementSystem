@@ -23,6 +23,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         public int BrandId { get; set; }
         public string BrandName { get; set; }
         public string image { get; set; }
+
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ModelCar> ModelCars { get; set; }
