@@ -176,7 +176,7 @@
                                 }
                                 $("#tableUser").append(row);
                                 pagination(response.total, function () {
-                                    loadDataAfterDelete();
+                                    loadData();
                                 })
                             }
                         });
@@ -196,11 +196,15 @@
                                 searchUser();
                             });
                         } else {
-                            $("#paginationSearchMutiplePages").hide();
-                            $("#paginationSearchOnePage").show();
+                            if (response.total == 0) {
+                                $("#paginationSearchOnePage").hide();
+                            } else {
+                                $("#paginationSearchMutiplePages").hide();
+                                $("#paginationSearchOnePage").show();
                             paginationSearchOnePage(function () {
                                 searchUser();
                             });
+                            }
                         }
                     }
                 } else {
