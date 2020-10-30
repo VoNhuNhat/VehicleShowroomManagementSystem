@@ -135,5 +135,63 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_Brand", brandIdParameter, brandNameParameter, imageParameter);
         }
+    
+        public virtual int Insert_Customer(Nullable<int> userId, string fullName, string address, string email, string phone, Nullable<System.DateTime> birthday)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var fullNameParameter = fullName != null ?
+                new ObjectParameter("FullName", fullName) :
+                new ObjectParameter("FullName", typeof(string));
+    
+            var addressParameter = address != null ?
+                new ObjectParameter("Address", address) :
+                new ObjectParameter("Address", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var phoneParameter = phone != null ?
+                new ObjectParameter("Phone", phone) :
+                new ObjectParameter("Phone", typeof(string));
+    
+            var birthdayParameter = birthday.HasValue ?
+                new ObjectParameter("Birthday", birthday) :
+                new ObjectParameter("Birthday", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_Customer", userIdParameter, fullNameParameter, addressParameter, emailParameter, phoneParameter, birthdayParameter);
+        }
+    
+        public virtual int Update_Customer(Nullable<int> customerId, string fullName, string address, string email, string phone, Nullable<System.DateTime> birthday)
+        {
+            var customerIdParameter = customerId.HasValue ?
+                new ObjectParameter("CustomerId", customerId) :
+                new ObjectParameter("CustomerId", typeof(int));
+    
+            var fullNameParameter = fullName != null ?
+                new ObjectParameter("FullName", fullName) :
+                new ObjectParameter("FullName", typeof(string));
+    
+            var addressParameter = address != null ?
+                new ObjectParameter("Address", address) :
+                new ObjectParameter("Address", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var phoneParameter = phone != null ?
+                new ObjectParameter("Phone", phone) :
+                new ObjectParameter("Phone", typeof(string));
+    
+            var birthdayParameter = birthday.HasValue ?
+                new ObjectParameter("Birthday", birthday) :
+                new ObjectParameter("Birthday", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_Customer", customerIdParameter, fullNameParameter, addressParameter, emailParameter, phoneParameter, birthdayParameter);
+        }
     }
 }

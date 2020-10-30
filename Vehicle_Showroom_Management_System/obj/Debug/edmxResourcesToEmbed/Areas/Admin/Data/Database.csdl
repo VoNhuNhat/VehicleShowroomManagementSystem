@@ -65,6 +65,22 @@
       <Parameter Name="BrandName" Mode="In" Type="String" />
       <Parameter Name="image" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="Insert_Customer">
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+      <Parameter Name="FullName" Mode="In" Type="String" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="Phone" Mode="In" Type="String" />
+      <Parameter Name="Birthday" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="Update_Customer">
+      <Parameter Name="CustomerId" Mode="In" Type="Int32" />
+      <Parameter Name="FullName" Mode="In" Type="String" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="Phone" Mode="In" Type="String" />
+      <Parameter Name="Birthday" Mode="In" Type="DateTime" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="Brand">
     <Key>

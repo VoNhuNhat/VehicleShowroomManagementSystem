@@ -50,6 +50,12 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin
           );
 
             context.MapRoute(
+              "Customer",
+              "Admin/Customer",
+              new { controller = "Customer", action = "Index" }
+          );
+
+            context.MapRoute(
                 "Profile",
                 "Admin/Profile/{userId}",
                 new { controller = "Admin", action = "ProfileCurrentUser", userId = UrlParameter.Optional }
@@ -69,7 +75,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin
             
             context.MapRoute(
                 "Edit_UserAccount",
-                "Admin/{controller}/{action}/{userId}",
+                "Admin/UserAccount/Edit/{userId}",
                 new { controller = "UserAccount", action = "Edit", userId = UrlParameter.Optional }
             );
 

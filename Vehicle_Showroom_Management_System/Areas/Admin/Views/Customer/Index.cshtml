@@ -5,63 +5,97 @@
     Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
 }
 
-    <div class="container">
-        <h2 style="text-align: center"><b>List of Customers</b></h2>
-        <br />
-        <p>
-            <a href="/Admin/Customer/Create" class="btn btn-primary"><b>Add new customer</b></a>
-        </p>
-        <table class="table table-bordered">
-            <tr>
-                <th>
-                    <b>@Html.DisplayNameFor(model => model.FullName)</b>
-                </th>
-                <th>
-                    <b>@Html.DisplayNameFor(model => model.Address)</b>
-                </th>
-                <th>
-                    <b>@Html.DisplayNameFor(model => model.Email)</b>
-                </th>
-                <th>
-                    <b>@Html.DisplayNameFor(model => model.Phone)</b>
-                </th>
-                <th>
-                    <b>@Html.DisplayNameFor(model => model.CreatedDate)</b>
-                </th>
-                <th>
-                    <b>@Html.DisplayNameFor(model => model.UserAccount.FullName)</b>
-                </th>
-                <th></th>
+<div class="container">
+    <h2 style="text-align: center"><b>List of Customers</b></h2>
+    <br />
+    <p>
+        <a href="/Admin/Customer/Create" class="btn btn-primary"><b>Add new customer</b></a>
+    </p>
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                <b>@Html.DisplayNameFor(model => model.FullName)</b>
+            </th>
+            <th>
+                <b>@Html.DisplayNameFor(model => model.Address)</b>
+            </th>
+            <th>
+                <b>@Html.DisplayNameFor(model => model.Email)</b>
+            </th>
+            <th>
+                <b>@Html.DisplayNameFor(model => model.Phone)</b>
+            </th>
+            <th>
+                <b>Added By</b>
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr id="@item.CustomerId">
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserAccount.FullName)
+                </td>
+                <td style="width: 250px;">
+                    @Html.ActionLink("Details", "Details", new { customerId = item.CustomerId }, new { @class = "btn btn-info", @style = "font-weight: bold" })
+                    @Html.ActionLink("Edit", "Edit", new { customerId = item.CustomerId }, new { @class = "btn btn-success", @style = "font-weight: bold" })
+                    <a style="color: white" class="btn btn-danger" onclick="deleteCustomer(@item.CustomerId)"><b>Delete</b></a>
+                </td>
             </tr>
+        }
 
-            @foreach (var item in Model)
-            {
-                <tr id="@item.CustomerId">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Address)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Phone)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreatedDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserAccount.FullName)
-                    </td>
-                    <td style="width: 250px;">
-                        @Html.ActionLink("Details", "Details", new { customerId = item.CustomerId }, new { @class = "btn btn-info", @style = "font-weight: bold" })
-                        @Html.ActionLink("Edit", "Edit", new { customerId = item.CustomerId }, new { @class = "btn btn-success", @style = "font-weight: bold" })
-                        <a style="color: white" class="btn btn-danger" onclick="deleteCustomer(@item.CustomerId)"><b>Delete</b></a>
-                    </td>
-                </tr>
+    </table>
+</div>
+
+<script>
+    function deleteCustomer(customerId) {
+        swal({
+            title: "Are you sure you want to delete?",
+            text: "Once deleted, you will not be able to recover this customer!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((logOut) => {
+            if (logOut) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/Customer/Delete",
+                    data: '{customerId: "' + customerId + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response) {
+                            $("#" + customerId).remove();
+                            setTimeout(function () {
+                                swal({
+                                    title: "Poof! Customer has been deleted!",
+                                    icon: "success",
+                                    button: true,
+                                    dangerMode: false,
+                                });
+                            }, 100);
+                        } else {
+                            swal("Can not delete customer!", "error");
+                        }
+                    }
+                });
+
+
             }
+        });
+    }
 
-        </table>
-    </div>
+</script>
