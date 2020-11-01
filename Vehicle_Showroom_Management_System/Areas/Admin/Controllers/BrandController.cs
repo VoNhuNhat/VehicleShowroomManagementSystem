@@ -25,11 +25,17 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(string BrandName, string image)
+        public ActionResult Create(Brand b)
         {
-
-            db.Insert_Brand(BrandName, image);
+            string fileName = Path.GetFileNameWithoutExtension(b.ImageFile.FileName);
+            string extension = Path.GetExtension(b.ImageFile.FileName);
+            fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+            string path = Path.Combine(Server.MapPath("~/Areas/Admin/Contents/Images/"), fileName);
+            b.image = fileName;
+            b.ImageFile.SaveAs(path);
+            db.Insert_Brand(b.BrandName, b.image);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
@@ -47,33 +53,8 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        /*[HttpPost]
-        public ActionResult UploadImage(HttpPostedFileBase file)
-        {
-           var path = "";
-            if (file != null)
-            {
-                if (file.ContentLength>0)
-                {
-                    if(Path.GetExtension(file.FileName).ToLower()==".jpg"
-                        || Path.GetExtension(file.FileName).ToLower() == ".png"
-                        || Path.GetExtension(file.FileName).ToLower() == ".gif"
-                        || Path.GetExtension(file.FileName).ToLower() == ".jpeg")
-                    {
-                        path = Path.Combine(Server.MapPath("/Admin/Content/Images"), file.FileName);
-                        file.SaveAs(path);
-                        ViewBag.UploadSuccess = true;
-                    }
-
-                }
-            }
-
-            return View();
-        }*/
-        
-
         [HttpPost]
-        public bool Delete(int brandId)
+        public JsonResult Delete(int brandId)
         {
             bool deleted;
             db.Brands.Remove(db.Brands.Where(ua => ua.BrandId == brandId).FirstOrDefault());
@@ -86,7 +67,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             {
                 deleted = false;
             }
-            return deleted;
+            return Json(deleted);
         }
         public ActionResult Details(int brandId)
         {

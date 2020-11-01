@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Vehicle_Showroom_Management_System.Areas.Admin.Data;
+using PagedList;
 
 namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
 {
@@ -21,6 +22,31 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             else
             {
                 return View("WarningUser");
+            }
+        }
+        [HttpGet]
+        public JsonResult LoadData(int page, int pageSize = 2)
+        {
+            List<UserAccount> list = db.UserAccounts.Where(ua => ua.Status != 1).OrderByDescending(ua => ua.CreatedDate).ToList();
+            var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+            var totalRow = list.Count;
+            if (totalRow > 1)
+            {
+                return Json(new
+                {
+                    data = model,
+                    total = totalRow,
+                    status = true
+                }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+            return Json(new
+            {
+               data = list,
+               total = totalRow,
+               status = true
+            }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -135,6 +161,49 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         {
             UserAccount detailUser = db.UserAccounts.Where(ua => ua.UserId == userId).FirstOrDefault();
             return View(detailUser);
+        }
+        [HttpPost]
+        public JsonResult Search(string searchUser, int page, int pageSize)
+        {
+            List<UserAccount> allUsers = db.UserAccounts.Where(ua => ua.Status == 0).ToList();
+            if (searchUser != "")
+            {
+            List<UserAccount> list = db.UserAccounts.Where(ua => ua.FullName.Contains(searchUser) && ua.Status == 0).ToList();
+                var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = list.Count;
+                if (totalRow > 1)
+                {
+                    return Json(new
+                    {
+                    data = model,
+                    users = allUsers,
+                    total = totalRow,
+                    status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = list,
+                        users = allUsers,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                var model = allUsers.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = allUsers.Count;
+                return Json(new
+                {
+                    data = model,
+                    users = allUsers,
+                    total = totalRow,
+                    status = true
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

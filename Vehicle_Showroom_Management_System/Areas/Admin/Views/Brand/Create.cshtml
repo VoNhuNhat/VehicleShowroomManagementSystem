@@ -12,7 +12,7 @@
 <div class="container">
     <br />
     <h2 style="text-align: center"><b>Add new user</b></h2>
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formCreate" }))
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formCreate", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
 
@@ -38,8 +38,7 @@
                 </b>
                 <div class="col-md-10">
 
-                    @Html.EditorFor(model => model.image, new { htmlAttributes = new { @class = "form-control", @type = "file", @name = "file", @id = "imgInp" } })
-                    @Html.ValidationMessageFor(model => model.image, "", new { @class = "text-danger" })
+                    <input type="file" name="ImageFile" value="" id="imgInp"/>
                     <img class="control-label col-md-2" id="idimg" src="" />
                 </div>
             </div>

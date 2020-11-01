@@ -10,7 +10,7 @@ create table UserAccount (
 	Password varchar(256),
 	Address text,
 	Email varchar(100),
-	PhoneNumber varchar(50),
+	PhoneNumber varchar(50),	
 	Birthday Date not null,
 	CreatedDate DateTime,
 	UpdatedDate DateTime,
@@ -18,7 +18,7 @@ create table UserAccount (
 )
 go
 
-select * from UserAccount
+select * from Brands
 go
 insert into UserAccount values('Administrator','admin','MTIzNDU2','Bach Khoa Aptech','c1808j1@gmail.com','1234567890',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1)
 go
@@ -63,7 +63,6 @@ image text
 )
 go
 
-
 create proc Insert_Brand
 	@BrandName varchar(256),
 	@image text 
@@ -71,7 +70,7 @@ create proc Insert_Brand
 	begin
 	insert into Brands values(@BrandName,@image)
 	end
-	go
+go
 
 create proc Update_Brand
 @BrandId int,
@@ -79,9 +78,10 @@ create proc Update_Brand
 @image text
 as 
 begin 
-update Brands set BrandId=@BrandId, image = @image where BrandId= @BrandId
+update Brands set BrandName=@BrandName, image = @image where BrandId= @BrandId
 end 
 go 
+
 create table ModelCars(
 ModelCarId int primary key identity,
 ModelCarName varchar(256),
@@ -151,3 +151,5 @@ UpdateDate DateTime,
 Status int
 )
 go
+
+select * from Brands
