@@ -74,6 +74,12 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin
             );
             
             context.MapRoute(
+                "Details_UserAccount",
+                "Admin/UserAccount/Details/{userId}",
+                new { controller = "UserAccount", action = "Details", userId = UrlParameter.Optional }
+            );
+            
+            context.MapRoute(
                 "Edit_UserAccount",
                 "Admin/UserAccount/Edit/{userId}",
                 new { controller = "UserAccount", action = "Edit", userId = UrlParameter.Optional }
