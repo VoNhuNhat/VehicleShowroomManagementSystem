@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Vehicle_Showroom_Management_System.Areas.Admin.Data;
-using PagedList;
 
 namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
 {
@@ -27,6 +26,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         [HttpGet]
         public JsonResult LoadData(int page, int pageSize = 2)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             List<UserAccount> list = db.UserAccounts.Where(ua => ua.Status != 1).OrderByDescending(ua => ua.CreatedDate).ToList();
             var model = list.Skip((page - 1) * pageSize).Take(pageSize);
             var totalRow = list.Count;
@@ -165,6 +165,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult Search(string searchUser, int page, int pageSize)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             List<UserAccount> allUsers = db.UserAccounts.Where(ua => ua.Status == 0).ToList();
             if (searchUser != "")
             {
