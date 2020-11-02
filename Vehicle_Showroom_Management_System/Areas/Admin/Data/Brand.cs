@@ -11,7 +11,8 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Web;
+
     public partial class Brand
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,8 +24,11 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         public int BrandId { get; set; }
         public string BrandName { get; set; }
         public string image { get; set; }
+
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ModelCar> ModelCars { get; set; }
+
+        public HttpPostedFileBase ImageFile { get; set; }
     }
 }

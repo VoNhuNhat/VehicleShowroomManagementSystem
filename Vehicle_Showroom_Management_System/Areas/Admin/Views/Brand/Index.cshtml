@@ -6,10 +6,12 @@
 }
 
 <div class="container">
-    <h2 style="text-align: center"><b>List of Users</b></h2>
+    <h2 style="text-align: center"><b>List of Brands</b></h2>
     <br />
     <p>
-        <a href="/Admin/Brand/Create" class="btn btn-primary"><b>Add new user</b></a>
+        <a href="/Admin/Brand/Create" class="btn btn-primary"><b>Add new Brand</b></a>
+        <input style="float: right" class="form-control col-md-4" name="searchBrand" id="searchBrand" type="text" placeholder="Search Brand..." aria-label="Search" aria-describedby="basic-addon2" />
+   
     </p>
     <table class="table table-bordered">
         <tr>
@@ -18,36 +20,197 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.image)
+
             </th>
             <th></th>
         </tr>
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BrandName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.image)
-                </td>
-                <td style="width: 250px;">
-                    @Html.ActionLink("Details", "Details", new { brandId = item.BrandId }, new { @class = "btn btn-info", @style = "font-weight: bold" })
-                    @Html.ActionLink("Edit", "Edit", new { brandId = item.BrandId }, new { @class = "btn btn-success", @style = "font-weight: bold" })
-                    <a style="color: white" class="btn btn-danger" onclick="deleteBrand(@item.BrandId)"><b>Delete</b></a>
-                </td>
-            </tr>
+    <tr id="@item.BrandId">
+        <td>
+            @Html.DisplayFor(modelItem => item.BrandName)
+        </td>
+        <td>
+        <img src="~/Areas/Admin/Contents/Images/@item.image" class="img-responsive" width="110"/>
+        </td>
+        <td style="width: 250px;">
+            @Html.ActionLink("Details", "Details", new { brandId = item.BrandId }, new { @class = "btn btn-info", @style = "font-weight: bold" })
+            @Html.ActionLink("Edit", "Edit", new { brandId = item.BrandId }, new { @class = "btn btn-success", @style = "font-weight: bold" })
+            <a style="color: white" class="btn btn-danger" onclick="deleteBrand(@item.BrandId)"><b>Delete</b></a>
+        </td>
+    </tr>
         }
 
 
     </table>
 </div>
     <script>
+        var pageCofig = {
+            pageSize: 2,
+            pageIndex: 1
+        }
+        var pageSearchCofig = {
+            pageSize: 2,
+            pageIndex: 1
+        }
+        var pageSearchOneCofig = {
+            pageSize: 1,
+            pageIndex: 1
+        }
+
+        $(document).ready(function () {
+            $("#pagination").hide();
+            $("#paginationSearchMutiplePages").hide();
+            $("#paginationSearchOnePage").hide();
+            loadData();
+        });
+        function loadData() {
+            $("#tableBrand").find('.dataTable').remove();
+            $.ajax({
+                type: "GET",
+                url: "/Admin/Brand/LoadData",
+                data: {
+                    page: pageCofig.pageIndex,
+                    pageSize: pageCofig.pageSize
+                },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.data.length > 0) {
+                        var row = "";
+                        for (var i = 0; i < response.data.length; i++) {
+                            row += "<tr class='dataTable' id='" + response.data[i].brandId + "'>" + "<td>" + response.data[i].BrandName + "</td>" + "<td>" + response.data[i].image + "</td>" + "<td> <a href='/Admin/Brand/Details/" + response.data[i].brandId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Brand/Edit/" + response.data[i].brandId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteBrand(" + response.data[i].brandId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                        }
+                        $("#tableBrand").append(row);
+                        $("#pagination").show();
+                        pagination(response.total, function () {
+                            loadData();
+                        })
+                    }
+                }
+            });
+        }
+        function pagination(totalRow, callback) {
+            var totalPage = Math.ceil(totalRow / pageCofig.pageSize);
+            $('#pagination').twbsPagination({
+                totalPages: totalPage,
+                visiblePages: 10,
+                onPageClick: function (event, page) {
+                    pageCofig.pageIndex = page;
+                    setTimeout(callback, 200);
+                }
+            });
+        }
+        function paginationSearchMutiplePages(totalRow, callback) {
+            var totalPage = Math.ceil(totalRow / pageCofig.pageSize);
+            $('#paginationSearchMutiplePages').twbsPagination({
+                totalPages: totalPage,
+                visiblePages: 10,
+                onPageClick: function (event, page) {
+                    pageSearchCofig.pageIndex = page;
+                    setTimeout(callback, 500);
+                }
+            });
+        }
+        function paginationSearchOnePage(callback) {
+            $('#paginationSearchOnePage').twbsPagination({
+                totalPages: 1,
+                visiblePages: 10,
+                onPageClick: function (event, page) {
+                    pageSearchOneCofig.pageIndex = page;
+                    setTimeout(callback, 500);
+                }
+            });
+        }
+
+        $("#searchBrand").keyup(function () {
+            searchBrand();
+        });
+        function searchBrand() {
+            $("#tableBrand").find('.dataTable').remove();
+            var searchBrands = $("#searchBrand").val();
+            $.ajax({
+                type: "POST",
+                url: "/Admin/Brand/Search",
+                data: '{searchBrand: "' + searchBrands + '", page: ' + pageSearchCofig.pageIndex + ', pageSize: ' + pageSearchCofig.pageSize + ' }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.users.length > 0) {
+                        if (searchFullname == "") {
+                            $("#pagination").show();
+                            $("#paginationSearchMutiplePages").hide();
+                            $("#paginationSearchOnePage").hide();
+                            $("#tableBrand").find('.dataTable').remove();
+                            $.ajax({
+                                type: "GET",
+                                url: "/Admin/Brand/LoadData",
+                                data: {
+                                    page: pageCofig.pageIndex,
+                                    pageSize: pageCofig.pageSize
+                                },
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+                                    var row = "";
+                                    for (var i = 0; i < response.data.length; i++) {
+                                        row += "<tr class='dataTable' id='" + response.data[i].brandId + "'>" + "<td>" + response.data[i].BrandName + "</td>" +  "<td> <a href='/Admin/Brand/Details/" + response.data[i].brandId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Brand/Edit/" + response.data[i].brandId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteBrand(" + response.data[i].brandId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                                    }
+                                    $("#tableBrand").append(row);
+                                    pagination(response.total, function () {
+                                        loadData();
+                                    })
+                                }
+                            });
+                        } else {
+                            $("#tableBrand").find('.dataTable').remove();
+                            var row = "";
+                            for (var i = 0; i < response.data.length; i++) {
+                                row += "<tr class='dataTable' id='" + response.data[i].brandId + "'>" + "<td>" + response.data[i].BrandName  + "</td>" + "<td> <a href='/Admin/Brand/Details/" + response.data[i].brandId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Brand/Edit/" + response.data[i].brandId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteBrand(" + response.data[i].brandId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                            }
+                            $("#tableBrand").append(row);
+                            $("#pagination").hide();
+                            $("#paginationDelete").hide();
+                            if (response.total > 2) {
+                                $("#paginationSearchMutiplePages").show();
+                                $("#paginationSearchOnePage").hide();
+                                paginationSearchMutiplePages(response.total, function () {
+                                    searchBrand();
+                                });
+                            } else {
+                                if (response.total == 0) {
+                                    $("#paginationSearchOnePage").hide();
+                                } else {
+                                    $("#paginationSearchMutiplePages").hide();
+                                    $("#paginationSearchOnePage").show();
+                                    paginationSearchOnePage(function () {
+                                        searchBrand();
+                                    });
+                                }
+                            }
+                        }
+                    } else {
+                        swal({
+                            title: "Nothing to search !",
+                            text: "Please add new Brand",
+                            icon: "error",
+                            button: "Got it",
+                            dangerMode: false
+                        }).then((logOut) => {
+                            if (logOut) {
+                                window.location.replace("/Admin/Brand/Create");
+                            }
+                        });
+                    }
+                }
+            });
+        }
         function deleteBrand(brandId) {
             var tmp;
             swal({
                 title: "Are you sure you want to delete?",
-                text: "Once deleted, you will not be able to recover this user!",
+                text: "Once deleted, you will not be able to recover this Brand!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -64,14 +227,14 @@
                                 $("#" + brandId).remove();
                                 setTimeout(function () {
                                     swal({
-                                        title: "Poof! User has been deleted!",
+                                        title: "Poof! Brand has been deleted!",
                                         icon: "success",
                                         button: true,
                                         dangerMode: false,
                                     });
                                 }, 100);
                             } else {
-                                swal("Can not delete user!", "error");
+                                swal("Can not delete Brand!", "error");
                             }
                         }
                     });

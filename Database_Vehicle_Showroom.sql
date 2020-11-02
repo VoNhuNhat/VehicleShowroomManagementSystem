@@ -18,7 +18,7 @@ create table UserAccount (
 )
 go
 
-select * from UserAccount
+select * from Brands
 go
 insert into UserAccount values('Administrator','admin','MTIzNDU2','Bach Khoa Aptech','c1808j1@gmail.com','1234567890',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1)
 go
@@ -176,3 +176,5 @@ UpdateDate DateTime,
 Status int
 )
 go
+
+select * from Brands

@@ -8,72 +8,118 @@
 
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <div class="container">
     <br />
     <h2 style="text-align: center"><b>Add new user</b></h2>
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formCreate" }))
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formCreate", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            <h4>Brand</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                <b>
-                    @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "control-label col-md-2" })
-                </b>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.BrandName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
-                </div>
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <b>
+                @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "control-label col-md-2" })
+            </b>
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.BrandName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
             </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <b>
+                @Html.LabelFor(model => model.image, htmlAttributes: new { })
 
-            <div class="form-group">
-                <b>
-                    @Html.LabelFor(model => model.image, htmlAttributes: new { @class = "control-label col-md-2" })
-                </b>
-                <div class="col-md-10">
+                @*<img class="control-label col-md-2" id="idimg" src=""  />*@
+            </b>
+            <div class="col-md-9">
 
-                    @Html.EditorFor(model => model.image, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.image, "", new { @class = "text-danger" })
-                </div>
+                <input type="file" name="ImageFile" value="" id="imgInp" />
+                <hr />  
+                <img class="control-label col-md-9" id="idimg" src="" />
             </div>
-            <br />
-            <div class="form-group" style="margin-left:138px;margin-top: 8px;">
-                <a onclick="clickTest()" class="btn btn-success" style="color: white"><b>Add new user</b></a>
-                <a href="/Admin/Brand" class="btn btn-primary"><b>Back to List</b></a>
-            </div>
-            <button type="submit" id="btnSubmit" disabled hidden class="btn btn-success">add</button>
-</div>
+        </div>
+        </div>
+        <br />
+        <div class="form-group" style="margin-left:138px;margin-top: 8px;">
+            <a onclick="clickTest()" class="btn btn-success" style="color: white"><b>Add new user</b></a>
+            <a href="/Admin/Brand" class="btn btn-primary"><b>Back to List</b></a>
+        </div>
+        <button type="submit" id="btnSubmit" disabled hidden class="btn btn-success">add</button>
+         </div>
+    </div>
     }
 <script>
+    var files;
+            $('#imgInp').change(function ()
+            {
+                readimg(this);
+            })
+    function readimg(file) {
+        if (file.files && file.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                console.log("added");
+                $('#idimg').attr('src', e.target.result);
+            };
+            files = file;
+            reader.readAsDataURL(file.files[0]);
+          
 
-    function clickTest() {
-        var i = 0;
-        if (i == 0 && $("#BrandName").val() == "") {
-            swal("There was a problem !!!", "Please enter Fullname", "error").then(() => { $("#BrandName").focus(); });
-        } else {
-            if (i == 0 && $("#BrandName").val().length > 256) {
-                swal("There was a problem !!!", "Maximum length of Fullname is 256 characters", "error").then(() => { $("#BrandName").focus(); });
-            } else {
-                i++;
-            }
-        }
-        if (i == 1) {
-            setTimeout(function () {
-                swal({
-                    title: "Add user success!",
-                    icon: "success",
-                    buttons: false,
-                    dangerMode: false,
-                })
-                setTimeout(function () {
-                    $("#btnSubmit").removeAttr('disabled');
-                    $("#btnSubmit").click();
-                }, 800);
-            }, 100);
         }
     }
+   @* $("form").on("submit", function (e) {
+        e.preventDefault();
+        console.log(this);
+    });*@
+
+        
+        @*function filePreview(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('uploadForm + img').remove();
+                    $('uploadForm').after('img src="' + e.target.result + '"width="450" height="300"/>');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+
+        }
+        $("#file").change(function () {
+
+            filePreview(this);
+        })*@
+
+        function clickTest() {
+            var i = 0;
+            if (i == 0 && $("#BrandName").val() == "") {
+                swal("There was a problem !!!", "Please enter BrandName", "error").then(() => { $("#BrandName").focus(); });
+            } else {
+                if (i == 0 && $("#BrandName").val().length > 256) {
+                    swal("There was a problem !!!", "Maximum length of BrandName is 256 characters", "error").then(() => { $("#BrandName").focus(); });
+                } else {
+                    i++;
+                }
+            }
+            if (i == 1) {
+                setTimeout(function () {
+                    swal({
+                        title: "Add Brand success!",
+                        icon: "success",
+                        buttons: false,
+                        dangerMode: false,
+                    })
+                    setTimeout(function () {
+                        $("#btnSubmit").removeAttr('disabled');
+                        $("#btnSubmit").click();
+                    }, 800);
+                }, 100);
+            }
+        }
 </script>
-</div>
