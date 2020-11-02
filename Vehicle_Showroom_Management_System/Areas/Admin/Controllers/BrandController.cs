@@ -58,9 +58,9 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             string extension = Path.GetExtension(b.ImageFile.FileName);
             fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
             string path = Path.Combine(Server.MapPath("~/Areas/Admin/Contents/Images/"), fileName);
-            b.image = fileName;
+            b.Image = fileName;
             b.ImageFile.SaveAs(path);
-            db.Insert_Brand(b.BrandName, b.image);
+            db.Insert_Brand(b.BrandName, b.Image);
             db.SaveChanges();
 
             return RedirectToAction("Index");
@@ -79,7 +79,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             string extension = Path.GetExtension(b.ImageFile.FileName);
             fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
             string path = Path.Combine(Server.MapPath("~/Areas/Admin/Contents/Images/"), fileName);
-            b.image = fileName;
+            b.Image = fileName;
             b.ImageFile.SaveAs(path);
             db.Update_Brand(brandId,brandName,image);
             db.SaveChanges();
