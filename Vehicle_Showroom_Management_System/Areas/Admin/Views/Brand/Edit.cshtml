@@ -18,34 +18,87 @@
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.BrandId)
-
-    <div class="form-group">
-        <b>
-            @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "control-label col-md-2" })
-        </b>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.BrandName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <b>
+                @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "control-label col-md-2" })
+            </b>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BrandName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-
-    <div class="form-group">
-        <b>
-            @Html.LabelFor(model => model.image, htmlAttributes: new { @class = "control-label col-md-2" })
-        </b>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.image, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.image, "", new { @class = "text-danger" })
         </div>
-    </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <b>
+                    @Html.LabelFor(model => model.image, htmlAttributes: new { })
 
-    <div class="form-group" style="margin-left:140px;margin-top: 45px;">
-        <a onclick="clickTest()" class="btn btn-success" style="color: white"><b>Update user</b></a>&nbsp;&nbsp;&nbsp;
-        <a href="/Admin/UserAccount" class="btn btn-primary"><b>Back to List</b></a>
+                    @*<img class="control-label col-md-2" id="idimg" src=""  />*@
+                </b>
+                <div class="col-md-9">
+
+                    <input type="file" name="ImageFile" value="" id="imgInp" />
+                    <hr />
+                    <img class="control-label col-md-9" id="idimg" src="" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-left:140px;margin-top: 45px;">
+            <a onclick="clickTest()" class="btn btn-success" style="color: white"><b>Update Brand</b></a>&nbsp;&nbsp;&nbsp;
+            <a href="/Admin/UserAccount" class="btn btn-primary"><b>Back to List</b></a>
+        </div>
+        <button type="submit" id="btnSubmit" disabled hidden class="btn btn-success"></button>
     </div>
-    <button type="submit" id="btnSubmit" disabled hidden class="btn btn-success"></button>
 </div>
     }
 
     
 </div>
+<script>
+    var files;
+    $('#imgInp').change(function () {
+        readimg(this);
+    })
+    function readimg(file) {
+        if (file.files && file.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                console.log("added");
+                $('#idimg').attr('src', e.target.result);
+            };
+            files = file;
+            reader.readAsDataURL(file.files[0]);
+
+
+        }
+    }
+    function clickTest() {
+        var i = 0;
+        if (i == 0 && $("#BrandName").val() == "") {
+            swal("There was a problem !!!", "Please enter BrandName", "error").then(() => { $("#BrandName").focus(); });
+        } else {
+            if (i == 0 && $("#BrandName").val().length > 256) {
+                swal("There was a problem !!!", "Maximum length of BrandName is 256 characters", "error").then(() => { $("#BrandName").focus(); });
+            } else {
+                i++;
+            }
+        }
+        if (i == 1) {
+            setTimeout(function () {
+                swal({
+                    title: "Update Brand success!",
+                    icon: "success",
+                    buttons: false,
+                    dangerMode: false,
+                })
+                setTimeout(function () {
+                    $("#btnSubmit").removeAttr('disabled');
+                    $("#btnSubmit").click();
+                }, 800);
+            }, 100);
+        }
+    }
+</script>

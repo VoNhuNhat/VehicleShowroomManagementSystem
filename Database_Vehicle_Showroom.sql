@@ -140,6 +140,31 @@ UpdatedDate DateTime,
 )
 go
 
+create proc Insert_Customer
+	@UserId int,
+	@FullName varchar(256),
+	@Address text,
+	@Email varchar(256),
+	@Phone varchar(256),
+	@Birthday Date
+as
+begin
+	insert into Customers values(@UserId, @FullName, @Address, @Email, @Phone, @Birthday, CURRENT_TIMESTAMP, NULl)
+end
+go
+
+create proc Update_Customer
+	@CustomerId int,
+	@FullName varchar(256),
+	@Address text,
+	@Email varchar(256),
+	@Phone varchar(256),
+	@Birthday Date
+as
+begin
+	update Customers set FullName = @FullName, Email = @Email, Address = @Address, Phone = @Phone, Birthday = @Birthday, UpdatedDate = CURRENT_TIMESTAMP where CustomerId = @CustomerId
+end
+go
 
 create table Orders(
 OrderId int primary key identity,
