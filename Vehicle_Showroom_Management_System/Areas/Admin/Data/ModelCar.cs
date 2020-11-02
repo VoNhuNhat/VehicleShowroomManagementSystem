@@ -17,18 +17,14 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ModelCar()
         {
-            this.Images = new HashSet<Image>();
             this.PurchaseOrders = new HashSet<PurchaseOrder>();
         }
     
         public int ModelCarId { get; set; }
         public string ModelCarName { get; set; }
         public Nullable<int> BrandId { get; set; }
-        public Nullable<double> PriceOutput { get; set; }
     
         public virtual Brand Brand { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Image> Images { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
     }

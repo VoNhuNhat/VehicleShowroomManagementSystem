@@ -3,10 +3,16 @@
   <EntityContainerMapping StorageEntityContainer="Vehicle_Showroom_Management_SystemModelStoreContainer" CdmEntityContainer="Vehicle_Showroom_Management_SystemEntities">
     <FunctionImportMapping FunctionImportName="Insert_UserAccount" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_UserAccount" />
     <FunctionImportMapping FunctionImportName="Update_UserAccount" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_UserAccount" />
+    <FunctionImportMapping FunctionImportName="Insert_Brand" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_Brand" />
+    <FunctionImportMapping FunctionImportName="Update_Brand" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_Brand" />
+    <FunctionImportMapping FunctionImportName="Insert_Customer" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_Customer" />
+    <FunctionImportMapping FunctionImportName="Update_Customer" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_Customer" />
     <EntitySetMapping Name="Brands">
       <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Brand">
         <MappingFragment StoreEntitySet="Brands">
-          <ScalarProperty Name="image" ColumnName="image" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
           <ScalarProperty Name="BrandName" ColumnName="BrandName" />
           <ScalarProperty Name="BrandId" ColumnName="BrandId" />
         </MappingFragment>
@@ -17,6 +23,7 @@
         <MappingFragment StoreEntitySet="Cars">
           <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="PurchaseOrderDate" ColumnName="PurchaseOrderDate" />
           <ScalarProperty Name="Checking" ColumnName="Checking" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="KilometerGone" ColumnName="KilometerGone" />
@@ -25,10 +32,11 @@
           <ScalarProperty Name="Gearbox" ColumnName="Gearbox" />
           <ScalarProperty Name="Color" ColumnName="Color" />
           <ScalarProperty Name="SeatQuantity" ColumnName="SeatQuantity" />
+          <ScalarProperty Name="PriceOutput" ColumnName="PriceOutput" />
           <ScalarProperty Name="PriceInput" ColumnName="PriceInput" />
           <ScalarProperty Name="CarName" ColumnName="CarName" />
           <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
-          <ScalarProperty Name="ModelNumber" ColumnName="ModelNumber" />
+          <ScalarProperty Name="ModelNumberCar" ColumnName="ModelNumberCar" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -50,8 +58,8 @@
     <EntitySetMapping Name="Images">
       <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Image">
         <MappingFragment StoreEntitySet="Images">
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="ModelCarId" ColumnName="ModelCarId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ModelNumberCar" ColumnName="ModelNumberCar" />
           <ScalarProperty Name="ImageId" ColumnName="ImageId" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -59,7 +67,6 @@
     <EntitySetMapping Name="ModelCars">
       <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.ModelCar">
         <MappingFragment StoreEntitySet="ModelCars">
-          <ScalarProperty Name="PriceOutput" ColumnName="PriceOutput" />
           <ScalarProperty Name="BrandId" ColumnName="BrandId" />
           <ScalarProperty Name="ModelCarName" ColumnName="ModelCarName" />
           <ScalarProperty Name="ModelCarId" ColumnName="ModelCarId" />
@@ -74,7 +81,7 @@
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
           <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-          <ScalarProperty Name="ModelNumber" ColumnName="ModelNumber" />
+          <ScalarProperty Name="ModelNumberCar" ColumnName="ModelNumberCar" />
           <ScalarProperty Name="OrderId" ColumnName="OrderId" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -85,9 +92,8 @@
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
-          <ScalarProperty Name="QuantityInput" ColumnName="QuantityInput" />
-          <ScalarProperty Name="TotalPriceOutput" ColumnName="TotalPriceOutput" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="QuantityCarImport" ColumnName="QuantityCarImport" />
           <ScalarProperty Name="ModelCarId" ColumnName="ModelCarId" />
           <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
         </MappingFragment>
@@ -110,9 +116,5 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="Insert_Brand" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_Brand" />
-    <FunctionImportMapping FunctionImportName="Update_Brand" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_Brand" />
-    <FunctionImportMapping FunctionImportName="Insert_Customer" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_Customer" />
-    <FunctionImportMapping FunctionImportName="Update_Customer" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_Customer" />
   </EntityContainerMapping>
 </Mapping>

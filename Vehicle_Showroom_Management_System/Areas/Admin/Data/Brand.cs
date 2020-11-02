@@ -23,8 +23,9 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
     
         public int BrandId { get; set; }
         public string BrandName { get; set; }
-        public string image { get; set; }
-
+        public string Image { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<System.DateTime> UpdatedDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ModelCar> ModelCars { get; set; }

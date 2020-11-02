@@ -17,13 +17,14 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Car()
         {
-            this.Orders = new HashSet<Order>();
+            this.Images = new HashSet<Image>();
         }
     
-        public string ModelNumber { get; set; }
+        public string ModelNumberCar { get; set; }
         public Nullable<int> PurchaseOrderId { get; set; }
         public string CarName { get; set; }
         public Nullable<double> PriceInput { get; set; }
+        public Nullable<double> PriceOutput { get; set; }
         public Nullable<int> SeatQuantity { get; set; }
         public string Color { get; set; }
         public string Gearbox { get; set; }
@@ -32,11 +33,12 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         public Nullable<double> KilometerGone { get; set; }
         public Nullable<int> Status { get; set; }
         public Nullable<int> Checking { get; set; }
+        public Nullable<System.DateTime> PurchaseOrderDate { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
     
         public virtual PurchaseOrder PurchaseOrder { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Image> Images { get; set; }
     }
 }
