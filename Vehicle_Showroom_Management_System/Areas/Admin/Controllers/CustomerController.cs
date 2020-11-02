@@ -18,21 +18,38 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             List<Customer> list = db.Customers.ToList();
             return View(list);
         }
-        [HttpPost]
-        public JsonResult LoadData()
+
+        [HttpGet]
+        public JsonResult LoadData(int page, int pageSize = 2)
         {
             db.Configuration.ProxyCreationEnabled = false;
             List<UserAccount> listUsers = db.UserAccounts.ToList();
             List<Customer> listCustomers = db.Customers.ToList();
             var list = from c in listCustomers
-                                  join u in listUsers on c.UserId equals u.UserId
-                                  select new {CustomerId = c.CustomerId, FullName = c.FullName,Email = c.Email,Phone =c.Phone,userFullName = u.FullName};
-            return Json(new
+                       join u in listUsers on c.UserId equals u.UserId
+                       orderby c.CreatedDate descending
+                       select new { CustomerId = c.CustomerId, FullName = c.FullName, Email = c.Email, Phone = c.Phone, userFullName = u.FullName };
+            var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+            var totalRow = listCustomers.Count;
+            if (totalRow > 1)
             {
-                data = list,
-            }, JsonRequestBehavior.AllowGet);
+                return Json(new
+                {
+                    data = model,
+                    total = totalRow,
+                    status = true
+                }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new
+                {
+                    data = list,
+                    total = totalRow,
+                    status = true
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
-
 
         [HttpGet]
         public ActionResult Create()
@@ -114,6 +131,64 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                 deleted = false;
             }
             return Json(deleted);
+        }
+
+        [HttpPost]
+        public JsonResult Search(string searchCustomer, int page, int pageSize)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            List<Customer> allCustomers = new List<Customer>();
+            if (searchCustomer != "")
+            {
+                allCustomers = db.Customers.Where(c => c.FullName.Contains(searchCustomer)).ToList();
+            }
+            else
+            {
+                allCustomers = db.Customers.ToList();
+
+            }
+            List<UserAccount> listUsers = db.UserAccounts.ToList();
+            if (searchCustomer != "")
+            {
+                var list = from c in allCustomers
+                           join u in listUsers on c.UserId equals u.UserId
+                           orderby c.CreatedDate descending
+                           select new { CustomerId = c.CustomerId, FullName = c.FullName, Email = c.Email, Phone = c.Phone, userFullName = u.FullName };
+                var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = allCustomers.Count;
+                if (totalRow > 1)
+                {
+                    return Json(new
+                    {
+                        data = model,
+                        customers = allCustomers,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = list,
+                        customers = allCustomers,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                var model = allCustomers.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = allCustomers.Count;
+                return Json(new
+                {
+                    data = model,
+                    customers = allCustomers,
+                    total = totalRow,
+                    status = true
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }
