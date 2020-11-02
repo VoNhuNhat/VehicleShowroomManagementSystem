@@ -18,8 +18,7 @@ create table UserAccount (
 )
 go
 
-select * from Brands
-go
+
 insert into UserAccount values('Administrator','admin','MTIzNDU2','Bach Khoa Aptech','c1808j1@gmail.com','1234567890',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1)
 go
 /*
@@ -59,7 +58,9 @@ go
 create table Brands(
 BrandId int primary key identity,
 BrandName varchar(256),
-image text
+Image text,
+CreatedDate DateTime,
+UpdatedDate DateTime
 )
 go
 
@@ -68,7 +69,7 @@ create proc Insert_Brand
 	@image text 
 	as
 	begin
-	insert into Brands values(@BrandName,@image)
+	insert into Brands values(@BrandName,@image,CURRENT_TIMESTAMP,NULL)
 	end
 go
 
@@ -78,7 +79,7 @@ create proc Update_Brand
 @image text
 as 
 begin 
-update Brands set BrandName=@BrandName, image = @image where BrandId= @BrandId
+update Brands set BrandName=@BrandName, image = @image, UpdatedDate = CURRENT_TIMESTAMP where BrandId= @BrandId
 end 
 go 
 
@@ -86,23 +87,14 @@ create table ModelCars(
 ModelCarId int primary key identity,
 ModelCarName varchar(256),
 BrandId int references Brands(BrandId),
-PriceOutput float
-)
-go
-
-create table Images(
-ImageId int primary key identity,
-ModelCarId int references ModelCars(ModelCarId),
-name text
 )
 go
 
 create table PurchaseOrders(
 PurchaseOrderId int primary key identity,
 ModelCarId int references ModelCars(ModelCarId),
-TotalPriceOutput float,
-QuantityInput int,
-PurchaseDate Date,
+QuantityCarImport int,
+OrderDate Date,
 CreatedDate DateTime,
 UpdatedDate DateTime,
 Status int
@@ -110,10 +102,11 @@ Status int
 go
 
 create table Cars(
-ModelNumber varchar(100) primary key,
+ModelNumberCar varchar(100) primary key,
 PurchaseOrderId int references PurchaseOrders(PurchaseOrderId),
 CarName varchar(256),
 PriceInput float,
+PriceOutput float,
 SeatQuantity int,
 Color varchar(50),
 Gearbox varchar(256),
@@ -122,10 +115,20 @@ FuelConsumption float,
 KilometerGone float,
 Status int,
 Checking int,
+PurchaseOrderDate Date,
 CreatedDate DateTime,
 UpdatedDate DateTime,
 )
 go
+
+create table Images(
+ImageId int primary key identity,
+ModelNumberCar varchar(100) references Cars(ModelNumberCar),
+Name text	
+)
+go
+
+
 
 create table Customers(
 CustomerId int primary key identity,
@@ -168,7 +171,7 @@ go
 
 create table Orders(
 OrderId int primary key identity,
-ModelNumber varchar(100) references Cars(ModelNumber),	
+ModelNumberCar varchar(100),	
 CustomerId int references Customers(CustomerId), 
 TotalMoney float,
 CreatedDate DateTime,
@@ -177,4 +180,3 @@ Status int
 )
 go
 
-select * from Brands
