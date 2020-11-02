@@ -30,28 +30,6 @@
             <th></th>
         </tr>
         <tbody>
-            @*@foreach (var item in Model)
-            {
-                <tr class="dataTable" id="@item.UserId">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PhoneNumber)
-                    </td>
-                    <td style="width: 250px;">
-                        @Html.ActionLink("Details", "Details", new { userId = item.UserId }, new { @class = "btn btn-info", @style = "font-weight: bold" })
-                        @Html.ActionLink("Edit", "Edit", new { userId = item.UserId }, new { @class = "btn btn-success", @style = "font-weight: bold" })
-                        <a style="color: white" class="btn btn-danger" onclick="deleteUser(@item.UserId)"><b>Delete</b></a>
-                    </td>
-                </tr>
-            }*@
         </tbody>
     </table>
     <div class="pagination" id="pagination" style="float: right">

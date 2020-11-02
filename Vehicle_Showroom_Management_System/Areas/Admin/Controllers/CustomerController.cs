@@ -18,6 +18,21 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             List<Customer> list = db.Customers.ToList();
             return View(list);
         }
+        [HttpPost]
+        public JsonResult LoadData()
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            List<UserAccount> listUsers = db.UserAccounts.ToList();
+            List<Customer> listCustomers = db.Customers.ToList();
+            var list = from c in listCustomers
+                                  join u in listUsers on c.UserId equals u.UserId
+                                  select new {CustomerId = c.CustomerId, FullName = c.FullName,Email = c.Email,Phone =c.Phone,userFullName = u.FullName};
+            return Json(new
+            {
+                data = list,
+            }, JsonRequestBehavior.AllowGet);
+        }
+
 
         [HttpGet]
         public ActionResult Create()
