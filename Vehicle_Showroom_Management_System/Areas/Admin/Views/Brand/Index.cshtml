@@ -19,7 +19,7 @@
                     @Html.DisplayNameFor(model => model.BrandName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.image)
+                    @Html.DisplayNameFor(model => model.Image)
 
                 </th>
                 <th></th>
@@ -63,7 +63,7 @@
                     if (response.data.length > 0) {
                         var row = "";
                         for (var i = 0; i < response.data.length; i++) {
-                            row += "<tr class='dataTable' id='" + response.data[i].BrandId + "'>" + "<td>" + response.data[i].BrandName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].image+"' class = 'img-responsive' style = 'width:80px; height: 80px' />" + "</td>" + "<td> <a href='/Admin/Brand/Details?brandId=" + response.data[i].BrandId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Brand/Edit?brandId=" + response.data[i].BrandId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteBrand(" + response.data[i].BrandId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                            row += "<tr class='dataTable' id='" + response.data[i].BrandId + "'>" + "<td>" + response.data[i].BrandName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].Image+"' class = 'img-responsive' style = 'width:80px; height: 80px' />" + "</td>" + "<td> <a href='/Admin/Brand/Details?brandId=" + response.data[i].BrandId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Brand/Edit?brandId=" + response.data[i].BrandId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteBrand(" + response.data[i].BrandId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                         }
                         $("#tableBrand").append(row);
                         $("#pagination").show();

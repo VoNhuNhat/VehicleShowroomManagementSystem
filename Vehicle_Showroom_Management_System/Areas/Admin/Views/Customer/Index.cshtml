@@ -129,7 +129,6 @@
     $("#searchCustomer").keyup(function () {
         searchCustomer();
     });
-
     function searchCustomer() {
         $("#tableCustomer").find('.dataTable').remove();
         var searchFullname = $("#searchCustomer").val();
@@ -156,17 +155,14 @@
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (response) {
-                                if (response.data.length > 0) {
-                                    var row = "";
-                                    for (var i = 0; i < response.data.length; i++) {
-                                        row += "<tr class='dataTable' id='" + response.data[i].CustomerId + "'>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].Phone + "</td>" + "<td>" + response.data[i].userFullName + "</td>" + "<td> <a href='/Admin/Customer/Details?customerId=" + response.data[i].CustomerId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Customer/Edit?customerId=" + response.data[i].CustomerId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCustomer(" + response.data[i].CustomerId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
-                                    }
-                                    $("#tableCustomer").append(row);
-                                    $("#pagination").show();
-                                    pagination(response.total, function () {
-                                        loadData();
-                                    })
+                                var row = "";
+                                for (var i = 0; i < response.data.length; i++) {
+                                    row += "<tr class='dataTable' id='" + response.data[i].CustomerId + "'>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].Phone + "</td>" + "<td>" + response.data[i].userFullName + "</td>" + "<td> <a href='/Admin/Customer/Details?customerId=" + response.data[i].CustomerId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Customer/Edit?customerId=" + response.data[i].CustomerId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCustomer(" + response.data[i].CustomerId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                                 }
+                                $("#tableCustomer").append(row);
+                                pagination(response.total, function () {
+                                    loadData();
+                                })
                             }
                         });
                     } else {

@@ -6,16 +6,19 @@
     </Key>
     <Property Name="BrandId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="BrandName" Type="varchar" MaxLength="256" />
-    <Property Name="image" Type="text" />
+    <Property Name="Image" Type="text" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="UpdatedDate" Type="datetime" />
   </EntityType>
   <EntityType Name="Cars">
     <Key>
-      <PropertyRef Name="ModelNumber" />
+      <PropertyRef Name="ModelNumberCar" />
     </Key>
-    <Property Name="ModelNumber" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="ModelNumberCar" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="PurchaseOrderId" Type="int" />
     <Property Name="CarName" Type="varchar" MaxLength="256" />
     <Property Name="PriceInput" Type="float" />
+    <Property Name="PriceOutput" Type="float" />
     <Property Name="SeatQuantity" Type="int" />
     <Property Name="Color" Type="varchar" MaxLength="50" />
     <Property Name="Gearbox" Type="varchar" MaxLength="256" />
@@ -24,6 +27,7 @@
     <Property Name="KilometerGone" Type="float" />
     <Property Name="Status" Type="int" />
     <Property Name="Checking" Type="int" />
+    <Property Name="PurchaseOrderDate" Type="date" />
     <Property Name="CreatedDate" Type="datetime" />
     <Property Name="UpdatedDate" Type="datetime" />
   </EntityType>
@@ -46,8 +50,8 @@
       <PropertyRef Name="ImageId" />
     </Key>
     <Property Name="ImageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ModelCarId" Type="int" />
-    <Property Name="name" Type="text" />
+    <Property Name="ModelNumberCar" Type="varchar" MaxLength="100" />
+    <Property Name="Name" Type="text" />
   </EntityType>
   <EntityType Name="ModelCars">
     <Key>
@@ -56,14 +60,13 @@
     <Property Name="ModelCarId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ModelCarName" Type="varchar" MaxLength="256" />
     <Property Name="BrandId" Type="int" />
-    <Property Name="PriceOutput" Type="float" />
   </EntityType>
   <EntityType Name="Orders">
     <Key>
       <PropertyRef Name="OrderId" />
     </Key>
     <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ModelNumber" Type="varchar" MaxLength="100" />
+    <Property Name="ModelNumberCar" Type="varchar" MaxLength="100" />
     <Property Name="CustomerId" Type="int" />
     <Property Name="TotalMoney" Type="float" />
     <Property Name="CreatedDate" Type="datetime" />
@@ -76,9 +79,8 @@
     </Key>
     <Property Name="PurchaseOrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ModelCarId" Type="int" />
-    <Property Name="TotalPriceOutput" Type="float" />
-    <Property Name="QuantityInput" Type="int" />
-    <Property Name="PurchaseDate" Type="date" />
+    <Property Name="QuantityCarImport" Type="int" />
+    <Property Name="OrderDate" Type="date" />
     <Property Name="CreatedDate" Type="datetime" />
     <Property Name="UpdatedDate" Type="datetime" />
     <Property Name="Status" Type="int" />
@@ -99,7 +101,7 @@
     <Property Name="UpdatedDate" Type="datetime" />
     <Property Name="Status" Type="int" />
   </EntityType>
-  <Association Name="FK__Cars__PurchaseOr__20C1E124">
+  <Association Name="FK__Cars__PurchaseOr__1DE57479">
     <End Role="PurchaseOrders" Type="Self.PurchaseOrders" Multiplicity="0..1" />
     <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
     <ReferentialConstraint>
@@ -123,15 +125,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Images__ModelCar__1B0907CE">
-    <End Role="ModelCars" Type="Self.ModelCars" Multiplicity="0..1" />
+  <Association Name="FK__Images__ModelNum__20C1E124">
+    <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
     <End Role="Images" Type="Self.Images" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="ModelCars">
-        <PropertyRef Name="ModelCarId" />
+      <Principal Role="Cars">
+        <PropertyRef Name="ModelNumberCar" />
       </Principal>
       <Dependent Role="Images">
-        <PropertyRef Name="ModelCarId" />
+        <PropertyRef Name="ModelNumberCar" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -147,7 +149,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Orders__Customer__276EDEB3">
+  <Association Name="FK__Orders__Customer__286302EC">
     <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
     <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
     <ReferentialConstraint>
@@ -159,19 +161,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Orders__ModelNum__267ABA7A">
-    <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
-    <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Cars">
-        <PropertyRef Name="ModelNumber" />
-      </Principal>
-      <Dependent Role="Orders">
-        <PropertyRef Name="ModelNumber" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__PurchaseO__Model__1DE57479">
+  <Association Name="FK__PurchaseO__Model__1B0907CE">
     <End Role="ModelCars" Type="Self.ModelCars" Multiplicity="0..1" />
     <End Role="PurchaseOrders" Type="Self.PurchaseOrders" Multiplicity="*" />
     <ReferentialConstraint>
@@ -236,7 +226,7 @@
     <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PurchaseOrders" EntityType="Self.PurchaseOrders" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserAccount" EntityType="Self.UserAccount" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__Cars__PurchaseOr__20C1E124" Association="Self.FK__Cars__PurchaseOr__20C1E124">
+    <AssociationSet Name="FK__Cars__PurchaseOr__1DE57479" Association="Self.FK__Cars__PurchaseOr__1DE57479">
       <End Role="PurchaseOrders" EntitySet="PurchaseOrders" />
       <End Role="Cars" EntitySet="Cars" />
     </AssociationSet>
@@ -244,23 +234,19 @@
       <End Role="UserAccount" EntitySet="UserAccount" />
       <End Role="Customers" EntitySet="Customers" />
     </AssociationSet>
-    <AssociationSet Name="FK__Images__ModelCar__1B0907CE" Association="Self.FK__Images__ModelCar__1B0907CE">
-      <End Role="ModelCars" EntitySet="ModelCars" />
+    <AssociationSet Name="FK__Images__ModelNum__20C1E124" Association="Self.FK__Images__ModelNum__20C1E124">
+      <End Role="Cars" EntitySet="Cars" />
       <End Role="Images" EntitySet="Images" />
     </AssociationSet>
     <AssociationSet Name="FK__ModelCars__Brand__182C9B23" Association="Self.FK__ModelCars__Brand__182C9B23">
       <End Role="Brands" EntitySet="Brands" />
       <End Role="ModelCars" EntitySet="ModelCars" />
     </AssociationSet>
-    <AssociationSet Name="FK__Orders__Customer__276EDEB3" Association="Self.FK__Orders__Customer__276EDEB3">
+    <AssociationSet Name="FK__Orders__Customer__286302EC" Association="Self.FK__Orders__Customer__286302EC">
       <End Role="Customers" EntitySet="Customers" />
       <End Role="Orders" EntitySet="Orders" />
     </AssociationSet>
-    <AssociationSet Name="FK__Orders__ModelNum__267ABA7A" Association="Self.FK__Orders__ModelNum__267ABA7A">
-      <End Role="Cars" EntitySet="Cars" />
-      <End Role="Orders" EntitySet="Orders" />
-    </AssociationSet>
-    <AssociationSet Name="FK__PurchaseO__Model__1DE57479" Association="Self.FK__PurchaseO__Model__1DE57479">
+    <AssociationSet Name="FK__PurchaseO__Model__1B0907CE" Association="Self.FK__PurchaseO__Model__1B0907CE">
       <End Role="ModelCars" EntitySet="ModelCars" />
       <End Role="PurchaseOrders" EntitySet="PurchaseOrders" />
     </AssociationSet>
