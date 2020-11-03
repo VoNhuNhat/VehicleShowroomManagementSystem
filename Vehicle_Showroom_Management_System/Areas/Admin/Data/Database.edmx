@@ -65,6 +65,8 @@
           <Property Name="ModelCarId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ModelCarName" Type="varchar" MaxLength="256" />
           <Property Name="BrandId" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -189,6 +191,10 @@
           <Parameter Name="Email" Type="varchar" Mode="In" />
           <Parameter Name="Phone" Type="varchar" Mode="In" />
           <Parameter Name="Birthday" Type="date" Mode="In" />
+        </Function>
+        <Function Name="Insert_ModeCar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ModelCarName" Type="varchar" Mode="In" />
+          <Parameter Name="BrandId" Type="int" Mode="In" />
         </Function>
         <Function Name="Insert_UserAccount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FullName" Type="varchar" Mode="In" />
@@ -337,6 +343,10 @@
             <End Role="ModelCar" EntitySet="ModelCars" />
             <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
           </AssociationSet>
+          <FunctionImport Name="Insert_ModeCar">
+            <Parameter Name="ModelCarName" Mode="In" Type="String" />
+            <Parameter Name="BrandId" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Brand">
           <Key>
@@ -406,6 +416,8 @@
           <Property Name="BrandId" Type="Int32" />
           <NavigationProperty Name="Brand" Relationship="Vehicle_Showroom_Management_SystemModel.FK__ModelCars__Brand__182C9B23" FromRole="ModelCar" ToRole="Brand" />
           <NavigationProperty Name="PurchaseOrders" Relationship="Vehicle_Showroom_Management_SystemModel.FK__PurchaseO__Model__1B0907CE" FromRole="ModelCar" ToRole="PurchaseOrder" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -595,6 +607,8 @@
           <EntitySetMapping Name="ModelCars">
             <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.ModelCar">
               <MappingFragment StoreEntitySet="ModelCars">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="BrandId" ColumnName="BrandId" />
                 <ScalarProperty Name="ModelCarName" ColumnName="ModelCarName" />
                 <ScalarProperty Name="ModelCarId" ColumnName="ModelCarId" />
@@ -644,6 +658,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Insert_ModeCar" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_ModeCar" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

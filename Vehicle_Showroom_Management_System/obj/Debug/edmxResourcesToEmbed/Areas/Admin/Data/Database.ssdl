@@ -60,6 +60,8 @@
     <Property Name="ModelCarId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ModelCarName" Type="varchar" MaxLength="256" />
     <Property Name="BrandId" Type="int" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="UpdatedDate" Type="datetime" />
   </EntityType>
   <EntityType Name="Orders">
     <Key>
@@ -184,6 +186,10 @@
     <Parameter Name="Email" Type="varchar" Mode="In" />
     <Parameter Name="Phone" Type="varchar" Mode="In" />
     <Parameter Name="Birthday" Type="date" Mode="In" />
+  </Function>
+  <Function Name="Insert_ModeCar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ModelCarName" Type="varchar" Mode="In" />
+    <Parameter Name="BrandId" Type="int" Mode="In" />
   </Function>
   <Function Name="Insert_UserAccount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="FullName" Type="varchar" Mode="In" />

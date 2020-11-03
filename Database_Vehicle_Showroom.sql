@@ -89,8 +89,20 @@ create table ModelCars(
 ModelCarId int primary key identity,
 ModelCarName varchar(256),
 BrandId int references Brands(BrandId),
+CreatedDate DateTime,
+UpdatedDate DateTime
 )
 go
+
+create proc Insert_ModeCar
+@ModelCarName varchar(256),
+@BrandId int
+as
+begin
+	insert into ModelCars values(@ModelCarName,@BrandId,CURRENT_TIMESTAMP,NULL)
+end
+go
+
 
 create table PurchaseOrders(
 PurchaseOrderId int primary key identity,

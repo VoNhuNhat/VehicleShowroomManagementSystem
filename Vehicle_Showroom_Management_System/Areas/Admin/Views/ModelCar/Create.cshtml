@@ -1,0 +1,46 @@
+﻿@model Vehicle_Showroom_Management_System.Areas.Admin.Data.ModelCar
+@using Vehicle_Showroom_Management_System.Areas.Admin.Data
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
+}
+    <br />
+    <div class="container">
+        <h2 style="text-align: center"><b>Create Model Car</b></h2>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ModelCarName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ModelCarName, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Brand.BrandName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("THELOAI", (IEnumerable<SelectListItem>)ViewBag.CategoryList, new { @class = "form-control" })
+                        <div class="form-group" style="margin-top: 30px">
+                            <a onclick="clickCreate()" class="btn btn-success" style="color: white"><b>Add new Model Car</b></a>&nbsp;&nbsp;
+                            <a href="/Admin/ModelCar" class="btn btn-primary"><b>Back to List</b></a>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" id="btnSubmit" hidden />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
