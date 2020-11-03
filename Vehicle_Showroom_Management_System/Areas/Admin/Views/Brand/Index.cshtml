@@ -90,6 +90,87 @@
         $("#searchBrand").keyup(function () {
 
         });
+        function searchBrand() {
+            $("#searchBrand").find('.dataTable').remove();
+            var searchBrandName = $("#searchBrand").val();
+            $.ajax({
+                type: "POST",
+                url: "/Admin/Brand/Search",
+                data: '{searchBrand: "' + searchBrandName + '", page: ' + pageSearchCofig.pageIndex + ', pageSize: ' + pageSearchCofig.pageSize + ' }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.brands.length > 0) {
+                        if (searchBrandName == "") {
+                            $("#pagination").show();
+                            $("#paginationSearchMutiplePages").hide();
+                            $("#paginationSearchOnePage").hide();
+                            $("#tableBrand").find('.dataTable').remove();
+                            $.ajax({
+                                type: "GET",
+                                url: "/Admin/Brand/LoadData",
+                                data: {
+                                    page: pageCofig.pageIndex,
+                                    pageSize: pageCofig.pageSize
+                                },
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (response) {
+                                    var row = "";
+                                    for (var i = 0; i < response.data.length; i++) {
+                                        row += "<tr class='dataTable' id='" + response.data[i].BrandId + "'>" + "<td>" + response.data[i].BrandName + "</td>" + "<td> <a href='/Admin/Brand/Details?BrandId=" + response.data[i].BrandId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Brand/Edit?BrandId=" + response.data[i].BrandId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteBrand(" + response.data[i].brandId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                                    }
+                                    $("#tableBrand").append(row);
+                                    pagination(response.total, function () {
+                                        loadData();
+                                    })
+                                }
+                            });
+                        } else {
+                            $("#tableBrand").find('.dataTable').remove();
+                            var row = "";
+                            for (var i = 0; i < response.data.length; i++) {
+                                row += "<tr class='dataTable' id='" + response.data[i].brandId + "'>" + "<td>" + response.data[i].BrandName + "</td>" + "<td> <a href='/Admin/Brand/Details?BrandId=" + response.data[i].brandId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Brand/Details?BrandId=" + response.data[i].brandId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteBrand(" + response.data[i].brandId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                            }
+                            $("#tableBrand").append(row);
+                            $("#pagination").hide();
+                            $("#paginationDelete").hide();
+                            if (response.total > 2) {
+                                $("#paginationSearchMutiplePages").show();
+                                $("#paginationSearchOnePage").hide();
+                                paginationSearchMutiplePages(response.total, function () {
+                                    searchBrand();
+                                });
+                            } else {
+                                if (response.total == 0) {
+                                    $("#paginationSearchOnePage").hide();
+                                } else {
+                                    $("#paginationSearchMutiplePages").hide();
+                                    $("#paginationSearchOnePage").show();
+                                    paginationSearchOnePage(function () {
+                                        searchBrand();
+                                    });
+                                }
+                            }
+                        }
+                    } else {
+                        swal({
+                            title: "Nothing to search !",
+                            text: "Please add new Brand",
+                            icon: "error",
+                            button: "Got it",
+                            dangerMode: false
+                        }).then((logOut) => {
+                            if (logOut) {
+                                window.location.replace("/Admin/Brand/Create");
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+
         function deleteBrand(brandId) {
             swal({
                 title: "Are you sure you want to delete?",

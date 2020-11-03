@@ -193,5 +193,18 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_Customer", customerIdParameter, fullNameParameter, addressParameter, emailParameter, phoneParameter, birthdayParameter);
         }
+    
+        public virtual int Insert_ModeCar(string modelCarName, Nullable<int> brandId)
+        {
+            var modelCarNameParameter = modelCarName != null ?
+                new ObjectParameter("ModelCarName", modelCarName) :
+                new ObjectParameter("ModelCarName", typeof(string));
+    
+            var brandIdParameter = brandId.HasValue ?
+                new ObjectParameter("BrandId", brandId) :
+                new ObjectParameter("BrandId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_ModeCar", modelCarNameParameter, brandIdParameter);
+        }
     }
 }

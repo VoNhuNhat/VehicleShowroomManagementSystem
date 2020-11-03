@@ -10,8 +10,9 @@
     <br />
     <p>
         <a href="/Admin/Customer/Create" class="btn btn-primary"><b>Add new customer</b></a>
+        <input style="float: right" class="form-control col-md-4" name="searchCustomer" id="searchCustomer" type="text" placeholder="Search Fullname..." aria-label="Search" aria-describedby="basic-addon2" />
     </p>
-    <table class="table table-bordered" id="tableUser">
+    <table class="table table-bordered" id="tableCustomer">
         <tr>
             <th>
                 <b>@Html.DisplayNameFor(model => model.FullName)</b>
@@ -28,45 +29,50 @@
             <th></th>
         </tr>
 
-    <tbody>
-        @*@foreach (var item in Model)
-        {
-        <tr id="@item.CustomerId">
-            <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserAccount.FullName)
-            </td>
-            <td style="width: 250px;">
-                @Html.ActionLink("Details", "Details", new { customerId = item.CustomerId }, new { @class = "btn btn-info", @style = "font-weight: bold" })
-                @Html.ActionLink("Edit", "Edit", new { customerId = item.CustomerId }, new { @class = "btn btn-success", @style = "font-weight: bold" })
-                <a style="color: white" class="btn btn-danger" onclick="deleteCustomer(@item.CustomerId)"><b>Delete</b></a>
-            </td>
-        </tr>
-        }*@
-    </tbody>
+        <tbody>
+        </tbody>
 
     </table>
+
+    <div class="pagination" id="pagination" style="float: right">
+    </div>
+
+    <div class="pagination" id="paginationSearchMutiplePages" style="float: right">
+    </div>
+
+    <div class="pagination" id="paginationSearchOnePage" style="float: right">
+    </div>
 </div>
 
 <script>
-    $(document).ready(function() {
-        LoadData();
+    var pageCofig = {
+        pageSize: 2,
+        pageIndex: 1
+    }
+    var pageSearchCofig = {
+        pageSize: 2,
+        pageIndex: 1
+    }
+    var pageSearchOneCofig = {
+        pageSize: 1,
+        pageIndex: 1
+    }
+
+    $(document).ready(function () {
+        $("#pagination").hide();
+        $("#paginationSearchMutiplePages").hide();
+        $("#paginationSearchOnePage").hide();
+        loadData();
     });
-    function LoadData() {
+    function loadData() {
+        $("#tableCustomer").find('.dataTable').remove();
         $.ajax({
-            type: "POST",
+            type: "GET",
             url: "/Admin/Customer/LoadData",
+            data: {
+                page: pageCofig.pageIndex,
+                pageSize: pageCofig.pageSize
+            },
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
@@ -75,11 +81,129 @@
                     for (var i = 0; i < response.data.length; i++) {
                         row += "<tr class='dataTable' id='" + response.data[i].CustomerId + "'>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].Phone + "</td>" + "<td>" + response.data[i].userFullName + "</td>" + "<td> <a href='/Admin/Customer/Details?customerId=" + response.data[i].CustomerId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Customer/Edit?customerId=" + response.data[i].CustomerId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCustomer(" + response.data[i].CustomerId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                     }
-                    $("#tableUser").append(row);
-                    //$("#pagination").show();
-                    //pagination(response.total, function () {
-                    //    loadData();
-                    //})
+                    $("#tableCustomer").append(row);
+                    $("#pagination").show();
+                    pagination(response.total, function () {
+                        loadData();
+                    })
+                }
+            }
+        });
+    }
+
+    function pagination(totalRow, callback) {
+        var totalPage = Math.ceil(totalRow / pageCofig.pageSize);
+        $('#pagination').twbsPagination({
+            totalPages: totalPage,
+            visiblePages: 10,
+            onPageClick: function (event, page) {
+                pageCofig.pageIndex = page;
+                setTimeout(callback, 200);
+            }
+        });
+    }
+
+    function paginationSearchMutiplePages(totalRow, callback) {
+        var totalPage = Math.ceil(totalRow / pageCofig.pageSize);
+        $('#paginationSearchMutiplePages').twbsPagination({
+            totalPages: totalPage,
+            visiblePages: 10,
+            onPageClick: function (event, page) {
+                pageSearchCofig.pageIndex = page;
+                setTimeout(callback, 500);
+            }
+        });
+    }
+
+    function paginationSearchOnePage(callback) {
+        $('#paginationSearchOnePage').twbsPagination({
+            totalPages: 1,
+            visiblePages: 10,
+            onPageClick: function (event, page) {
+                pageSearchOneCofig.pageIndex = page;
+                setTimeout(callback, 500);
+            }
+        });
+    }
+
+    $("#searchCustomer").keyup(function () {
+        searchCustomer();
+    });
+    function searchCustomer() {
+        $("#tableCustomer").find('.dataTable').remove();
+        var searchFullname = $("#searchCustomer").val();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Customer/Search",
+            data: '{searchCustomer: "' + searchFullname + '", page: ' + pageSearchCofig.pageIndex + ', pageSize: ' + pageSearchCofig.pageSize + ' }',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response.customers.length > 0) {
+                    if (searchFullname == "") {
+                        $("#pagination").show();
+                        $("#paginationSearchMutiplePages").hide();
+                        $("#paginationSearchOnePage").hide();
+                        $("#tableCustomer").find('.dataTable').remove();
+                        $.ajax({
+                            type: "GET",
+                            url: "/Admin/Customer/LoadData",
+                            data: {
+                                page: pageCofig.pageIndex,
+                                pageSize: pageCofig.pageSize
+                            },
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (response) {
+                                var row = "";
+                                for (var i = 0; i < response.data.length; i++) {
+                                    row += "<tr class='dataTable' id='" + response.data[i].CustomerId + "'>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].Phone + "</td>" + "<td>" + response.data[i].userFullName + "</td>" + "<td> <a href='/Admin/Customer/Details?customerId=" + response.data[i].CustomerId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Customer/Edit?customerId=" + response.data[i].CustomerId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCustomer(" + response.data[i].CustomerId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                                }
+                                $("#tableCustomer").append(row);
+                                pagination(response.total, function () {
+                                    loadData();
+                                })
+                            }
+                        });
+                    } else {
+                        $("#tableCustomer").find('.dataTable').remove();
+                        var row = "";
+                        for (var i = 0; i < response.data.length; i++) {
+                            row += "<tr class='dataTable' id='" + response.data[i].CustomerId + "'>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].Phone + "</td>" + "<td>" + response.data[i].userFullName + "</td>" + "<td> <a href='/Admin/Customer/Details?customerId=" + response.data[i].CustomerId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Customer/Edit?customerId=" + response.data[i].CustomerId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCustomer(" + response.data[i].CustomerId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                        }
+                        $("#tableCustomer").append(row);
+                        $("#pagination").hide();
+                        $("#paginationDelete").hide();
+                        if (response.total > 2) {
+                            $("#paginationSearchMutiplePages").show();
+                            $("#paginationSearchOnePage").hide();
+                            paginationSearchMutiplePages(response.total, function () {
+                                searchCustomer();
+                            });
+                        } else {
+                            if (response.total == 0) {
+                                $("#paginationSearchOnePage").hide();
+                            } else {
+                                $("#paginationSearchMutiplePages").hide();
+                                $("#paginationSearchOnePage").show();
+                                paginationSearchOnePage(function () {
+                                    searchCustomer();
+                                });
+                            }
+                        }
+                    }
+                } else {
+                    swal({
+                        title: "Nothing to search !",
+                        text: "Please add new customer",
+                        icon: "error",
+                        button: "Got it",
+                        dangerMode: false
+                    }).then((logOut) => {
+                        if (logOut) {
+                            window.location.replace("/Admin/Customer/Create");
+                        }
+                    });
                 }
             }
         });

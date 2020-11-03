@@ -18,6 +18,8 @@ create table UserAccount (
 )
 go
 
+select * from UserAccount
+go
 
 insert into UserAccount values('Administrator','admin','MTIzNDU2','Bach Khoa Aptech','c1808j1@gmail.com','1234567890',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1)
 go
@@ -87,8 +89,20 @@ create table ModelCars(
 ModelCarId int primary key identity,
 ModelCarName varchar(256),
 BrandId int references Brands(BrandId),
+CreatedDate DateTime,
+UpdatedDate DateTime
 )
 go
+
+create proc Insert_ModeCar
+@ModelCarName varchar(256),
+@BrandId int
+as
+begin
+	insert into ModelCars values(@ModelCarName,@BrandId,CURRENT_TIMESTAMP,NULL)
+end
+go
+
 
 create table PurchaseOrders(
 PurchaseOrderId int primary key identity,

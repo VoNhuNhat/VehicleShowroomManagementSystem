@@ -77,6 +77,10 @@
       <End Role="ModelCar" EntitySet="ModelCars" />
       <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
     </AssociationSet>
+    <FunctionImport Name="Insert_ModeCar">
+      <Parameter Name="ModelCarName" Mode="In" Type="String" />
+      <Parameter Name="BrandId" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="Brand">
     <Key>
@@ -146,6 +150,8 @@
     <Property Name="BrandId" Type="Int32" />
     <NavigationProperty Name="Brand" Relationship="Vehicle_Showroom_Management_SystemModel.FK__ModelCars__Brand__182C9B23" FromRole="ModelCar" ToRole="Brand" />
     <NavigationProperty Name="PurchaseOrders" Relationship="Vehicle_Showroom_Management_SystemModel.FK__PurchaseO__Model__1B0907CE" FromRole="ModelCar" ToRole="PurchaseOrder" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
   </EntityType>
   <EntityType Name="Order">
     <Key>

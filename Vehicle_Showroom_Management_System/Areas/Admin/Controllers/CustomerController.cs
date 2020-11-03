@@ -18,21 +18,73 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             List<Customer> list = db.Customers.ToList();
             return View(list);
         }
-        [HttpPost]
-        public JsonResult LoadData()
-        {
-            db.Configuration.ProxyCreationEnabled = false;
-            List<UserAccount> listUsers = db.UserAccounts.ToList();
-            List<Customer> listCustomers = db.Customers.ToList();
-            var list = from c in listCustomers
-                                  join u in listUsers on c.UserId equals u.UserId
-                                  select new {CustomerId = c.CustomerId, FullName = c.FullName,Email = c.Email,Phone =c.Phone,userFullName = u.FullName};
-            return Json(new
-            {
-                data = list,
-            }, JsonRequestBehavior.AllowGet);
-        }
 
+        [HttpGet]
+        public JsonResult LoadData(int page, int pageSize = 2)
+        {
+            if (Convert.ToInt32(Session["status"]) == 1)
+            {
+                db.Configuration.ProxyCreationEnabled = false;
+                List<UserAccount> listUsers = db.UserAccounts.ToList();
+                List<Customer> listCustomers = db.Customers.ToList();
+                var list = (from c in listCustomers
+                            join u in listUsers on c.UserId equals u.UserId
+                            orderby c.CreatedDate descending
+                            select new { CustomerId = c.CustomerId, FullName = c.FullName, Email = c.Email, Phone = c.Phone, userFullName = u.FullName }).ToList();
+                var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = list.Count;
+                if (totalRow > 1)
+                {
+                    return Json(new
+                    {
+                        data = model,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = list,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                int userId = Convert.ToInt32(Session["userId"]);
+                db.Configuration.ProxyCreationEnabled = false;
+                List<UserAccount> listUsers = db.UserAccounts.ToList();
+                List<Customer> listCustomers = db.Customers.ToList();
+                var list = (from c in listCustomers
+                            where c.UserId == userId
+                            join u in listUsers on c.UserId equals u.UserId
+                            orderby c.CreatedDate descending
+                            select new { CustomerId = c.CustomerId, FullName = c.FullName, Email = c.Email, Phone = c.Phone, userFullName = u.FullName }).ToList();
+                var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = list.Count;
+                if (totalRow > 1)
+                {
+                    return Json(new
+                    {
+                        data = model,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = list,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
 
         [HttpGet]
         public ActionResult Create()
@@ -114,6 +166,103 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                 deleted = false;
             }
             return Json(deleted);
+        }
+
+        [HttpPost]
+        public JsonResult Search(string searchCustomer, int page, int pageSize)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            List<Customer> allCustomers = db.Customers.ToList();
+            if (searchCustomer != "")
+            {
+                if (Convert.ToInt32(Session["status"]) == 1)
+                {
+                    var list = db.Customers.Where(c => c.FullName.Contains(searchCustomer)).Join(
+                            db.UserAccounts,
+                            c => c.UserId,
+                            u => u.UserId,
+                            (c, u) => new
+                            {
+                                CustomerId = c.CustomerId,
+                                FullName = c.FullName,
+                                Email = c.Email,
+                                Phone = c.Phone,
+                                userFullName = u.FullName
+                            }).ToList();
+                    var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                    var totalRow = list.Count;
+                    if (totalRow > 1)
+                    {
+                        return Json(new
+                        {
+                            data = model,
+                            customers = allCustomers,
+                            total = totalRow,
+                            status = true
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            data = list,
+                            customers = allCustomers,
+                            total = totalRow,
+                            status = true
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                else
+                {
+                    int userId = Convert.ToInt32(Session["userId"]);
+                    var list = db.Customers.Where(c => c.FullName.Contains(searchCustomer) && c.UserId == userId).Join(
+                            db.UserAccounts,
+                            c => c.UserId,
+                            u => u.UserId,
+                            (c, u) => new
+                            {
+                                CustomerId = c.CustomerId,
+                                FullName = c.FullName,
+                                Email = c.Email,
+                                Phone = c.Phone,
+                                userFullName = u.FullName
+                            }).ToList();
+                    var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                    var totalRow = list.Count;
+                    if (totalRow > 1)
+                    {
+                        return Json(new
+                        {
+                            data = model,
+                            customers = allCustomers,
+                            total = totalRow,
+                            status = true
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            data = list,
+                            customers = allCustomers,
+                            total = totalRow,
+                            status = true
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            else
+            {
+                var model = allCustomers.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = allCustomers.Count;
+                return Json(new
+                {
+                    data = model,
+                    customers = allCustomers,
+                    total = totalRow,
+                    status = true
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

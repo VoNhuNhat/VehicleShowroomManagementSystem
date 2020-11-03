@@ -1,0 +1,127 @@
+﻿@model IEnumerable<Vehicle_Showroom_Management_System.Areas.Admin.Data.ModelCar>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
+}
+
+<div class="container">
+    <h2 style="text-align: center"><b>List of Model Cars</b></h2>
+    <br />
+    <p>
+        <a href="/Admin/ModelCar/Create" class="btn btn-primary"><b>Add new Model Car</b></a>
+        <input style="float: right" class="form-control col-md-4" name="searchModelCar" id="searchModelCar" type="text" placeholder="Search Model Car..." aria-label="Search" aria-describedby="basic-addon2" />
+
+    </p>
+    <table class="table table-bordered" id="tableBrand">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ModelCarName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Brand.BrandName)
+
+            </th>
+            <th></th>
+        </tr>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="pagination" id="pagination" style="float: right">
+    </div>
+    <div class="pagination" id="paginationSearchMutiplePages" style="float: right">
+    </div>
+    <div class="pagination" id="paginationSearchOnePage" style="float: right">
+    </div>
+</div>
+<script>
+        var pageCofig = {
+            pageSize: 2,
+            pageIndex: 1
+        }
+
+        $(document).ready(function () {
+            $("#pagination").hide();
+            $("#paginationSearchMutiplePages").hide();
+            $("#paginationSearchOnePage").hide();
+            loadData();
+        });
+        function loadData() {
+            $("#tableBrand").find('.dataTable').remove();
+            $.ajax({
+                type: "POST",
+                url: "/Admin/ModelCar/LoadData",
+                data:
+                    '{page: ' + pageCofig.pageIndex + ',pageSize:' + pageCofig.pageSize+' }',
+                //{
+                //    page: pageCofig.pageIndex,
+                //    pageSize: pageCofig.pageSize
+                //},
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.data.length > 0) {
+                        var row = "";
+                        for (var i = 0; i < response.data.length; i++) {
+                            row += "<tr class='dataTable' id='" + response.data[i].BrandId + "'>" + "<td>" + response.data[i].BrandName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].Image+"' class = 'img-responsive' style = 'width:80px; height: 80px' />" + "</td>" + "<td> <a href='/Admin/Brand/Details?brandId=" + response.data[i].BrandId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Brand/Edit?brandId=" + response.data[i].BrandId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteBrand(" + response.data[i].BrandId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                        }
+                        $("#tableBrand").append(row);
+                        $("#pagination").show();
+                        pagination(response.total, function () {
+                            loadData();
+                        })
+                    }
+                }
+            });
+        }
+
+        function pagination(totalRow, callback) {
+            var totalPage = Math.ceil(totalRow / pageCofig.pageSize);
+            $('#pagination').twbsPagination({
+                totalPages: totalPage,
+                visiblePages: 10,
+                onPageClick: function (event, page) {
+                    pageCofig.pageIndex = page;
+                    setTimeout(callback, 200);
+                }
+            });
+        }
+
+        $("#searchModelCar").keyup(function () {
+
+        });
+        function deleteBrand(brandId) {
+            swal({
+                title: "Are you sure you want to delete?",
+                text: "Once deleted, you will not be able to recover this Brand!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((logOut) => {
+                if (logOut) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/Brand/Delete",
+                        data: '{brandId: "' + brandId + '" }',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            if (response) {
+                                $("#" + brandId).remove();
+                                setTimeout(function () {
+                                    swal({
+                                        title: "Poof! Brand has been deleted!",
+                                        icon: "success",
+                                        button: true,
+                                        dangerMode: false,
+                                    });
+                                }, 100);
+                            } else {
+                                swal("Can not delete Brand!", "error");
+                            }
+                        }
+                    });
+                }
+            });
+        }
+</script>

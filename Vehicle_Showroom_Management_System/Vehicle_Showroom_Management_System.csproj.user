@@ -20,7 +20,7 @@
     <WebStackScaffolding_LayoutPageFile>~/Areas/Admin/Views/Shared/Index.cshtml</WebStackScaffolding_LayoutPageFile>
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
     <WebStackScaffolding_DbContextTypeFullName>Vehicle_Showroom_Management_System.Areas.Admin.Data.Vehicle_Showroom_Management_SystemEntities</WebStackScaffolding_DbContextTypeFullName>
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

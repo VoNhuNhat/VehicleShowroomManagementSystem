@@ -67,6 +67,8 @@
     <EntitySetMapping Name="ModelCars">
       <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.ModelCar">
         <MappingFragment StoreEntitySet="ModelCars">
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="BrandId" ColumnName="BrandId" />
           <ScalarProperty Name="ModelCarName" ColumnName="ModelCarName" />
           <ScalarProperty Name="ModelCarId" ColumnName="ModelCarId" />
@@ -116,5 +118,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Insert_ModeCar" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_ModeCar" />
   </EntityContainerMapping>
 </Mapping>
