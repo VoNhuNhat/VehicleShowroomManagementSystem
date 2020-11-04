@@ -45,7 +45,12 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
         }
-
+        [HttpPost]
+        public JsonResult CheckBrandName(string brandName)
+        {
+            bool check = db.Brands.ToList().Exists(u => u.BrandName.Equals(brandName, StringComparison.CurrentCultureIgnoreCase));
+            return Json(check);
+        }
         [HttpGet]
         public ActionResult Create()
         {
@@ -85,7 +90,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             Brand b2;
             b2 = db.Brands.Find(b.BrandId);
             string oldPath = Server.MapPath("~/Areas/Admin/Contents/Images/" + b2.Image);
-                System.IO.File.Delete(oldPath);
+            System.IO.File.Delete(oldPath);
             //if (System.IO.File.Exists(oldPath))
             //{
             //}
@@ -113,94 +118,41 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             }
             return Json(deleted);
         }
-        public ActionResult Details(int brandId , Brand b,string image)
+        public ActionResult Details(int brandId, Brand b, string image)
         {
-            string fileName = Path.GetFileNameWithoutExtension(b.ImageFile.FileName);
-            string extension = Path.GetExtension(b.ImageFile.FileName);
-            fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-            string path = Path.Combine(Server.MapPath("~/Areas/Admin/Contents/Images/"), fileName);
-            b.Image = fileName;
+
             Brand detailBrand = db.Brands.Where(ua => ua.BrandId == brandId).FirstOrDefault();
             return View(detailBrand);
         }
+        [HttpPost]
         public JsonResult Search(string searchBrand, int page, int pageSize)
         {
             db.Configuration.ProxyCreationEnabled = false;
             List<Brand> allBrands = db.Brands.ToList();
             if (searchBrand != "")
             {
-                if (Convert.ToInt32(Session["status"]) == 1)
+                List<Brand> list = db.Brands.Where(b => b.BrandName.Contains(searchBrand)).ToList();
+                var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = list.Count;
+                if (totalRow > 1)
                 {
-                    var list = db.Brands.Where(c => c.BrandName.Contains(searchBrand)).Join(
-                            db.UserAccounts,
-                            c => c.BrandId,
-                            u => u.UserId,
-                            (c, u) => new
-                            {
-                                BrandId = c.BrandId,
-                                BrandName = c.BrandName,
-                               
-                                userFullName = u.FullName
-                            }).ToList();
-                    var model = list.Skip((page - 1) * pageSize).Take(pageSize);
-                    var totalRow = list.Count;
-                    if (totalRow > 1)
+                    return Json(new
                     {
-                        return Json(new
-                        {
-                            data = model,
-                            brands = allBrands,
-                            total = totalRow,
-                            status = true
-                        }, JsonRequestBehavior.AllowGet);
-                    }
-                    else
-                    {
-                        return Json(new
-                        {
-                            data = list,
-                            brands = allBrands,
-                            total = totalRow,
-                            status = true
-                        }, JsonRequestBehavior.AllowGet);
-                    }
+                        data = model,
+                        brands = allBrands,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    int userId = Convert.ToInt32(Session["userId"]);
-                    var list = db.Brands.Where(c => c.BrandName.Contains(searchBrand) && c.BrandId == userId).Join(
-                            db.UserAccounts,
-                            c => c.BrandId,
-                            u => u.UserId,
-                            (c, u) => new
-                            {
-                                BrandId = c.BrandId,
-                                BrandName = c.BrandName,
-
-                                userFullName = u.FullName
-                            }).ToList();
-                    var model = list.Skip((page - 1) * pageSize).Take(pageSize);
-                    var totalRow = list.Count;
-                    if (totalRow > 1)
+                    return Json(new
                     {
-                        return Json(new
-                        {
-                            data = model,
-                            brands = allBrands,
-                            total = totalRow,
-                            status = true
-                        }, JsonRequestBehavior.AllowGet);
-                    }
-                    else
-                    {
-                        return Json(new
-                        {
-                            data = list,
-                            brands = allBrands,
-                            total = totalRow,
-                            status = true
-                        }, JsonRequestBehavior.AllowGet);
-                    }
+                        data = list,
+                        brands = allBrands,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
                 }
             }
             else

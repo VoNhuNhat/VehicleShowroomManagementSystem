@@ -8,7 +8,7 @@
     <div class="container">
         <h2 style="text-align: center"><b>Create Model Car</b></h2>
 
-        @using (Html.BeginForm())
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formCreate" }))
         {
             @Html.AntiForgeryToken()
 
@@ -54,6 +54,11 @@
                         window.location.replace("/Admin/Brand/Create");
                     }
                 });
+            }
+        });
+        $("#formCreate").keydown(function (e) {
+            if (e.which == 13) {
+                clickCreate();
             }
         });
         function clickCreate() {

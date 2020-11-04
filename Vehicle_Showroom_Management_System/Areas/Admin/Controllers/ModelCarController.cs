@@ -97,12 +97,20 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        public ActionResult Edit(int ModelCarId, string ModelCarName, int BrandId)
+        {
+            ModelCar modelCar = db.ModelCars.Where(m => m.ModelCarId == ModelCarId).FirstOrDefault();
+            modelCar.ModelCarName = ModelCarName;
+            modelCar.BrandId = BrandId;
+            modelCar.UpdatedDate = DateTime.Now;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
         public JsonResult CheckModelCarNameEdit(int ModelCarId, string NewModelCarName)
         {
             bool existed;
-            db.Configuration.ProxyCreationEnabled = false;
-            //List<ModelCar> list = db.ModelCars.Where(ua => ua.ModelCarId != ModelCarId).ToList();
-            //IEnumerable<ModelCar> modelCar = list.Where(u => u.ModelCarName.Equals(NewModelCarName, StringComparison.CurrentCultureIgnoreCase));
             bool check = db.ModelCars.Where(ua => ua.ModelCarId != ModelCarId).ToList().Exists(u => u.ModelCarName.Equals(NewModelCarName, StringComparison.CurrentCultureIgnoreCase));
             if (check)
             {
@@ -113,6 +121,74 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                 existed = false;
             }
             return Json(existed);
+        }
+
+        [HttpPost]
+        public JsonResult Delete(int ModelCarId)
+        {
+            bool check = false;
+            ModelCar modelCar = db.ModelCars.Where(m => m.ModelCarId == ModelCarId).FirstOrDefault();
+            db.ModelCars.Remove(modelCar);
+            int v = db.SaveChanges();
+            if (v > 0)
+            {
+                check = true;
+            }
+            return Json(check);
+        }
+
+        [HttpPost]
+        public JsonResult Search(string searchModelCar, int page, int pageSize)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            List<ModelCar> allModelCars = db.ModelCars.ToList();
+            if (searchModelCar != "")
+            {
+                var list = db.ModelCars.Where(m => m.ModelCarName.Contains(searchModelCar)).Join(
+                    db.Brands,
+                            m => m.BrandId,
+                            b => b.BrandId,
+                            (m, b) => new
+                            {
+                                ModelCarId = m.ModelCarId,
+                                ModelCarName = m.ModelCarName,
+                                BrandName = b.BrandName
+                            }).ToList();
+                var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = list.Count;
+                if (totalRow > 1)
+                {
+                    return Json(new
+                    {
+                        data = model,
+                        modelCars = allModelCars,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = list,
+                        modelCars = allModelCars,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                var model = allModelCars.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = allModelCars.Count;
+                return Json(new
+                {
+                    data = model,
+                    modelCars = allModelCars,
+                    total = totalRow,
+                    status = true
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
 
     }
