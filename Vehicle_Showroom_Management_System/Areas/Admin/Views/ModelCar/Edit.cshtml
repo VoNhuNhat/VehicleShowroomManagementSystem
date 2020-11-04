@@ -1,0 +1,89 @@
+﻿@model Vehicle_Showroom_Management_System.Areas.Admin.Data.ModelCar
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
+}
+
+    <div class="container">
+
+        <h2 style="text-align: center"><b>Edit Model Car</b></h2>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
+                    @Html.HiddenFor(model => model.ModelCarId)
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ModelCarName, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ModelCarName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ModelCarName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Brand.BrandName, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("BrandId", (IEnumerable<SelectListItem>)ViewBag.CategoryList, new { @class = "form-control" })
+                            <div class="form-group" style="margin-top: 30px">
+                                <a onclick="clickEdit()" class="btn btn-success" style="color: white"><b>Update Model Car</b></a>&nbsp;&nbsp;
+                                <a href="/Admin/ModelCar" class="btn btn-primary"><b>Back to List</b></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" id="btnSubmit" hidden disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    <script>
+        function clickEdit() {
+            var id = "@Model.ModelCarId";
+            var newName = $("#ModelCarName").val();
+            if (newName.length == 0) {
+                swal("There was a problem !!!", "Please enter ModelCarName", "error").then(() => { $("#ModelCarName").focus(); });
+            } else {
+                if (newName.length > 256) {
+                    swal("There was a problem !!!", "Maximum length of ModelCarName is 256 characters", "error").then(() => { $("#ModelCarName").focus(); });
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/ModelCar/CheckModelCarNameEdit",
+                        data: '{ModelCarId: "' + id + '",NewModelCarName: "' + newName + '"  }',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            if (response) {
+                                swal("There was a problem !!!", "ModelCarName already existed", "error").then(() => { $("#ModelCarName").focus(); });
+                            } else {
+                                setTimeout(function () {
+                                    swal({
+                                        title: "Edit Car Model success!",
+                                        icon: "success",
+                                        buttons: false,
+                                        dangermode: false,
+                                    })
+                                    setTimeout(function () {
+                                        $("#btnSubmit").prop("disabled", false);
+                                        $("#btnSubmit").click();
+                                    }, 800);
+                                }, 100);
+                            }
+                        }
+                    });
+                }
+            }
+
+        }
+    </script>
+

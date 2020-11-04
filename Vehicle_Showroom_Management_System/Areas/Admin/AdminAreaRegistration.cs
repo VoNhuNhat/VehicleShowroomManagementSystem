@@ -24,7 +24,6 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin
                "Admin/Brand",
                new { controller = "Brand", action = "Index"}
            );
-          
             
             context.MapRoute(
                "Admin",

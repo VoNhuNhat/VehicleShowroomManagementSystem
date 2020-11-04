@@ -217,6 +217,7 @@
                         success: function (response) {
                             if (response) {
                                 $("#" + brandId).remove();
+                                loadData();
                                 setTimeout(function () {
                                     swal({
                                         title: "Poof! Brand has been deleted!",
