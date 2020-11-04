@@ -8,56 +8,65 @@
 <div class="container">
     <br />
     <h2 style="text-align: center"><b>Edit Brand</b></h2>
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formEdit" }))
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formEdit", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
 
 
-<div class="form-horizontal">
-    <h4>Brand</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.BrandId)
-<div class="row">
-    <div class="col-md-6">
-        <div class="form-group">
-            <b>
-                @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "control-label col-md-2" })
-            </b>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.BrandName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <b>
-                    @Html.LabelFor(model => model.Image, htmlAttributes: new { })
-
-                    @*<img class="control-label col-md-2" id="idimg" src=""  />*@
-                </b>
-                <div class="col-md-9">
-
-                    <input type="file" name="ImageFile" value="" id="imgInp" />
-                    <hr />
-                    <img class="control-label col-md-9" id="idimg" src="" />
+        <div class="form-horizontal">
+            <h4>Brand</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.BrandId)
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <b>
+                            @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        </b>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.BrandName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                 </div>
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <b>
+                            @*@Html.LabelFor(model => model.Image, htmlAttributes: new { })*@
+
+                            @*<img class="control-label col-md-2" id="idimg" src=""  />*@
+                        </b>
+                        <div class="col-md-9">
+                            
+                            <input type="file" name="ImageFile" value="" id="imgInp" />
+                            @*@Html.EditorFor(model => model.ImageFile, new { htmlAttributes = new { @id = "imgInp" } })*@
+                            <hr />
+                            <img class="control-label col-md-9" id="idimg" src="" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-left:140px;margin-top: 45px;">
+                    <a onclick="clickTest()" class="btn btn-success" style="color: white"><b>Update Brand</b></a>&nbsp;&nbsp;&nbsp;
+                    <a href="/Admin/Brand" class="btn btn-primary"><b>Back to List</b></a>
+                </div>
+                <button type="submit" id="btnSubmit" disabled hidden class="btn btn-success"></button>
             </div>
         </div>
-
-        <div class="form-group" style="margin-left:140px;margin-top: 45px;">
-            <a onclick="clickTest()" class="btn btn-success" style="color: white"><b>Update Brand</b></a>&nbsp;&nbsp;&nbsp;
-            <a href="/Admin/Brand" class="btn btn-primary"><b>Back to List</b></a>
-        </div>
-        <button type="submit" id="btnSubmit" disabled hidden class="btn btn-success"></button>
-    </div>
-</div>
     }
 
-    
+
 </div>
 <script>
+    $("form").on("submit", function (e) {
+        //e.preventDefault();
+        var a = $("form input[name=ImageFile]").val();
+        console.log(a);
+
+    });
+
     var files;
     $('#imgInp').change(function () {
         readimg(this);

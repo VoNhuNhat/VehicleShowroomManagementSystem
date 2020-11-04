@@ -8,9 +8,8 @@
 <div class="container">
     <hr />
     <h2><b>Details of BrandName: @Html.DisplayFor(model => model.BrandName)</b></h2>
-    <div>
+    <div class="form-horizontal">
         <hr />
-        <dl class="dl-horizontal">
             <div class="row">
                 <div class="col-md-6">
                     <dt>
@@ -25,11 +24,11 @@
                         @Html.DisplayNameFor(model => model.Image)
                     </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.Image)
-                        <img class="control-label col-md-2" id="idimg" src="" />
+                    <dd var item in model>
+                        <img src="~/Areas/Admin/Contents/Images/@Model.Image" width="250" />
                     </dd>
-
+                </div>
+                <div class="col-md-6">
                     <dt>
                         @Html.DisplayNameFor(model => model.CreatedDate)
                     </dt>
@@ -46,12 +45,56 @@
                         @Html.DisplayFor(model => model.UpdatedDate)
                     </dd>
                 </div>
-             </div>
-        </dl>
+            </div>
+            </div>
     </div>
     <p>
         <a href="/Admin/Brand" class="btn btn-primary" style="font-weight: bold">Back to List</a>&nbsp;&nbsp;
         <a href="/Admin/Brand/Edit/@Model.BrandId" class="btn btn-success" style="font-weight: bold">Edit</a>
 
     </p>
+    <div class="pagination" id="pagination" style="float: right">
+    </div>
+    <div class="pagination" id="paginationSearchMutiplePages" style="float: right">
+    </div>
+    <div class="pagination" id="paginationSearchOnePage" style="float: right">
+    </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $("#pagination").hide();
+        $("#paginationSearchMutiplePages").hide();
+        $("#paginationSearchOnePage").hide();
+        loadData();
+    });
+
+    function loadData() {
+        $("#tableBrand").find('.dataTable').remove();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Brand/LoadData",
+            data:
+                '{page: ' + pageCofig.pageIndex + ',pageSize:' + pageCofig.pageSize + ' }',
+            //{
+            //    page: pageCofig.pageIndex,
+            //    pageSize: pageCofig.pageSize
+            //},
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response.data.length > 0) {
+                    var row = "";
+                    for (var i = 0; i < response.data.length; i++) {
+                        row += "<tr class='dataTable' id='" + response.data[i].BrandId + "'>" + "<td>" + response.data[i].BrandName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].Image + "' class = 'img-responsive' style = 'width:80px; height: 80px' />" + "</td>" + "<td> <a href='/Admin/Brand/Details?brandId=" + response.data[i].BrandId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Brand/Edit?brandId=" + response.data[i].BrandId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteBrand(" + response.data[i].BrandId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                    }
+                    $("#tableBrand").append(row);
+                    $("#pagination").show();
+                    pagination(response.total, function () {
+                        loadData();
+                    })
+                }
+            }
+        });
+    }
+
+</script>

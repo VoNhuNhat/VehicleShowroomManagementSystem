@@ -326,7 +326,6 @@
     <Content Include="Areas\Admin\Views\Admin\EditCurrentUser.cshtml" />
     <Content Include="Areas\Admin\Views\Brand\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Brand\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Brand\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Brand\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\UserAccount\WarningUser.cshtml" />
     <Content Include="Areas\Admin\Views\Customer\Create.cshtml" />
@@ -334,6 +333,7 @@
     <Content Include="Areas\Admin\Views\Customer\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\ModelCar\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ModelCar\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Brand\Create.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

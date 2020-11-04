@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -73,7 +74,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             return View(brandUpdate);
         }
         [HttpPost]
-        public ActionResult Edit(int brandId, string brandName, string image, Brand b)
+        public ActionResult Edit(Brand b)
         {
             string fileName = Path.GetFileNameWithoutExtension(b.ImageFile.FileName);
             string extension = Path.GetExtension(b.ImageFile.FileName);
@@ -81,7 +82,17 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             string path = Path.Combine(Server.MapPath("~/Areas/Admin/Contents/Images/"), fileName);
             b.Image = fileName;
             b.ImageFile.SaveAs(path);
-            db.Update_Brand(brandId,brandName,image);
+            Brand b2;
+            b2 = db.Brands.Find(b.BrandId);
+            string oldPath = Server.MapPath("~/Areas/Admin/Contents/Images/" + b2.Image);
+                System.IO.File.Delete(oldPath);
+            //if (System.IO.File.Exists(oldPath))
+            //{
+            //}
+            b2.BrandName = b.BrandName;
+            b2.Image = b.Image;
+
+            db.Entry(b2).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -102,10 +113,108 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             }
             return Json(deleted);
         }
-        public ActionResult Details(int brandId)
+        public ActionResult Details(int brandId , Brand b,string image)
         {
+            string fileName = Path.GetFileNameWithoutExtension(b.ImageFile.FileName);
+            string extension = Path.GetExtension(b.ImageFile.FileName);
+            fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+            string path = Path.Combine(Server.MapPath("~/Areas/Admin/Contents/Images/"), fileName);
+            b.Image = fileName;
             Brand detailBrand = db.Brands.Where(ua => ua.BrandId == brandId).FirstOrDefault();
             return View(detailBrand);
+        }
+        public JsonResult Search(string searchBrand, int page, int pageSize)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            List<Brand> allBrands = db.Brands.ToList();
+            if (searchBrand != "")
+            {
+                if (Convert.ToInt32(Session["status"]) == 1)
+                {
+                    var list = db.Brands.Where(c => c.BrandName.Contains(searchBrand)).Join(
+                            db.UserAccounts,
+                            c => c.BrandId,
+                            u => u.UserId,
+                            (c, u) => new
+                            {
+                                BrandId = c.BrandId,
+                                BrandName = c.BrandName,
+                               
+                                userFullName = u.FullName
+                            }).ToList();
+                    var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                    var totalRow = list.Count;
+                    if (totalRow > 1)
+                    {
+                        return Json(new
+                        {
+                            data = model,
+                            brands = allBrands,
+                            total = totalRow,
+                            status = true
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            data = list,
+                            brands = allBrands,
+                            total = totalRow,
+                            status = true
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                else
+                {
+                    int userId = Convert.ToInt32(Session["userId"]);
+                    var list = db.Brands.Where(c => c.BrandName.Contains(searchBrand) && c.BrandId == userId).Join(
+                            db.UserAccounts,
+                            c => c.BrandId,
+                            u => u.UserId,
+                            (c, u) => new
+                            {
+                                BrandId = c.BrandId,
+                                BrandName = c.BrandName,
+
+                                userFullName = u.FullName
+                            }).ToList();
+                    var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                    var totalRow = list.Count;
+                    if (totalRow > 1)
+                    {
+                        return Json(new
+                        {
+                            data = model,
+                            brands = allBrands,
+                            total = totalRow,
+                            status = true
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            data = list,
+                            brands = allBrands,
+                            total = totalRow,
+                            status = true
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            else
+            {
+                var model = allBrands.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = allBrands.Count;
+                return Json(new
+                {
+                    data = model,
+                    brands = allBrands,
+                    total = totalRow,
+                    status = true
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }
