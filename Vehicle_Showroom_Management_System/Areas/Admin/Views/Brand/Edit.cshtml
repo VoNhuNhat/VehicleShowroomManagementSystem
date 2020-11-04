@@ -36,14 +36,15 @@
                         <b>
                             @*@Html.LabelFor(model => model.Image, htmlAttributes: new { })*@
 
-                            @*<img class="control-label col-md-2" id="idimg" src=""  />*@
+                            <img class="control-label col-md-2" id="idimg" src=""  />
                         </b>
                         <div class="col-md-9">
-                            
-                            <input type="file" name="ImageFile" value="" id="imgInp" />
+
+                            <input type="file" name="ImageFile" value="" id="imgInp" class="change" />
                             @*@Html.EditorFor(model => model.ImageFile, new { htmlAttributes = new { @id = "imgInp" } })*@
                             <hr />
-                            <img class="control-label col-md-9" id="idimg" src="" />
+                            <img src="~/Areas/Admin/Contents/Images/@Model.Image" width="250" />
+
                         </div>
                     </div>
                 </div>
@@ -61,10 +62,8 @@
 </div>
 <script>
     $("form").on("submit", function (e) {
-        //e.preventDefault();
         var a = $("form input[name=ImageFile]").val();
         console.log(a);
-
     });
 
     var files;
