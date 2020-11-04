@@ -122,5 +122,19 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             return Json(existed);
         }
 
+        [HttpPost]
+        public JsonResult Delete(int ModelCarId)
+        {
+            bool check = false;
+            ModelCar modelCar = db.ModelCars.Where(m => m.ModelCarId == ModelCarId).FirstOrDefault();
+            db.ModelCars.Remove(modelCar);
+            int v = db.SaveChanges();
+            if (v > 0)
+            {
+                check = true;
+            }
+            return Json(check);
+        }
+
     }
 }
