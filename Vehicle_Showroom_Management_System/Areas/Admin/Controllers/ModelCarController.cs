@@ -97,12 +97,19 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        public ActionResult Edit(int ModelCarId, string ModelCarName, int BrandId)
+        {
+            ModelCar modelCar = db.ModelCars.Where(m => m.ModelCarId == ModelCarId).FirstOrDefault();
+            modelCar.ModelCarName = ModelCarName;
+            modelCar.BrandId = BrandId;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
         public JsonResult CheckModelCarNameEdit(int ModelCarId, string NewModelCarName)
         {
             bool existed;
-            db.Configuration.ProxyCreationEnabled = false;
-            //List<ModelCar> list = db.ModelCars.Where(ua => ua.ModelCarId != ModelCarId).ToList();
-            //IEnumerable<ModelCar> modelCar = list.Where(u => u.ModelCarName.Equals(NewModelCarName, StringComparison.CurrentCultureIgnoreCase));
             bool check = db.ModelCars.Where(ua => ua.ModelCarId != ModelCarId).ToList().Exists(u => u.ModelCarName.Equals(NewModelCarName, StringComparison.CurrentCultureIgnoreCase));
             if (check)
             {
