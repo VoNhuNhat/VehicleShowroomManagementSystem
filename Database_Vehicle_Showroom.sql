@@ -18,7 +18,7 @@ create table UserAccount (
 )
 go
 
-select * from ModelCars where ModelCarName != 'Mec 2021 DEMO' and ModelCarName = 'Mec 2021 DEMO'
+select * from ModelCars where ModelCarId !=  10 and ModelCarName = 'Mazda 5'
 go
 
 delete from ModelCars where ModelCarId = 9

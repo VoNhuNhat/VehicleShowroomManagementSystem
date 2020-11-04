@@ -227,6 +227,7 @@
                     success: function (response) {
                         if (response) {
                             $("#" + customerId).remove();
+                            loadData();
                             setTimeout(function () {
                                 swal({
                                     title: "Poof! Customer has been deleted!",
