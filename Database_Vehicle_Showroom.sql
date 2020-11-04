@@ -18,9 +18,11 @@ create table UserAccount (
 )
 go
 
-select * from UserAccount
+select * from ModelCars where ModelCarName != 'Mec 2021 DEMO' and ModelCarName = 'Mec 2021 DEMO'
 go
 
+delete from ModelCars where ModelCarId = 9
+go
 insert into UserAccount values('Administrator','admin','MTIzNDU2','Bach Khoa Aptech','c1808j1@gmail.com','1234567890',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1)
 go
 /*

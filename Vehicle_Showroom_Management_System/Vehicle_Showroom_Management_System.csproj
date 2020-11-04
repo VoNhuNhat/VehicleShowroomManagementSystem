@@ -334,6 +334,8 @@
     <Content Include="Areas\Admin\Views\ModelCar\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ModelCar\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Brand\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\ModelCar\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\ModelCar\Edit.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

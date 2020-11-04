@@ -17,7 +17,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.ModelCarName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.ModelCarName, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.ModelCarName, new { htmlAttributes = new { @class = "form-control" } })
                             </div>
@@ -25,9 +25,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Brand.BrandName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Brand.BrandName, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
                             <div class="col-md-10">
-                                @Html.DropDownList("THELOAI", (IEnumerable<SelectListItem>)ViewBag.CategoryList, new { @class = "form-control" })
+                                @Html.DropDownList("BrandId", (IEnumerable<SelectListItem>)ViewBag.CategoryList, new { @class = "form-control" })
                         <div class="form-group" style="margin-top: 30px">
                             <a onclick="clickCreate()" class="btn btn-success" style="color: white"><b>Add new Model Car</b></a>&nbsp;&nbsp;
                             <a href="/Admin/ModelCar" class="btn btn-primary"><b>Back to List</b></a>
@@ -38,9 +38,59 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" id="btnSubmit" hidden />
+                        <input type="submit" id="btnSubmit" hidden disabled />
                     </div>
                 </div>
             </div>
         }
     </div>
+    <script>
+        $(document).ready(function () {
+            if ($("#BrandId").val() == null) {
+                swal("There was a problem !!!", "Please add new Brand before add Model Car", "error").then((res) => {
+                    if (res) {
+                        window.location.replace("/Admin/Brand/Create");
+                    } else {
+                        window.location.replace("/Admin/Brand/Create");
+                    }
+                });
+            }
+        });
+        function clickCreate() {
+            var name = $("#ModelCarName").val();
+            if (name.length == 0) {
+                swal("There was a problem !!!", "Please enter ModelCarName", "error").then(() => { $("#ModelCarName").focus(); });
+            } else {
+                if (name.length > 256) {
+                swal("There was a problem !!!", "Maximum length of ModelCarName is 256 characters", "error").then(() => { $("#ModelCarName").focus(); });
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/ModelCar/CheckModelCarName",
+                        data: '{ModelCarName: "' + name + '" }',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            if (response) {
+                swal("There was a problem !!!", "ModelCarName already existed", "error").then(() => { $("#ModelCarName").focus(); });
+                            } else {
+                                setTimeout(function () {
+                                    swal({
+                                        title: "Add new model car success!",
+                                        icon: "success",
+                                        buttons: false,
+                                        dangerMode: false,
+                                    })
+                                    setTimeout(function () {
+                                        $("#btnSubmit").prop("disabled", false);
+                                        $("#btnSubmit").click();
+                                    }, 800);
+                                }, 100);
+                            }
+                        }
+                    });
+                }
+            }
+            
+        }
+    </script>
