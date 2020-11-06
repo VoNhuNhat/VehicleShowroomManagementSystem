@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\tranq\source\repos\Vehicle_Showroom_Management_System\Vehicle_Showroom_Management_System\Areas\Admin\Data\Database.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Admin\source\repos\VehicleShowroomManagementSystem\Vehicle_Showroom_Management_System\Areas\Admin\Data\Database.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

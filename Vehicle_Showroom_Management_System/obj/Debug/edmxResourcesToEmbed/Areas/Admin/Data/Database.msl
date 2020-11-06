@@ -119,5 +119,6 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="Insert_ModeCar" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_ModeCar" />
+    <FunctionImportMapping FunctionImportName="Insert_Car" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_Car" />
   </EntityContainerMapping>
 </Mapping>

@@ -11,8 +11,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class UserAccount
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,7 +19,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         {
             this.Customers = new HashSet<Customer>();
         }
-
+    
         public int UserId { get; set; }
         public string FullName { get; set; }
         public string UserName { get; set; }
@@ -28,12 +27,11 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         public string Address { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public System.DateTime Birthday { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public Nullable<int> Status { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customer> Customers { get; set; }
     }

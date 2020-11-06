@@ -18,11 +18,6 @@ create table UserAccount (
 )
 go
 
-select * from ModelCars where ModelCarId !=  10 and ModelCarName = 'Mazda 5'
-go
-
-delete from ModelCars where ModelCarId = 9
-go
 insert into UserAccount values('Administrator','admin','MTIzNDU2','Bach Khoa Aptech','c1808j1@gmail.com','1234567890',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1)
 go
 /*
@@ -137,6 +132,27 @@ UpdatedDate DateTime,
 )
 go
 
+create proc Insert_Car
+	@ModelNumberCar varchar(100),
+	@PurchaseOrderId int,
+	@CarName varchar(256),
+	@PriceInput float,
+	@PriceOutput float,
+	@SeatQuantity int,
+	@Color varchar(50),
+	@Gearbox varchar(256),
+	@Engine varchar(256),
+	@FuelConsumption float,
+	@KilometerGone float,
+	@Status int,
+	@Checking int,
+	@PurchaseOrderDate Date
+as
+begin
+	insert into Cars values(@ModelNumberCar, @PurchaseOrderId, @CarName, @PriceInput, @PriceOutput, @SeatQuantity, @Color, @Gearbox, @Engine, @FuelConsumption, @KilometerGone, @Status, @Checking, @PurchaseOrderDate, CURRENT_TIMESTAMP, NULL)
+end
+go
+
 create table Images(
 ImageId int primary key identity,
 ModelNumberCar varchar(100) references Cars(ModelNumberCar),
@@ -196,3 +212,7 @@ Status int
 )
 go
 
+insert into PurchaseOrders values (1, 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 0)
+insert into PurchaseOrders values (1, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 0)
+insert into PurchaseOrders values (1, 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 0)
+insert into PurchaseOrders values (1, 10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 1)

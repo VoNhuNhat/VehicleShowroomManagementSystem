@@ -81,6 +81,22 @@
       <Parameter Name="ModelCarName" Mode="In" Type="String" />
       <Parameter Name="BrandId" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="Insert_Car">
+      <Parameter Name="ModelNumberCar" Mode="In" Type="String" />
+      <Parameter Name="PurchaseOrderId" Mode="In" Type="Int32" />
+      <Parameter Name="CarName" Mode="In" Type="String" />
+      <Parameter Name="PriceInput" Mode="In" Type="Double" />
+      <Parameter Name="PriceOutput" Mode="In" Type="Double" />
+      <Parameter Name="SeatQuantity" Mode="In" Type="Int32" />
+      <Parameter Name="Color" Mode="In" Type="String" />
+      <Parameter Name="Gearbox" Mode="In" Type="String" />
+      <Parameter Name="Engine" Mode="In" Type="String" />
+      <Parameter Name="FuelConsumption" Mode="In" Type="Double" />
+      <Parameter Name="KilometerGone" Mode="In" Type="Double" />
+      <Parameter Name="Status" Mode="In" Type="Int32" />
+      <Parameter Name="Checking" Mode="In" Type="Int32" />
+      <Parameter Name="PurchaseOrderDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="Brand">
     <Key>

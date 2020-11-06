@@ -206,5 +206,66 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_ModeCar", modelCarNameParameter, brandIdParameter);
         }
+    
+        public virtual int Insert_Car(string modelNumberCar, Nullable<int> purchaseOrderId, string carName, Nullable<double> priceInput, Nullable<double> priceOutput, Nullable<int> seatQuantity, string color, string gearbox, string engine, Nullable<double> fuelConsumption, Nullable<double> kilometerGone, Nullable<int> status, Nullable<int> checking, Nullable<System.DateTime> purchaseOrderDate)
+        {
+            var modelNumberCarParameter = modelNumberCar != null ?
+                new ObjectParameter("ModelNumberCar", modelNumberCar) :
+                new ObjectParameter("ModelNumberCar", typeof(string));
+    
+            var purchaseOrderIdParameter = purchaseOrderId.HasValue ?
+                new ObjectParameter("PurchaseOrderId", purchaseOrderId) :
+                new ObjectParameter("PurchaseOrderId", typeof(int));
+    
+            var carNameParameter = carName != null ?
+                new ObjectParameter("CarName", carName) :
+                new ObjectParameter("CarName", typeof(string));
+    
+            var priceInputParameter = priceInput.HasValue ?
+                new ObjectParameter("PriceInput", priceInput) :
+                new ObjectParameter("PriceInput", typeof(double));
+    
+            var priceOutputParameter = priceOutput.HasValue ?
+                new ObjectParameter("PriceOutput", priceOutput) :
+                new ObjectParameter("PriceOutput", typeof(double));
+    
+            var seatQuantityParameter = seatQuantity.HasValue ?
+                new ObjectParameter("SeatQuantity", seatQuantity) :
+                new ObjectParameter("SeatQuantity", typeof(int));
+    
+            var colorParameter = color != null ?
+                new ObjectParameter("Color", color) :
+                new ObjectParameter("Color", typeof(string));
+    
+            var gearboxParameter = gearbox != null ?
+                new ObjectParameter("Gearbox", gearbox) :
+                new ObjectParameter("Gearbox", typeof(string));
+    
+            var engineParameter = engine != null ?
+                new ObjectParameter("Engine", engine) :
+                new ObjectParameter("Engine", typeof(string));
+    
+            var fuelConsumptionParameter = fuelConsumption.HasValue ?
+                new ObjectParameter("FuelConsumption", fuelConsumption) :
+                new ObjectParameter("FuelConsumption", typeof(double));
+    
+            var kilometerGoneParameter = kilometerGone.HasValue ?
+                new ObjectParameter("KilometerGone", kilometerGone) :
+                new ObjectParameter("KilometerGone", typeof(double));
+    
+            var statusParameter = status.HasValue ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(int));
+    
+            var checkingParameter = checking.HasValue ?
+                new ObjectParameter("Checking", checking) :
+                new ObjectParameter("Checking", typeof(int));
+    
+            var purchaseOrderDateParameter = purchaseOrderDate.HasValue ?
+                new ObjectParameter("PurchaseOrderDate", purchaseOrderDate) :
+                new ObjectParameter("PurchaseOrderDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_Car", modelNumberCarParameter, purchaseOrderIdParameter, carNameParameter, priceInputParameter, priceOutputParameter, seatQuantityParameter, colorParameter, gearboxParameter, engineParameter, fuelConsumptionParameter, kilometerGoneParameter, statusParameter, checkingParameter, purchaseOrderDateParameter);
+        }
     }
 }

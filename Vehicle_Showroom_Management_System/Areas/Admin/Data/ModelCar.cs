@@ -11,8 +11,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-
+    
     public partial class ModelCar
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,13 +21,9 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         }
     
         public int ModelCarId { get; set; }
-
-        [DisplayName("Car Model Name")]
         public string ModelCarName { get; set; }
         public Nullable<int> BrandId { get; set; }
-        [DisplayName("Created Date")]
         public Nullable<System.DateTime> CreatedDate { get; set; }
-        [DisplayName("Updated Date")]
         public Nullable<System.DateTime> UpdatedDate { get; set; }
     
         public virtual Brand Brand { get; set; }
