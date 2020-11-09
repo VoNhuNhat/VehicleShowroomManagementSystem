@@ -21,7 +21,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         }
     
         public string ModelNumberCar { get; set; }
-        public Nullable<int> PurchaseOrderId { get; set; }
+        public Nullable<int> Id { get; set; }
         public string CarName { get; set; }
         public Nullable<double> PriceInput { get; set; }
         public Nullable<double> PriceOutput { get; set; }

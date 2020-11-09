@@ -20,6 +20,8 @@ go
 
 insert into UserAccount values('Administrator','admin','MTIzNDU2','Bach Khoa Aptech','c1808j1@gmail.com','1234567890',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1)
 go
+select * from UserAccount
+go
 /*
 mk: 123456
 */
@@ -102,7 +104,8 @@ go
 
 
 create table PurchaseOrders(
-PurchaseOrderId int primary key identity,
+Id int primary key identity,
+PurchaseOrderId varchar(256) unique,
 ModelCarId int references ModelCars(ModelCarId),
 QuantityCarImport int,
 OrderDate Date,
@@ -112,9 +115,27 @@ Status int
 )
 go
 
+create proc Insert_PurchaseOrder
+@PurchaseOrderId varchar(256),
+@ModelCarId int,
+@QuantityCarImport int,
+@OrderDate Date
+as
+begin
+insert into PurchaseOrders values(@PurchaseOrderId,@ModelCarId,@QuantityCarImport,@OrderDate,CURRENT_TIMESTAMP,NULL,0)
+end
+go
+
+insert into PurchaseOrders values('SC0000003',1,100,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL,0)
+go
+select * from PurchaseOrders
+go
+
+delete from PurchaseOrders
+go
 create table Cars(
 ModelNumberCar varchar(100) primary key,
-PurchaseOrderId int references PurchaseOrders(PurchaseOrderId),
+Id int references PurchaseOrders(Id),
 CarName varchar(256),
 PriceInput float,
 PriceOutput float,
@@ -159,7 +180,6 @@ ModelNumberCar varchar(100) references Cars(ModelNumberCar),
 Name text	
 )
 go
-
 
 
 create table Customers(
@@ -212,7 +232,7 @@ Status int
 )
 go
 
-insert into PurchaseOrders values (1, 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 0)
-insert into PurchaseOrders values (1, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 0)
-insert into PurchaseOrders values (1, 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 0)
-insert into PurchaseOrders values (1, 10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 1)
+--insert into PurchaseOrders values (1, 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 0)
+--insert into PurchaseOrders values (1, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 0)
+--insert into PurchaseOrders values (1, 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 0)
+--insert into PurchaseOrders values (1, 10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 1)

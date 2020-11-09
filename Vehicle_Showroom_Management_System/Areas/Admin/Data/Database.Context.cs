@@ -267,5 +267,26 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_Car", modelNumberCarParameter, purchaseOrderIdParameter, carNameParameter, priceInputParameter, priceOutputParameter, seatQuantityParameter, colorParameter, gearboxParameter, engineParameter, fuelConsumptionParameter, kilometerGoneParameter, statusParameter, checkingParameter, purchaseOrderDateParameter);
         }
+    
+        public virtual int Insert_PurchaseOrder(string purchaseOrderId, Nullable<int> modelCarId, Nullable<int> quantityCarImport, Nullable<System.DateTime> orderDate)
+        {
+            var purchaseOrderIdParameter = purchaseOrderId != null ?
+                new ObjectParameter("PurchaseOrderId", purchaseOrderId) :
+                new ObjectParameter("PurchaseOrderId", typeof(string));
+    
+            var modelCarIdParameter = modelCarId.HasValue ?
+                new ObjectParameter("ModelCarId", modelCarId) :
+                new ObjectParameter("ModelCarId", typeof(int));
+    
+            var quantityCarImportParameter = quantityCarImport.HasValue ?
+                new ObjectParameter("QuantityCarImport", quantityCarImport) :
+                new ObjectParameter("QuantityCarImport", typeof(int));
+    
+            var orderDateParameter = orderDate.HasValue ?
+                new ObjectParameter("OrderDate", orderDate) :
+                new ObjectParameter("OrderDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_PurchaseOrder", purchaseOrderIdParameter, modelCarIdParameter, quantityCarImportParameter, orderDateParameter);
+        }
     }
 }

@@ -11,7 +11,8 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class PurchaseOrder
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,9 +21,11 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
             this.Cars = new HashSet<Car>();
         }
     
-        public int PurchaseOrderId { get; set; }
+        public int Id { get; set; }
+        public string PurchaseOrderId { get; set; }
         public Nullable<int> ModelCarId { get; set; }
         public Nullable<int> QuantityCarImport { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> OrderDate { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
