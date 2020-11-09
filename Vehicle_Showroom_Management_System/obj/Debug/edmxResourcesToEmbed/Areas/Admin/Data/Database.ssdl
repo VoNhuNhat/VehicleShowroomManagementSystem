@@ -182,7 +182,7 @@
   </Function>
   <Function Name="Insert_Car" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ModelNumberCar" Type="varchar" Mode="In" />
-    <Parameter Name="PurchaseOrderId" Type="int" Mode="In" />
+    <Parameter Name="Id" Type="int" Mode="In" />
     <Parameter Name="CarName" Type="varchar" Mode="In" />
     <Parameter Name="PriceInput" Type="float" Mode="In" />
     <Parameter Name="PriceOutput" Type="float" Mode="In" />

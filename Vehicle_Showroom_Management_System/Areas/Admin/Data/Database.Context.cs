@@ -207,15 +207,15 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_ModeCar", modelCarNameParameter, brandIdParameter);
         }
     
-        public virtual int Insert_Car(string modelNumberCar, Nullable<int> purchaseOrderId, string carName, Nullable<double> priceInput, Nullable<double> priceOutput, Nullable<int> seatQuantity, string color, string gearbox, string engine, Nullable<double> fuelConsumption, Nullable<double> kilometerGone, Nullable<int> status, Nullable<int> checking, Nullable<System.DateTime> purchaseOrderDate)
+        public virtual int Insert_Car(string modelNumberCar, Nullable<int> id, string carName, Nullable<double> priceInput, Nullable<double> priceOutput, Nullable<int> seatQuantity, string color, string gearbox, string engine, Nullable<double> fuelConsumption, Nullable<double> kilometerGone, Nullable<int> status, Nullable<int> checking, Nullable<System.DateTime> purchaseOrderDate)
         {
             var modelNumberCarParameter = modelNumberCar != null ?
                 new ObjectParameter("ModelNumberCar", modelNumberCar) :
                 new ObjectParameter("ModelNumberCar", typeof(string));
     
-            var purchaseOrderIdParameter = purchaseOrderId.HasValue ?
-                new ObjectParameter("PurchaseOrderId", purchaseOrderId) :
-                new ObjectParameter("PurchaseOrderId", typeof(int));
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
     
             var carNameParameter = carName != null ?
                 new ObjectParameter("CarName", carName) :
@@ -265,7 +265,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
                 new ObjectParameter("PurchaseOrderDate", purchaseOrderDate) :
                 new ObjectParameter("PurchaseOrderDate", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_Car", modelNumberCarParameter, purchaseOrderIdParameter, carNameParameter, priceInputParameter, priceOutputParameter, seatQuantityParameter, colorParameter, gearboxParameter, engineParameter, fuelConsumptionParameter, kilometerGoneParameter, statusParameter, checkingParameter, purchaseOrderDateParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_Car", modelNumberCarParameter, idParameter, carNameParameter, priceInputParameter, priceOutputParameter, seatQuantityParameter, colorParameter, gearboxParameter, engineParameter, fuelConsumptionParameter, kilometerGoneParameter, statusParameter, checkingParameter, purchaseOrderDateParameter);
         }
     
         public virtual int Insert_PurchaseOrder(string purchaseOrderId, Nullable<int> modelCarId, Nullable<int> quantityCarImport, Nullable<System.DateTime> orderDate)

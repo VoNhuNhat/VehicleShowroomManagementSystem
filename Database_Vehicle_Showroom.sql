@@ -133,6 +133,10 @@ go
 
 --delete from PurchaseOrders
 --go
+
+--select * from PurchaseOrders where OrderDate >= '11/26/2020'
+--go
+
 create table Cars(
 ModelNumberCar varchar(100) primary key,
 Id int references PurchaseOrders(Id),
@@ -155,7 +159,7 @@ go
 
 create proc Insert_Car
 	@ModelNumberCar varchar(100),
-	@PurchaseOrderId int,
+	@Id int,
 	@CarName varchar(256),
 	@PriceInput float,
 	@PriceOutput float,
@@ -170,9 +174,14 @@ create proc Insert_Car
 	@PurchaseOrderDate Date
 as
 begin
-	insert into Cars values(@ModelNumberCar, @PurchaseOrderId, @CarName, @PriceInput, @PriceOutput, @SeatQuantity, @Color, @Gearbox, @Engine, @FuelConsumption, @KilometerGone, @Status, @Checking, @PurchaseOrderDate, CURRENT_TIMESTAMP, NULL)
+	insert into Cars values(@ModelNumberCar, @Id, @CarName, @PriceInput, @PriceOutput, @SeatQuantity, @Color, @Gearbox, @Engine, @FuelConsumption, @KilometerGone, @Status, @Checking, @PurchaseOrderDate, CURRENT_TIMESTAMP, NULL)
 end
 go
+
+	--select * from Cars
+	--go
+	--delete from Cars
+	--go
 
 create table Images(
 ImageId int primary key identity,
@@ -180,6 +189,12 @@ ModelNumberCar varchar(100) references Cars(ModelNumberCar),
 Name text	
 )
 go
+	
+
+--select * from Images
+--go
+--delete from Images
+--go
 
 
 create table Customers(

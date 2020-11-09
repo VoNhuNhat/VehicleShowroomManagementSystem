@@ -11,7 +11,8 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Web;
+
     public partial class Car
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -40,5 +41,6 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         public virtual PurchaseOrder PurchaseOrder { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Image> Images { get; set; }
+
     }
 }

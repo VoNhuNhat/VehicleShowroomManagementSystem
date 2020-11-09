@@ -10,120 +10,125 @@
 
 <br />
 <div class="container">
-    <h2 style="text-align: center"><b>Create Car</b></h2>
-
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formCreate" }))
+    
+    <h2 style="text-align: center"><b>Import Car in Purchase Order Id: @ViewBag.PO.PurchaseOrderId</b></h2>
+    <h4 style="text-align: center"><b>Car Model: @ViewBag.PO.ModelCar.ModelCarName</b></h4>
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formCreate", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-            <hr />
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.ModelNumberCar, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.ModelNumberCar, new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-4" style="font-weight: bold">Purchase Order</label>
-                        <div class="col-md-10">
-                            @Html.DropDownList("PurchaseOrderId", (IEnumerable<SelectListItem>)ViewBag.PurchaseOrderList, new { @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.CarName, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.CarName, new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.PriceInput, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.PriceInput, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.PriceOutput, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.PriceOutput, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.SeatQuantity, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.SeatQuantity, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Gearbox, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Gearbox, new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Engine, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Engine, new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.FuelConsumption, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.FuelConsumption, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.KilometerGone, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.KilometerGone, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                        <div class="col-md-10">
-                            <select name="Status" class="form-control" id="Status">
-                                <option value="0">New</option>
-                                <option value="1">Used</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Checking, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                        <div class="col-md-10">
-                            <select name="Checking" class="form-control" id="Checking">
-                                <option value="0">Available</option>
-                                <option value="1">Unavailable</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.PurchaseOrderDate, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.PurchaseOrderDate, new { htmlAttributes = new { @class = "form-control" } })
-                            <div class="form-group" style="margin-top: 30px">
-                                <a onclick="clickCreate()" class="btn btn-success" style="color: white"><b>Add new Car</b></a>&nbsp;&nbsp;
-                                <a href="/Admin/Car" class="btn btn-primary"><b>Back to List</b></a>
-                            </div>
-                        </div>
-                    </div>
+        @Html.HiddenFor(model => model.Id)
+<div class="form-horizontal">
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ModelNumberCar, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ModelNumberCar, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" id="btnSubmit" hidden disabled />
+                @Html.LabelFor(model => model.CarName, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CarName, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+
+                @Html.LabelFor(model => model.PriceInput, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                <div class="col-md-10">
+                    <input type="text" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="PriceInput" name="PriceInput" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PriceOutput, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                <div class="col-md-10">
+                    <input type="text" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="PriceOutput" name="PriceOutput" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SeatQuantity, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                <div class="col-md-10">
+                    <input type="number" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="SeatQuantity" name="SeatQuantity" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: 20px">
+                <label for="Images" class="control-label col-md-4"><b>Images for Car</b></label>
+                <div class="col-md-10">
+                    <input type="file" name="Images" id="Images" multiple />
+                    <hr />
+                    <div id="dvPreview" style="width: 300px; height:200px"></div>
                 </div>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Gearbox, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Gearbox, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Engine, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Engine, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.FuelConsumption, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                <div class="col-md-10">
+                    <input type="text" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="FuelConsumption" name="FuelConsumption" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.KilometerGone, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                <div class="col-md-10">
+                    <input type="text" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="KilometerGone" name="KilometerGone" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                <div class="col-md-10">
+                    <select name="Status" class="form-control" id="Status">
+                        <option value="0">New</option>
+                        <option value="1">Used</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Checking, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                <div class="col-md-10">
+                    <select name="Checking" class="form-control" id="Checking">
+                        <option value="0">Available</option>
+                        <option value="1">Unavailable</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PurchaseOrderDate, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PurchaseOrderDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Click to choose date" } })
+                    <div class="form-group" style="margin-top: 50px">
+                        <a onclick="clickCreate()" class="btn btn-success" style="color: white"><b>Import new Car</b></a>&nbsp;&nbsp;
+                        <a href="/Admin/PurchaseOrder" class="btn btn-primary"><b>Back to List</b></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" id="btnSubmit" hidden disabled />
+        </div>
+    </div>
+</div>
     }
 </div>
 
@@ -136,21 +141,79 @@
             yearRange: '1920:2020',
         });
         $('#PurchaseOrderDate').attr('readonly', 'readonly');
-        $("#formCreate").keydown(function (e) {
-            if (e.which == 13) {
-                clickCreate();
-            }
+        $("#PriceInput").keyup(function () {
+            var temp = $(this).val().replace(new RegExp(',', 'g'), "");
+            var number = temp.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+            $(this).val(number);
         });
-
-        if ($("#PurchaseOrderId").val() == null) {
-            swal("There was a problem !!!", "Please add new Purchase Order before add Car", "error").then((res) => {
-                if (res) {
-                    window.location.replace("/Admin/PurchaseOrder/Create");
-                } else {
-                    window.location.replace("/Admin/PurchaseOrder/Create");
+        $("#PriceOutput").keyup(function () {
+            var temp = $(this).val().replace(new RegExp(',', 'g'), "");
+            var number = temp.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+            $(this).val(number);
+        });
+        $("#FuelConsumption").keyup(function () {
+            var temp = $(this).val().replace(new RegExp(',', 'g'), "");
+            var number = temp.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+            $(this).val(number);
+        });
+        $("#KilometerGone").keyup(function () {
+            var temp = $(this).val().replace(new RegExp(',', 'g'), "");
+            var number = temp.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+            $(this).val(number);
+        });
+       
+        $("#Images").change(function () {
+            if ($("#Images").val() != "") {
+                var $fileUpload = $("input[type='file']");
+                var bool = true;
+                var match = ['image/jpeg', 'image/png', 'image/jpg'];
+                for (var i = 0; i < $fileUpload.get(0).files.length; i++) {
+                    var fileType = $fileUpload.get(0).files[i].type;
+                    if (!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))) {
+                        $("#Images").val('');
+                        bool = false;
+                    } else {
+                        bool = true;
+                    }
                 }
-            });
-        }
+                if (bool == false) {
+                    swal("There was a problem !!!", "You are only allowed to upload JPG,JPEG & PNG files", "error").then(() => { $("#Images").focus(); });
+                } else {
+                    var $fileUpload = $("input[type='file']");
+                    if (parseInt($fileUpload.get(0).files.length) > 6) {
+                        swal("There was a problem !!!", "You are only allowed to upload a maximum of 6 files", "error").then(() => { $("#Images").focus(); });
+                        $("#Images").val('');
+                    } else {
+                        i++;
+                    }
+                }
+            }
+            if (typeof (FileReader) != "undefined") {
+                var dvPreview = $("#dvPreview");
+                dvPreview.html("");
+                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+                $($(this)[0].files).each(function () {
+                    var file = $(this);
+                    if (regex.test(file[0].name.toLowerCase())) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var img = $("<img />");
+                            img.attr("style", "height:100px;width: 100px");
+                            img.attr("src", e.target.result);
+                            dvPreview.append(img);
+                        }
+                        reader.readAsDataURL(file[0]);
+                    } else {
+                        alert(file[0].name + " is not a valid image file.");
+                        dvPreview.html("");
+                        return false;
+                    }
+                });
+            } else {
+                alert("This browser does not support HTML5 FileReader.");
+            }
+            
+        });
     });
 
     $("#formCreate").keydown(function (e) {
@@ -158,13 +221,17 @@
             clickCreate();
         }
     });
-
+   
     function clickCreate() {
         var i = 0;
         var modelNumberCar = $("#ModelNumberCar").val();
         if (i == 0 && modelNumberCar.length == 0) {
             swal("There was a problem !!!", "Please enter ModelNumberCar", "error").then(() => { $("#ModelNumberCar").focus(); });
         } else {
+            var rex = /^[a-zA-Z0-9]{1,100}$/;
+            if (i==0 && !rex.test(modelNumberCar)) {
+                swal("There was a problem !!!", "Please enter Model Number Car without special characters", "error").then(() => { $("#ModelNumberCar").focus(); });
+            } else {
             if (i == 0 && modelNumberCar.length > 100) {
                 swal("There was a problem !!!", "Maximum length of ModelNumberCar is 100 characters", "error").then(() => { $("#ModelNumberCar").focus(); });
             } else {
@@ -220,54 +287,74 @@
                                         if (i == 5 && $("#Color").val() == "") {
                                             swal("There was a problem !!!", "Please enter Color", "error").then(() => { $("#Color").focus(); });
                                         } else {
+                                            var rex = /^[A-Za-z ]*$/;
+                                            if (i==5 && !rex.test($("#Color").val())) {
+                                                swal("There was a problem !!!", "Please enter only characters in Color", "error").then(() => { $("#Color").focus(); });
+                                            } else {
                                             if (i == 5 && $("#Color").val() > 50) {
                                                 swal("There was a problem !!!", "Maximum length of Color is 50 characters", "error").then(() => { $("#Color").focus(); });
                                             } else {
                                                 i++;
                                             }
-
-                                            if (i == 6 && $("#Gearbox").val() == "") {
+                                            }
+                                            if (i == 6 && $("#Images").val() == "") {
+                                                swal("There was a problem !!!", "Please choose Images", "error").then(() => { $("#Images").focus(); });
+                                            } else {
+                                                i++;
+                                            }
+                                            if (i == 7 && $("#Gearbox").val() == "") {
                                                 swal("There was a problem !!!", "Please enter Gearbox", "error").then(() => { $("#Gearbox").focus(); });
                                             } else {
-                                                if (i == 6 && $("#Gearbox").val() > 256) {
+                                                if (i == 7 && $("#Gearbox").val() > 256) {
                                                     swal("There was a problem !!!", "Maximum length of Gearbox is 256 characters", "error").then(() => { $("#Gearbox").focus(); });
                                                 } else {
                                                     i++;
                                                 }
 
-                                                if (i == 7 && $("#Engine").val() == "") {
+                                                if (i == 8 && $("#Engine").val() == "") {
                                                     swal("There was a problem !!!", "Please enter Engine", "error").then(() => { $("#Engine").focus(); });
                                                 } else {
-                                                    if (i == 7 && $("#Engine").val() > 256) {
+                                                    if (i == 8 && $("#Engine").val() > 256) {
                                                         swal("There was a problem !!!", "Maximum length of Engine is 256 characters", "error").then(() => { $("#Engine").focus(); });
                                                     } else {
                                                         i++;
                                                     }
 
-                                                    if (i == 8 && $("#FuelConsumption").val() == "") {
+                                                    if (i == 9 && $("#FuelConsumption").val() == "") {
                                                         swal("There was a problem !!!", "Please enter FuelConsumption", "error").then(() => { $("#FuelConsumption").focus(); });
                                                     } else {
-                                                        if (i == 8 && $("#FuelConsumption").val() < 1) {
+                                                        if (i == 9 && $("#FuelConsumption").val() < 1) {
                                                             swal("There was a problem !!!", "Minimum of FuelConsumption is 1", "error").then(() => { $("#FuelConsumption").focus(); });
                                                         } else {
                                                             i++;
                                                         }
 
-                                                        if (i == 9 && $("#KilometerGone").val() == "") {
+                                                        if (i == 10 && $("#KilometerGone").val() == "") {
                                                             swal("There was a problem !!!", "Please enter KilometerGone", "error").then(() => { $("#KilometerGone").focus(); });
                                                         } else {
-                                                            if (i == 9 && $("#KilometerGone").val() < 0) {
+                                                            if (i == 10 && $("#KilometerGone").val() < 0) {
                                                                 swal("There was a problem !!!", "Minimum of KilometerGone is 0", "error").then(() => { $("#KilometerGone").focus(); });
                                                             } else {
                                                                 i++;
                                                             }
 
-                                                            if (i == 10 && $("#PurchaseOrderDate").val() == "") {
+                                                            if (i == 11 && $("#PurchaseOrderDate").val() == "") {
                                                                 swal("There was a problem !!!", "Please choose PurchaseOrderDate", "error").then(() => { $("#PurchaseOrderDate").focus(); });
                                                             } else {
+                                                                i++;
+                                                                if (i == 12) {
+                                                                    var priceInput = $("#PriceInput").val().replace(new RegExp(',', 'g'), "");
+                                                                    $("#PriceInput").val(priceInput);
+                                                                    var priceOutput = $("#PriceInput").val().replace(new RegExp(',', 'g'), "");
+                                                                    $("#PriceOutput").val(priceOutput);
+                                                                    var kilometerGone = $("#KilometerGone").val().replace(new RegExp(',', 'g'), "");
+                                                                    $("#KilometerGone").val(kilometerGone);
+                                                                    var fuelConsumption = $("#FuelConsumption").val().replace(new RegExp(',', 'g'), "");
+                                                                    $("#FuelConsumption").val(fuelConsumption);
+
                                                                 setTimeout(function () {
                                                                     swal({
-                                                                        title: "Add new car success!",
+                                                                        title: "Import new car success!",
                                                                         icon: "success",
                                                                         buttons: false,
                                                                         dangerMode: false,
@@ -277,6 +364,7 @@
                                                                         $("#btnSubmit").click();
                                                                     }, 800);
                                                                 }, 100);
+                                                                }
                                                             }
                                                         }
                                                     }
@@ -289,6 +377,7 @@
                         }
                     }
                 });
+            }
             }
         }
     }    

@@ -51,7 +51,7 @@
     </FunctionImport>
     <FunctionImport Name="Insert_Car">
       <Parameter Name="ModelNumberCar" Mode="In" Type="String" />
-      <Parameter Name="PurchaseOrderId" Mode="In" Type="Int32" />
+      <Parameter Name="Id" Mode="In" Type="Int32" />
       <Parameter Name="CarName" Mode="In" Type="String" />
       <Parameter Name="PriceInput" Mode="In" Type="Double" />
       <Parameter Name="PriceOutput" Mode="In" Type="Double" />

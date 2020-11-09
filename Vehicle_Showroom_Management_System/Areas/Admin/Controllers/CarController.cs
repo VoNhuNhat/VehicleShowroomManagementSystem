@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -46,24 +47,33 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public ActionResult Create(int Id)
         {
-            List<PurchaseOrder> purchaseOrders = db.PurchaseOrders.Where(po=>po.Status == 0).ToList();
-            List<ModelCar> modelCars = db.ModelCars.ToList();
-            var list = from po in purchaseOrders
-                       join mc in modelCars on po.ModelCarId equals mc.ModelCarId
-                       select new { PurchaseOrderId = po.PurchaseOrderId, ModelCarName = mc.ModelCarName };
-            SelectList listPurchaseOrder = new SelectList(list, "PurchaseOrderId", "ModelCarName");
-            ViewBag.PurchaseOrderList = listPurchaseOrder;
+            PurchaseOrder purchaseOrder = db.PurchaseOrders.Where(p => p.Id == Id).FirstOrDefault();
+            ViewBag.PO = purchaseOrder;
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create(string modelNumberCar, int purchaseOrderId, string carName, float priceInput, float priceOutput, int seatQuantity, string color, string gearbox, string engine, float fuelConsumption, float kilometerGone, int status, int checking, DateTime purchaseOrderDate)
+        public ActionResult Create(int Id, string ModelNumberCar, string CarName, float PriceInput, float PriceOutput, int SeatQuantity, string Color, string Gearbox, string Engine, float FuelConsumption, float KilometerGone, int Status, int Checking, DateTime PurchaseOrderDate, HttpPostedFileBase[] Images)
         {
-            db.Insert_Car(modelNumberCar, purchaseOrderId, carName, priceInput, priceOutput, seatQuantity, color, gearbox, engine, fuelConsumption, kilometerGone, status, checking, purchaseOrderDate);
+            db.Insert_Car(ModelNumberCar, Id, CarName, PriceInput, PriceOutput, SeatQuantity, Color, Gearbox, Engine, FuelConsumption, KilometerGone, Status, Checking, PurchaseOrderDate);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            foreach (HttpPostedFileBase Image in Images)
+            {
+                string fileName = Path.GetFileNameWithoutExtension(Image.FileName);
+                string extension = Path.GetExtension(Image.FileName);
+                fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(Server.MapPath("~/Areas/Admin/Contents/Images/"), fileName);
+                Image.SaveAs(path);
+                Image img = new Image();
+                img.ModelNumberCar = ModelNumberCar;
+                img.Name = Image.FileName;
+                db.Images.Add(img);
+                db.SaveChanges();
+            }
+            
+            return RedirectToAction("Index","PurchaseOrder");
         }
 
         [HttpPost]

@@ -95,8 +95,64 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             purchaseOrder.ModelCarId = ModelCarId;
             purchaseOrder.QuantityCarImport = QuantityCarImport;
             purchaseOrder.OrderDate = OrderDate;
+            purchaseOrder.UpdatedDate = DateTime.Now;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public JsonResult Search(int page, int pageSize, DateTime? fromDate, DateTime? toDate)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            List<PurchaseOrder> listPurchaseOrders = db.PurchaseOrders.ToList();
+            List<ModelCar> listModelCars = db.ModelCars.ToList();
+            if (fromDate == null)
+            {
+            var list = (from p in listPurchaseOrders
+                        join m in listModelCars on p.ModelCarId equals m.ModelCarId
+                            where p.OrderDate >= DateTime.Now && p.OrderDate <= toDate
+                        select new { Id = p.Id, PurchaseOrderId = p.PurchaseOrderId, QuantityCarImport = p.QuantityCarImport,ModelCarName = p.ModelCar.ModelCarName,OrderDate = p.OrderDate,Status = p.Status }).ToList();
+                var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = list.Count;
+                return Json(new
+                {
+                    data = model,
+                    total = totalRow,
+                }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                if (toDate == null)
+                {
+                   var list = (from p in listPurchaseOrders
+                            join m in listModelCars on p.ModelCarId equals m.ModelCarId
+                            where p.OrderDate >= fromDate
+                            select new { Id = p.Id, PurchaseOrderId = p.PurchaseOrderId, QuantityCarImport = p.QuantityCarImport, ModelCarName = p.ModelCar.ModelCarName, OrderDate = p.OrderDate, Status = p.Status }).ToList();
+                    var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                    var totalRow = list.Count;
+                    return Json(new
+                    {
+                        data = model,
+                        total = totalRow,
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                  var list = (from p in listPurchaseOrders
+                            join m in listModelCars on p.ModelCarId equals m.ModelCarId
+                            where p.OrderDate >= fromDate && p.OrderDate <= toDate
+                            select new { Id = p.Id, PurchaseOrderId = p.PurchaseOrderId, QuantityCarImport = p.QuantityCarImport, ModelCarName = p.ModelCar.ModelCarName, OrderDate = p.OrderDate, Status = p.Status }).ToList();
+                    var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                    var totalRow = list.Count;
+                    return Json(new
+                    {
+                        data = model,
+                        total = totalRow,
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+           
+         
+        }
+
     }
 }
