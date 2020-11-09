@@ -20,8 +20,8 @@ go
 
 insert into UserAccount values('Administrator','admin','MTIzNDU2','Bach Khoa Aptech','c1808j1@gmail.com','1234567890',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1)
 go
-select * from UserAccount
-go
+--select * from UserAccount
+--go
 /*
 mk: 123456
 */
@@ -126,13 +126,13 @@ insert into PurchaseOrders values(@PurchaseOrderId,@ModelCarId,@QuantityCarImpor
 end
 go
 
-insert into PurchaseOrders values('SC0000003',1,100,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL,0)
-go
-select * from PurchaseOrders
-go
+--insert into PurchaseOrders values('SC0000003',1,100,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL,0)
+--go
+--select * from PurchaseOrders
+--go
 
-delete from PurchaseOrders
-go
+--delete from PurchaseOrders
+--go
 create table Cars(
 ModelNumberCar varchar(100) primary key,
 Id int references PurchaseOrders(Id),
