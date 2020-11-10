@@ -234,6 +234,7 @@
     <Content Include="Content\css\hero-slider.css" />
     <Content Include="Content\css\owl-carousel.css" />
     <Content Include="Content\css\style.css" />
+    <Content Include="Content\css\style1.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\img\about-1-720x480.jpg" />

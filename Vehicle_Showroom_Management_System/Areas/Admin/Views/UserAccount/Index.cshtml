@@ -58,8 +58,35 @@
         $("#pagination").hide();
         $("#paginationSearchMutiplePages").hide();
         $("#paginationSearchOnePage").hide();
+        $("#tableUser").find('.dataTable').remove();
+        $.ajax({
+            type: "GET",
+            url: "/Admin/UserAccount/LoadData",
+            data: {
+                page: pageCofig.pageIndex,
+                pageSize: pageCofig.pageSize
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response.data.length > 0) {
+                    var row = "";
+                    for (var i = 0; i < response.data.length; i++) {
+                        row += "<tr class='dataTable' id='" + response.data[i].UserId + "'>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].UserName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].PhoneNumber + "</td>" + "<td> <a href='/Admin/UserAccount/Details/" + response.data[i].UserId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/UserAccount/Edit/" + response.data[i].UserId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteUser(" + response.data[i].UserId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                    }
+                    $("#tableUser").append(row);
+                    $("#pagination").show();
+                    pagination(response.total, function () {
+                    })
+                }
+            }
+        });
+    });
+
+    $("#pagination").click(function () {
         loadData();
     });
+
     function loadData() {
         $("#tableUser").find('.dataTable').remove();
         $.ajax({
@@ -120,8 +147,20 @@
     }
 
     $("#searchUser").keyup(function () {
+        pageSearchCofig = {
+            pageSize: 2,
+            pageIndex: 1
+        }
+
+        $('#paginationSearchMutiplePages').empty();
+        $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+        $('#paginationSearchMutiplePages').unbind("page");
+        $('#pagination').empty();
+        $('#pagination').removeData("twbs-pagination");
+        $('#pagination').unbind("page");
         searchUser();
     });
+
     function searchUser() {
         $("#tableUser").find('.dataTable').remove();
         var searchFullname = $("#searchUser").val();
@@ -160,6 +199,7 @@
                         });
                     } else {
                         $("#tableUser").find('.dataTable').remove();
+                        if (response.data.length > 0) {
                         var row = "";
                         for (var i = 0; i < response.data.length; i++) {
                             row += "<tr class='dataTable' id='" + response.data[i].UserId + "'>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].UserName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].PhoneNumber + "</td>" + "<td> <a href='/Admin/UserAccount/Details/" + response.data[i].UserId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/UserAccount/Edit/" + response.data[i].UserId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteUser(" + response.data[i].UserId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
@@ -183,6 +223,11 @@
                                 searchUser();
                             });
                             }
+                        }
+                        } else {
+                            $("#pagination").hide();
+                            $("#paginationSearchMutiplePages").hide();
+                            $("#paginationSearchOnePage").hide();
                         }
                     }
                 } else {
@@ -210,6 +255,27 @@
             dangerMode: true,
         }).then((logOut) => {
             if (logOut) {
+                $('#pagination').empty();
+                $('#pagination').removeData("twbs-pagination");
+                $('#pagination').unbind("page");
+
+                $('#paginationSearchMutiplePages').empty();
+                $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+                $('#paginationSearchMutiplePages').unbind("page");
+                $('#paginationSearchOnePage').empty();
+
+                $('#paginationSearchOnePage').empty();
+                $('#paginationSearchOnePage').removeData("twbs-pagination");
+                $('#paginationSearchOnePage').unbind("page");
+
+                pageCofig = {
+                    pageSize: 2,
+                    pageIndex: 1
+                }
+                pageSearchCofig = {
+                    pageSize: 2,
+                    pageIndex: 1
+                }
                 $.ajax({
                     type: "POST",
                     url: "/Admin/UserAccount/Delete",
@@ -219,7 +285,11 @@
                     success: function (response) {
                         if (response) {
                             $("#" + userId).remove();
-                            loadData();
+                            if ($("#searchUser").val() == "") {
+                                loadData();
+                            } else {
+                                searchUser();
+                            }
                                 setTimeout(function () {
                                     swal({
                                         title: "Poof! User has been deleted!",

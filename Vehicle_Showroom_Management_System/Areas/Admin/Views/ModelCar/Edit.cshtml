@@ -9,7 +9,7 @@
 
         <h2 style="text-align: center"><b>Edit Model Car</b></h2>
 
-        @using (Html.BeginForm())
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formEdit" }))
         {
             @Html.AntiForgeryToken()
         <div class="form-horizontal">
@@ -47,6 +47,11 @@
         }
     </div>
     <script>
+        $("#formEdit").keydown(function (e) {
+            if (e.which == 13) {
+                clickEdit();
+            }
+        });
         function clickEdit() {
             var id = "@Model.ModelCarId";
             var newName = $("#ModelCarName").val();
@@ -83,7 +88,6 @@
                     });
                 }
             }
-
         }
     </script>
 

@@ -1,6 +1,7 @@
 body {
-  font-family: 'Raleway', 'sans-serif';
-  background-color: #fff;
+    font-family: 'Raleway', 'sans-serif';
+    background-color: #fff;
+    margin: 0;
 }
 
 ul {
@@ -180,7 +181,7 @@ section {
 }
 
 .sub-menu {
-  border-top: 3px solid #4883ff;
+  border-top: 3px solid red;
 }
 
 .sub-menu li a {
