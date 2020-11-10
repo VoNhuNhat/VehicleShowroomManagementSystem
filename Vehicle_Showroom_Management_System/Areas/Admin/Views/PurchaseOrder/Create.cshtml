@@ -1,0 +1,95 @@
+﻿@model Vehicle_Showroom_Management_System.Areas.Admin.Data.PurchaseOrder
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
+}
+<link href="~/Areas/Admin/Contents/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Areas/Admin/Contents/js/jquery-ui.js"></script>
+<div class="container">
+    <br />
+    <h2 style="text-align: center">Create Purchase Order</h2>
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formCreate" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="QuantityCarImport" class="control-label col-md-6" style="font-weight: bold">Quantity Imported Car</label>
+                        <div class="col-md-10">
+                            <input type="number" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="QuantityCarImport" name="QuantityCarImport" class="form-control"/>
+                            @Html.ValidationMessageFor(model => model.QuantityCarImport, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label for="OrderDate" class="control-label col-md-6" style="font-weight: bold">Order Date</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control", @id = "OrderDate", @placeholder = "Click to choose date..." } })
+                            @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="ModelCarId" class="control-label col-md-4" style="font-weight: bold">Car Model Name</label>
+                        <div class="col-md-10">
+                            @Html.DropDownList("ModelCarId", (IEnumerable<SelectListItem>)ViewBag.ModelCarList, new { @class = "form-control" })
+                            <div class="form-group" style="margin-top: 71px">
+                                <a onclick="clickCreate()" class="btn btn-success" style="color: white"><b>Add new Purchase Order</b></a>&nbsp;&nbsp;
+                                <button type="submit" hidden disabled id="btnSubmit"></button>
+                                <a href="/Admin/PurchaseOrder" class="btn btn-primary"><b>Back to List</b></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        $('#OrderDate').datepicker({
+            dateFormat: 'mm/dd/yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1920:2020',
+        });
+        $('#OrderDate').attr('readonly', 'readonly');
+        $("#formCreate").keydown(function (e) {
+            if (e.which == 13) {
+                clickCreate();
+            }
+        });
+    });
+    function clickCreate() {
+        var quantity = $("#QuantityCarImport").val();
+        var modelCar = $("#ModelCarId").val();
+        var orderDate = $("#OrderDate").val();
+        if (quantity.length == 0) {
+            swal("There was a problem !!!", "Please enter Quantity Imported Car", "error").then(() => { $("#QuantityCarImport").focus(); });
+        } else {
+            if (orderDate == "") {
+                swal("There was a problem !!!", "Please choose Order Date", "error").then(() => { $("#OrderDate").focus(); });
+            } else {
+                setTimeout(function () {
+                    swal({
+                        title: "Add new Purchase Order success!",
+                        icon: "success",
+                        buttons: false,
+                        dangerMode: false,
+                    })
+                    setTimeout(function () {
+                        $("#btnSubmit").prop("disabled", false);
+                        $("#btnSubmit").click();
+                    }, 800);
+                }, 100);
+            }
+        }
+    }
+
+</script>

@@ -17,6 +17,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         public int ImageId { get; set; }
         public string ModelNumberCar { get; set; }
         public string Name { get; set; }
+        public Nullable<int> Status { get; set; }
     
         public virtual Car Car { get; set; }
     }

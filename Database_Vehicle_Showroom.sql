@@ -18,13 +18,10 @@ create table UserAccount (
 )
 go
 
-select * from ModelCars where ModelCarId !=  10 and ModelCarName = 'Mazda 5'
-go
-
-delete from ModelCars where ModelCarId = 9
-go
 insert into UserAccount values('Administrator','admin','MTIzNDU2','Bach Khoa Aptech','c1808j1@gmail.com','1234567890',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1)
 go
+--select * from UserAccount
+--go
 /*
 mk: 123456
 */
@@ -107,7 +104,8 @@ go
 
 
 create table PurchaseOrders(
-PurchaseOrderId int primary key identity,
+Id int primary key identity,
+PurchaseOrderId varchar(256) unique,
 ModelCarId int references ModelCars(ModelCarId),
 QuantityCarImport int,
 OrderDate Date,
@@ -117,9 +115,31 @@ Status int
 )
 go
 
+create proc Insert_PurchaseOrder
+@PurchaseOrderId varchar(256),
+@ModelCarId int,
+@QuantityCarImport int,
+@OrderDate Date
+as
+begin
+insert into PurchaseOrders values(@PurchaseOrderId,@ModelCarId,@QuantityCarImport,@OrderDate,CURRENT_TIMESTAMP,NULL,0)
+end
+go
+
+--insert into PurchaseOrders values('SC0000003',1,100,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL,0)
+--go
+--select * from PurchaseOrders
+--go
+
+--delete from PurchaseOrders
+--go
+
+--select * from PurchaseOrders where OrderDate >= '11/26/2020'
+--go
+
 create table Cars(
 ModelNumberCar varchar(100) primary key,
-PurchaseOrderId int references PurchaseOrders(PurchaseOrderId),
+Id int references PurchaseOrders(Id),
 CarName varchar(256),
 PriceInput float,
 PriceOutput float,
@@ -137,13 +157,45 @@ UpdatedDate DateTime,
 )
 go
 
+
+create proc Insert_Car
+	@ModelNumberCar varchar(100),
+	@Id int,
+	@CarName varchar(256),
+	@PriceInput float,
+	@PriceOutput float,
+	@SeatQuantity int,
+	@Color varchar(50),
+	@Gearbox varchar(256),
+	@Engine varchar(256),
+	@FuelConsumption float,
+	@KilometerGone float,	
+	@Status int,
+	@Checking int,
+	@PurchaseOrderDate Date
+as
+begin
+	insert into Cars values(@ModelNumberCar, @Id, @CarName, @PriceInput, @PriceOutput, @SeatQuantity, @Color, @Gearbox, @Engine, @FuelConsumption, @KilometerGone, @Status, @Checking, @PurchaseOrderDate, CURRENT_TIMESTAMP, NULL)
+end
+go
+
+	--select * from Cars
+	--go
+	--delete from Cars
+	--go
+
 create table Images(
 ImageId int primary key identity,
 ModelNumberCar varchar(100) references Cars(ModelNumberCar),
-Name text	
+Name text,
+Status int
 )
 go
 
+--select * from Images
+--go
+--delete from Images
+--go
 
 
 create table Customers(
@@ -195,4 +247,3 @@ UpdateDate DateTime,
 Status int
 )
 go
-

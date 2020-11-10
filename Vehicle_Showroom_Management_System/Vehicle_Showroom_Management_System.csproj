@@ -138,9 +138,11 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\BrandController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CarController.cs" />
     <Compile Include="Areas\Admin\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\ModelCarController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PurchaseOrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserAccountController.cs" />
     <Compile Include="Areas\Admin\Data\Brand.cs">
       <DependentUpon>Database.tt</DependentUpon>
@@ -337,6 +339,12 @@
     <Content Include="Areas\Admin\Views\Brand\Create.cshtml" />
     <Content Include="Areas\Admin\Views\ModelCar\Details.cshtml" />
     <Content Include="Areas\Admin\Views\ModelCar\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Car\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Car\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\PurchaseOrder\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PurchaseOrder\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\PurchaseOrder\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\PurchaseOrder\Details.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

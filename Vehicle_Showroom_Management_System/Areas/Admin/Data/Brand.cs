@@ -11,7 +11,6 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Web;
 
     public partial class Brand
@@ -23,7 +22,6 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         }
     
         public int BrandId { get; set; }
-        [DisplayName("Brand Name")]
         public string BrandName { get; set; }
         public string Image { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }

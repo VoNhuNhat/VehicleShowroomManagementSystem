@@ -1,0 +1,283 @@
+﻿@model IEnumerable<Vehicle_Showroom_Management_System.Areas.Admin.Data.PurchaseOrder>
+
+
+@{
+    ViewBag.Title = "UserInformation";
+    Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
+}
+<link href="~/Areas/Admin/Contents/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Areas/Admin/Contents/js/jquery-ui.js"></script>
+<div class="container">
+    <h2 style="text-align: center"><b>List of Purchase Orders</b></h2>
+    <br />
+    <p>
+        <a href="/Admin/PurchaseOrder/Create" class="btn btn-primary"><b>Add new Purchase Order</b></a>
+        <a onclick="loadData()" class="btn btn-warning" style="color: white;margin-left:5px; display: none" id="reload"><b>Reload</b></a>
+        <input class="form-control col-md-3" style="float: right; margin-left: 5px" type="text" id="to" name="to" placeholder="To Order Date...">
+        <input class="form-control col-md-3" style="float: right;margin-right:5px" type="text" id="from" name="from" placeholder="From Order Date...">
+    </p>
+    <table class="table table-bordered" id="tablePurchaseOrder">
+        <tr>
+            <th>
+            </th>
+            <th>
+                <b>Purchase Order Id</b>
+            </th>
+            <th>
+                <b>Quantity Imported Car</b>
+            </th>
+            <th>
+                <b>Car Model Name</b>
+            </th>
+            <th>
+                <b>Order Date</b>
+            </th>
+            <th>
+                <b>@Html.DisplayNameFor(model => model.Status)</b>
+            </th>
+            <th></th>
+        </tr>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="pagination" id="pagination" style="float: right">
+    </div>
+    <div class="pagination" id="paginationSearchMutiplePages" style="float: right">
+    </div>
+    <div style="float: left; display: none" id="resultSearch">
+        <b>Found <span id="totalRowSearch"></span> results</b>
+    </div>
+</div>
+<script>
+    var pageCofig = {
+        pageSize: 6,
+        pageIndex: 1
+    }
+    var pageSearchCofig = {
+        pageSize: 6,
+        pageIndex: 1
+    }
+    $(document).ready(function () {
+        $('#from').attr('readonly', 'readonly');
+        $('#to').attr('readonly', 'readonly');
+        var dateFormat = "mm/dd/yy",
+            from = $("#from").datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true,
+                    changeYear: true,
+                }).on("change", function () {
+                    to.datepicker("option", "minDate", getDate(this));
+                    $('#paginationSearchMutiplePages').empty();
+                    $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+                    $('#paginationSearchMutiplePages').unbind("page");
+                    $('#pagination').empty();
+                    $('#pagination').removeData("twbs-pagination");
+                    $('#pagination').unbind("page");
+                    searchPurchaseOrder();
+                    $("#pagination").hide();
+                    pageSearchCofig = {
+                        pageSize: 6,
+                        pageIndex: 1
+                    }
+                }),
+            to = $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                changeYear: true,
+            }).on("change", function () {
+                from.datepicker("option", "maxDate", getDate(this));
+                $('#paginationSearchMutiplePages').empty();
+                $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+                $('#paginationSearchMutiplePages').unbind("page");
+                $('#pagination').empty();
+                $('#pagination').removeData("twbs-pagination");
+                $('#pagination').unbind("page");
+                    $("#pagination").hide();
+                    searchPurchaseOrder();
+                    pageSearchCofig = {
+                        pageSize: 6,
+                        pageIndex: 1
+                    }
+                });
+
+        function getDate(element) {
+            var date;
+            try {
+                date = $.datepicker.parseDate(dateFormat, element.value);
+            } catch (error) {
+                date = null;
+            }
+
+            return date;
+        }
+
+        $("#pagination").hide();
+        $("#paginationSearchMutiplePages").hide();
+        $("#paginationSearchOnePage").hide();
+        $("#tablePurchaseOrder").find('.dataTable').remove();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/PurchaseOrder/LoadData",
+            data: '{page: ' + pageCofig.pageIndex + ', pageSize: ' + pageCofig.pageSize + ' }',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response.data.length > 0) {
+                    var row = "";
+                    for (var i = 0; i < response.data.length; i++) {
+                        var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
+                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = importCar(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Import</a> </td>" + "<td>" + response.data[i].PurchaseOrderId + "</td>" + "<td style = 'text-align: center'>" + response.data[i].QuantityCarImport + "</td>" + "<td>" + response.data[i].ModelCarName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Incomplete" : "Completed") + "</td>" + "<td> <a href='/Admin/PurchaseOrder/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/PurchaseOrder/Edit?Id=" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deletePurchaseOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                    }
+                    $("#tablePurchaseOrder").append(row);
+                    $("#pagination").show();
+                    pagination(response.total, function () {
+                    })
+                }
+            }
+        });
+    });
+
+    function searchPurchaseOrder() {
+        $("#tablePurchaseOrder").find('.dataTable').remove();
+        var from = $("#from").val();
+        var to = $("#to").val();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/PurchaseOrder/Search",
+            data: '{page: ' + pageSearchCofig.pageIndex + ', pageSize: ' + pageSearchCofig.pageSize + ' , fromDate: ' + "'" + from + "'" + ' , toDate: ' + "'" + to + "'" + ' }',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response.purchaseOrders > 0) {
+                    if (response.data.length > 0) {
+                    var row = "";
+                    for (var i = 0; i < response.data.length; i++) {
+                        var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
+                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = importCar(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Import</a> </td>" + "<td>" + response.data[i].PurchaseOrderId + "</td>" + "<td style = 'text-align: center'>" + response.data[i].QuantityCarImport + "</td>" + "<td>" + response.data[i].ModelCarName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Incomplete" : "Completed") + "</td>" + "<td> <a href='/Admin/PurchaseOrder/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/PurchaseOrder/Edit?Id=" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deletePurchaseOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                    }
+                    $("#tablePurchaseOrder").append(row);
+                    $("#paginationSearchMutiplePages").show();
+                    $("#resultSearch").show();
+                    $("#reload").show();
+                    $("#totalRowSearch").text(response.total);
+                    paginationSearchMutiplePages(response.total, function () {
+                        searchPurchaseOrder();
+                    })
+                    } else {
+                        $("#resultSearch").show();
+                        $("#reload").show();
+                    $("#totalRowSearch").text(response.total);
+                    }
+                } else {
+                    swal({
+                        title: "Nothing to search !",
+                        text: "Please add new Purchase Order",
+                        icon: "error",
+                        button: "Got it",
+                        dangerMode: false
+                    }).then((logOut) => {
+                        if (logOut) {
+                            window.location.replace("/Admin/PurchaseOrder/Create");
+                        }
+                    });
+                    $("#from").val("");
+                    $("#from").datepicker("option", {
+                        minDate: null,
+                        maxDate: null
+                    });
+                    $("#to").val("");
+                    $("#to").datepicker("option", {
+                        minDate: null,
+                        maxDate: null
+                    });
+                }
+            }
+        });
+    }
+
+    
+
+    $("#from").click(function () {
+        this.click(function () {
+            alert($("#from").val())
+        });
+    })
+    $("#pagination").click(function () {
+        loadData();
+    });
+
+    function loadData() {
+        $("#from").val("");
+        $("#from").datepicker("option",{
+            minDate: null,
+            maxDate: null
+        });
+        $("#to").val("");
+        $("#to").datepicker("option", {
+            minDate: null,
+            maxDate: null});
+        $("#tablePurchaseOrder").find('.dataTable').remove();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/PurchaseOrder/LoadData",
+            data: '{page: ' + pageCofig.pageIndex + ', pageSize: ' + pageCofig.pageSize + ' }',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response.data.length > 0) {
+                    var row = "";
+                    for (var i = 0; i < response.data.length; i++) {
+                        var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
+                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = importCar(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Import</a> </td>" + "<td>" + response.data[i].PurchaseOrderId + "</td>" + "<td style = 'text-align: center'>" + response.data[i].QuantityCarImport + "</td>" + "<td>" + response.data[i].ModelCarName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Incomplete" : "Completed") + "</td>" + "<td> <a href='/Admin/PurchaseOrder/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/PurchaseOrder/Edit?Id=" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deletePurchaseOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                    }
+                    $("#tablePurchaseOrder").append(row);
+                    $("#pagination").show();
+                  
+                    $("#resultSearch").hide();
+                    $("#reload").hide();
+                    $("#paginationSearchMutiplePages").hide();
+
+                    pagination(response.total, function () {
+                        loadData();
+                    })
+                }
+            }
+        });
+    }
+
+    function convert(str) {
+        var date = new Date(str),
+            month = ("0" + (date.getMonth() + 1)).slice(-2),
+            day = ("0" + date.getDate()).slice(-2);
+        return [month, day, date.getFullYear()].join("/");
+    }
+
+    function pagination(totalRow, callback) {
+        var totalPage = Math.ceil(totalRow / pageCofig.pageSize);
+        $('#pagination').twbsPagination({
+            totalPages: totalPage,
+            visiblePages: 10,
+            onPageClick: function (event, page) {
+                pageCofig.pageIndex = page;
+                setTimeout(callback, 200);
+            }
+        });
+    }
+
+    function paginationSearchMutiplePages(totalRow, callback) {
+        var totalPage = Math.ceil(totalRow / pageCofig.pageSize);
+        $('#paginationSearchMutiplePages').twbsPagination({
+            totalPages: totalPage,
+            visiblePages: 10,
+            onPageClick: function (event, page) {
+                pageSearchCofig.pageIndex = page;
+                setTimeout(callback, 500);
+            }
+        });
+    }
+
+    function importCar(Id) {
+        window.location.replace("/Admin/Car/Create?Id="+Id);
+    }
+</script>
+
