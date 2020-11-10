@@ -154,6 +154,7 @@ Checking int,
 PurchaseOrderDate Date,
 CreatedDate DateTime,
 UpdatedDate DateTime,
+Sold int
 )
 go
 
@@ -175,7 +176,7 @@ create proc Insert_Car
 	@PurchaseOrderDate Date
 as
 begin
-	insert into Cars values(@ModelNumberCar, @Id, @CarName, @PriceInput, @PriceOutput, @SeatQuantity, @Color, @Gearbox, @Engine, @FuelConsumption, @KilometerGone, @Status, @Checking, @PurchaseOrderDate, CURRENT_TIMESTAMP, NULL)
+	insert into Cars values(@ModelNumberCar, @Id, @CarName, @PriceInput, @PriceOutput, @SeatQuantity, @Color, @Gearbox, @Engine, @FuelConsumption, @KilometerGone, @Status, @Checking, @PurchaseOrderDate, CURRENT_TIMESTAMP, NULL,0)
 end
 go
 

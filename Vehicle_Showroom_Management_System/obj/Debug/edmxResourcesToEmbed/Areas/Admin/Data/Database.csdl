@@ -137,6 +137,7 @@
     <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
     <NavigationProperty Name="PurchaseOrder" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Cars__Id__20C1E124" FromRole="Car" ToRole="PurchaseOrder" />
     <NavigationProperty Name="Images" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Images__ModelNum__24927208" FromRole="Car" ToRole="Image" />
+    <Property Name="Sold" Type="Int32" />
   </EntityType>
   <EntityType Name="Customer">
     <Key>

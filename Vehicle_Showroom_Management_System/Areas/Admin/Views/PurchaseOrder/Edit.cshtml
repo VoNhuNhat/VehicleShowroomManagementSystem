@@ -7,8 +7,8 @@
 <link href="~/Areas/Admin/Contents/css/jquery-ui.css" rel="stylesheet" />
 <script src="~/Areas/Admin/Contents/js/jquery-ui.js"></script>
 <div class="container">
-
-    <h2 style="text-align: center"><b>Edit Purchase Order</b></h2>
+    <br />
+    <h2 style="text-align: center"><b>Edit Purchase Order Id: @Model.PurchaseOrderId</b></h2>
 
     @using (Html.BeginForm())
     {
@@ -20,9 +20,9 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="QuantityCarImport" class="control-label col-md-6" style="font-weight: bold">Quantity Imported Car</label>
+                        <label for="QuantityCarImport" class="control-label col-md-6" style="font-weight: bold">Quantity Import Car</label>
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.QuantityCarImport, new { htmlAttributes = new { @class = "form-control" } })
+                            <input type="number" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="QuantityCarImport" name="QuantityCarImport" class="form-control" value="@Model.QuantityCarImport"/>
                             @Html.ValidationMessageFor(model => model.QuantityCarImport, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -72,23 +72,44 @@
         var modelCar = $("#ModelCarId").val();
         var orderDate = $("#OrderDate").val();
         if (quantity.length == 0) {
-            swal("There was a problem !!!", "Please enter Quantity Imported Car", "error").then(() => { $("#QuantityCarImport").focus(); });
+            swal("There was a problem !!!", "Please enter Quantity Import Car", "error").then(() => { $("#QuantityCarImport").focus(); });
         } else {
-            if (orderDate == "") {
-                swal("There was a problem !!!", "Please choose Order Date", "error").then(() => { $("#OrderDate").focus(); });
+            if (quantity < 1) {
+                swal("There was a problem !!!", "Please enter Quantity Import Car greater than 0", "error").then(() => { $("#QuantityCarImport").focus(); });
             } else {
-                setTimeout(function () {
-                    swal({
-                        title: "Add new Purchase Order success!",
-                        icon: "success",
-                        buttons: false,
-                        dangerMode: false,
-                    })
-                    setTimeout(function () {
-                        $("#btnSubmit").prop("disabled", false);
-                        $("#btnSubmit").click();
-                    }, 800);
-                }, 100);
+                if (quantity.length > 9) {
+                    swal("There was a problem !!!", "Maximum length of Quantity Import Car is 9 numbers", "error").then(() => { $("#QuantityCarImport").focus(); });
+                } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/PurchaseOrder/CheckQuantityEditCar",
+                    data: '{Id:' + @Model.Id + ', quantityImportedCar:' + quantity + '}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response == false) {
+                            swal("There was a problem !!!", "Quantity Import must greater than Quantity Import Car", "error").then(() => { $("#QuantityCarImport").focus(); });
+                        } else {
+                            if (orderDate == "") {
+                                swal("There was a problem !!!", "Please choose Order Date", "error").then(() => { $("#OrderDate").focus(); });
+                            } else {
+                                setTimeout(function () {
+                                    swal({
+                                        title: "Add new Purchase Order success!",
+                                        icon: "success",
+                                        buttons: false,
+                                        dangerMode: false,
+                                    })
+                                    setTimeout(function () {
+                                        $("#btnSubmit").prop("disabled", false);
+                                        $("#btnSubmit").click();
+                                    }, 800);
+                                }, 100);
+                            }
+                        }
+                    }
+                });
+                }
             }
         }
     }

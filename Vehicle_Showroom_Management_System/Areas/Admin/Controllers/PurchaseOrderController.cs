@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Mvc;
 using Vehicle_Showroom_Management_System.Areas.Admin.Data;
@@ -27,7 +28,15 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             var list = (from p in listPurchaseOrders
                         join m in listModelCars on p.ModelCarId equals m.ModelCarId
                         orderby p.CreatedDate descending
-                        select new {Id = p.Id, PurchaseOrderId = p.PurchaseOrderId, QuantityCarImport = p.QuantityCarImport, ModelCarName = m.ModelCarName,OrderDate = p.OrderDate,Status = p.Status }).ToList();
+                        select new {
+                            Id = p.Id, 
+                            PurchaseOrderId = p.PurchaseOrderId, 
+                            QuantityCarImport = p.QuantityCarImport,
+                            ModelCarName = m.ModelCarName,
+                            OrderDate = p.OrderDate,
+                            Status = p.Status,
+                            ImportedCar = db.Cars.Where(car=>car.Id == p.Id).Count()
+                        }).ToList();
             var model = list.Skip((page - 1) * pageSize).Take(pageSize);
             var totalRow = list.Count;
             if (totalRow > 1)
@@ -77,6 +86,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             PurchaseaOrderId += id;
             db.Insert_PurchaseOrder(PurchaseaOrderId, ModelCarId, QuantityCarImport, OrderDate);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
         [HttpGet]
@@ -97,6 +107,17 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             purchaseOrder.OrderDate = OrderDate;
             purchaseOrder.UpdatedDate = DateTime.Now;
             db.SaveChanges();
+            int countCars = db.Cars.Where(c => c.Id == Id).Count();
+            if (QuantityCarImport > countCars)
+            {
+                purchaseOrder.Status = 0;
+                db.SaveChanges();
+            }
+            else
+            {
+                purchaseOrder.Status = 1;
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
         [HttpPost]
@@ -110,7 +131,15 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             var list = (from p in listPurchaseOrders
                         join m in listModelCars on p.ModelCarId equals m.ModelCarId
                             where p.OrderDate >= DateTime.Now && p.OrderDate <= toDate
-                        select new { Id = p.Id, PurchaseOrderId = p.PurchaseOrderId, QuantityCarImport = p.QuantityCarImport,ModelCarName = p.ModelCar.ModelCarName,OrderDate = p.OrderDate,Status = p.Status }).ToList();
+                        select new { 
+                            Id = p.Id, 
+                            PurchaseOrderId = p.PurchaseOrderId,
+                            QuantityCarImport = p.QuantityCarImport,
+                            ModelCarName = p.ModelCar.ModelCarName,
+                            OrderDate = p.OrderDate,
+                            Status = p.Status, 
+                            ImportedCar = db.Cars.Where(car => car.Id == p.Id).Count() 
+                        }).ToList();
                 var model = list.Skip((page - 1) * pageSize).Take(pageSize);
                 var totalRow = list.Count;
                 return Json(new
@@ -127,7 +156,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                     var list = (from p in listPurchaseOrders
                             join m in listModelCars on p.ModelCarId equals m.ModelCarId
                             where p.OrderDate >= fromDate
-                            select new { Id = p.Id, PurchaseOrderId = p.PurchaseOrderId, QuantityCarImport = p.QuantityCarImport, ModelCarName = p.ModelCar.ModelCarName, OrderDate = p.OrderDate, Status = p.Status }).ToList();
+                            select new { Id = p.Id, PurchaseOrderId = p.PurchaseOrderId, QuantityCarImport = p.QuantityCarImport, ModelCarName = p.ModelCar.ModelCarName, OrderDate = p.OrderDate, Status = p.Status, ImportedCar = db.Cars.Where(car => car.Id == p.Id).Count() }).ToList();
                     var model = list.Skip((page - 1) * pageSize).Take(pageSize);
                     var totalRow = list.Count;
                     return Json(new
@@ -142,7 +171,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                     var list = (from p in listPurchaseOrders
                             join m in listModelCars on p.ModelCarId equals m.ModelCarId
                             where p.OrderDate >= fromDate && p.OrderDate <= toDate
-                            select new { Id = p.Id, PurchaseOrderId = p.PurchaseOrderId, QuantityCarImport = p.QuantityCarImport, ModelCarName = p.ModelCar.ModelCarName, OrderDate = p.OrderDate, Status = p.Status }).ToList();
+                            select new { Id = p.Id, PurchaseOrderId = p.PurchaseOrderId, QuantityCarImport = p.QuantityCarImport, ModelCarName = p.ModelCar.ModelCarName, OrderDate = p.OrderDate, Status = p.Status, ImportedCar = db.Cars.Where(car => car.Id == p.Id).Count() }).ToList();
                     var model = list.Skip((page - 1) * pageSize).Take(pageSize);
                     var totalRow = list.Count;
                     return Json(new
@@ -158,6 +187,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         public ActionResult Details(int Id)
         {
             PurchaseOrder purchaseOrder = db.PurchaseOrders.Where(p => p.Id == Id).FirstOrDefault();
+            ViewBag.importedCar = db.Cars.Where(c => c.Id == Id).Count();
             return View(purchaseOrder);
         }
         [HttpPost]
@@ -190,6 +220,47 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                     status = true
                 }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        [HttpPost]
+        public JsonResult CheckImportCar(int Id)
+        {
+            bool ok = true;
+            PurchaseOrder purchaseOrder = db.PurchaseOrders.Where(p => p.Id == Id).FirstOrDefault();
+            if (purchaseOrder.Status == 1)
+            {
+                ok = false;
+            }
+            return Json(ok);
+        }
+
+        [HttpPost]
+        public JsonResult CheckQuantityEditCar(int Id,int quantityImportedCar)
+        {
+            bool ok = true;
+            int countCars = db.Cars.Where(c => c.Id == Id).Count();
+            if (quantityImportedCar < countCars)
+            {
+                ok = false;
+            }
+            return Json(ok);
+        }
+        [HttpPost]
+        public JsonResult Delete(int Id)
+        {
+            bool deleted = false;
+            bool checkExistedCar = db.Cars.Any(c => c.Id == Id);
+            if (!checkExistedCar)
+            {
+                PurchaseOrder purchaseOrderDelete = db.PurchaseOrders.Where(p => p.Id == Id).FirstOrDefault();
+                db.PurchaseOrders.Remove(purchaseOrderDelete);
+                int d = db.SaveChanges();
+                if (d > 0)
+                {
+                    deleted = true;
+                }
+            }
+            return Json(deleted);
         }
     }
 }

@@ -35,6 +35,7 @@
           <Property Name="PurchaseOrderDate" Type="date" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="Sold" Type="int" />
         </EntityType>
         <EntityType Name="Customers">
           <Key>
@@ -427,6 +428,7 @@
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="PurchaseOrder" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Cars__Id__20C1E124" FromRole="Car" ToRole="PurchaseOrder" />
           <NavigationProperty Name="Images" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Images__ModelNum__24927208" FromRole="Car" ToRole="Image" />
+          <Property Name="Sold" Type="Int32" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -612,6 +614,7 @@
           <EntitySetMapping Name="Cars">
             <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Car">
               <MappingFragment StoreEntitySet="Cars">
+                <ScalarProperty Name="Sold" ColumnName="Sold" />
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="PurchaseOrderDate" ColumnName="PurchaseOrderDate" />

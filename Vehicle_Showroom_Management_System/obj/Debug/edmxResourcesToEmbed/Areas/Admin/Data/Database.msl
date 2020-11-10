@@ -24,6 +24,7 @@
     <EntitySetMapping Name="Cars">
       <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Car">
         <MappingFragment StoreEntitySet="Cars">
+          <ScalarProperty Name="Sold" ColumnName="Sold" />
           <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="PurchaseOrderDate" ColumnName="PurchaseOrderDate" />

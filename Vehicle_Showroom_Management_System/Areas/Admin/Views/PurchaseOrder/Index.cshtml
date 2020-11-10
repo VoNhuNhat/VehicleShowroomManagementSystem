@@ -62,24 +62,24 @@
         $('#to').attr('readonly', 'readonly');
         var dateFormat = "mm/dd/yy",
             from = $("#from").datepicker({
-                    defaultDate: "+1w",
-                    changeMonth: true,
-                    changeYear: true,
-                }).on("change", function () {
-                    to.datepicker("option", "minDate", getDate(this));
-                    $('#paginationSearchMutiplePages').empty();
-                    $('#paginationSearchMutiplePages').removeData("twbs-pagination");
-                    $('#paginationSearchMutiplePages').unbind("page");
-                    $('#pagination').empty();
-                    $('#pagination').removeData("twbs-pagination");
-                    $('#pagination').unbind("page");
-                    searchPurchaseOrder();
-                    $("#pagination").hide();
-                    pageSearchCofig = {
-                        pageSize: 6,
-                        pageIndex: 1
-                    }
-                }),
+                defaultDate: "+1w",
+                changeMonth: true,
+                changeYear: true,
+            }).on("change", function () {
+                to.datepicker("option", "minDate", getDate(this));
+                $('#paginationSearchMutiplePages').empty();
+                $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+                $('#paginationSearchMutiplePages').unbind("page");
+                $('#pagination').empty();
+                $('#pagination').removeData("twbs-pagination");
+                $('#pagination').unbind("page");
+                searchPurchaseOrder();
+                $("#pagination").hide();
+                pageSearchCofig = {
+                    pageSize: 6,
+                    pageIndex: 1
+                }
+            }),
             to = $("#to").datepicker({
                 defaultDate: "+1w",
                 changeMonth: true,
@@ -92,13 +92,13 @@
                 $('#pagination').empty();
                 $('#pagination').removeData("twbs-pagination");
                 $('#pagination').unbind("page");
-                    $("#pagination").hide();
-                    searchPurchaseOrder();
-                    pageSearchCofig = {
-                        pageSize: 6,
-                        pageIndex: 1
-                    }
-                });
+                $("#pagination").hide();
+                searchPurchaseOrder();
+                pageSearchCofig = {
+                    pageSize: 6,
+                    pageIndex: 1
+                }
+            });
 
         function getDate(element) {
             var date;
@@ -126,7 +126,7 @@
                     var row = "";
                     for (var i = 0; i < response.data.length; i++) {
                         var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
-                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = importCar(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Import</a> </td>" + "<td>" + response.data[i].PurchaseOrderId + "</td>" + "<td style = 'text-align: center'>" + response.data[i].QuantityCarImport + "</td>" + "<td>" + response.data[i].ModelCarName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Incomplete" : "Completed") + "</td>" + "<td> <a href='/Admin/PurchaseOrder/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/PurchaseOrder/Edit?Id=" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deletePurchaseOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = importCar(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Import</a> </td>" + "<td>" + response.data[i].PurchaseOrderId + "</td>" + "<td style = 'text-align: center'>" + response.data[i].ImportedCar + " / " + response.data[i].QuantityCarImport + "</td>" + "<td>" + response.data[i].ModelCarName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Incomplete" : "Completed") + "</td>" + "<td> <a href='/Admin/PurchaseOrder/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/PurchaseOrder/Edit?Id=" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deletePurchaseOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                     }
                     $("#tablePurchaseOrder").append(row);
                     $("#pagination").show();
@@ -150,23 +150,23 @@
             success: function (response) {
                 if (response.purchaseOrders > 0) {
                     if (response.data.length > 0) {
-                    var row = "";
-                    for (var i = 0; i < response.data.length; i++) {
-                        var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
-                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = importCar(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Import</a> </td>" + "<td>" + response.data[i].PurchaseOrderId + "</td>" + "<td style = 'text-align: center'>" + response.data[i].QuantityCarImport + "</td>" + "<td>" + response.data[i].ModelCarName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Incomplete" : "Completed") + "</td>" + "<td> <a href='/Admin/PurchaseOrder/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/PurchaseOrder/Edit?Id=" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deletePurchaseOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
-                    }
-                    $("#tablePurchaseOrder").append(row);
-                    $("#paginationSearchMutiplePages").show();
-                    $("#resultSearch").show();
-                    $("#reload").show();
-                    $("#totalRowSearch").text(response.total);
-                    paginationSearchMutiplePages(response.total, function () {
-                        searchPurchaseOrder();
-                    })
+                        var row = "";
+                        for (var i = 0; i < response.data.length; i++) {
+                            var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
+                            row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = importCar(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Import</a> </td>" + "<td>" + response.data[i].PurchaseOrderId + "</td>" + "<td style = 'text-align: center'>" + response.data[i].ImportedCar + " / " + response.data[i].QuantityCarImport + "</td>" + "<td>" + response.data[i].ModelCarName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Incomplete" : "Completed") + "</td>" + "<td> <a href='/Admin/PurchaseOrder/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/PurchaseOrder/Edit?Id=" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deletePurchaseOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                        }
+                        $("#tablePurchaseOrder").append(row);
+                        $("#paginationSearchMutiplePages").show();
+                        $("#resultSearch").show();
+                        $("#reload").show();
+                        $("#totalRowSearch").text(response.total);
+                        paginationSearchMutiplePages(response.total, function () {
+                            searchPurchaseOrder();
+                        })
                     } else {
                         $("#resultSearch").show();
                         $("#reload").show();
-                    $("#totalRowSearch").text(response.total);
+                        $("#totalRowSearch").text(response.total);
                     }
                 } else {
                     swal({
@@ -195,7 +195,7 @@
         });
     }
 
-    
+
 
     $("#from").click(function () {
         this.click(function () {
@@ -208,14 +208,15 @@
 
     function loadData() {
         $("#from").val("");
-        $("#from").datepicker("option",{
+        $("#from").datepicker("option", {
             minDate: null,
             maxDate: null
         });
         $("#to").val("");
         $("#to").datepicker("option", {
             minDate: null,
-            maxDate: null});
+            maxDate: null
+        });
         $("#tablePurchaseOrder").find('.dataTable').remove();
         $.ajax({
             type: "POST",
@@ -228,11 +229,11 @@
                     var row = "";
                     for (var i = 0; i < response.data.length; i++) {
                         var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
-                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = importCar(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Import</a> </td>" + "<td>" + response.data[i].PurchaseOrderId + "</td>" + "<td style = 'text-align: center'>" + response.data[i].QuantityCarImport + "</td>" + "<td>" + response.data[i].ModelCarName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Incomplete" : "Completed") + "</td>" + "<td> <a href='/Admin/PurchaseOrder/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/PurchaseOrder/Edit?Id=" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deletePurchaseOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = importCar(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Import</a> </td>" + "<td>" + response.data[i].PurchaseOrderId + "</td>" + "<td style = 'text-align: center'>" + response.data[i].ImportedCar + " / " + response.data[i].QuantityCarImport + "</td>" + "<td>" + response.data[i].ModelCarName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Incomplete" : "Completed") + "</td>" + "<td> <a href='/Admin/PurchaseOrder/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/PurchaseOrder/Edit?Id=" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deletePurchaseOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                     }
                     $("#tablePurchaseOrder").append(row);
                     $("#pagination").show();
-                  
+
                     $("#resultSearch").hide();
                     $("#reload").hide();
                     $("#paginationSearchMutiplePages").hide();
@@ -277,7 +278,76 @@
     }
 
     function importCar(Id) {
-        window.location.replace("/Admin/Car/Create?Id="+Id);
+        $.ajax({
+            type: "POST",
+            url: "/Admin/PurchaseOrder/CheckImportCar",
+            data: '{Id: ' + Id + ' }',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response == false) {
+                    swal("There was a problem !!!", "Quantity Imported Car reached limit", "error");
+                } else {
+                    window.location.replace("/Admin/Car/Create?Id=" + Id);
+                }
+            }
+        });
+    }
+
+    function deletePurchaseOrder(Id) {
+        swal({
+            title: "Are you sure you want to delete?",
+            text: "Once deleted, you won't be able to recover this order!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((logOut) => {
+            if (logOut) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/PurchaseOrder/Delete",
+                    data: '{Id: ' + Id + ' }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response == false) {
+                            swal("Can not delete !!!", "This Purchase Order is containing Imported Car", "error");
+                        } else {
+                            $('#pagination').empty();
+                            $('#pagination').removeData("twbs-pagination");
+                            $('#pagination').unbind("page");
+
+                            $('#paginationSearchMutiplePages').empty();
+                            $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+                            $('#paginationSearchMutiplePages').unbind("page");
+
+                            pageCofig = {
+                                pageSize: 6,
+                                pageIndex: 1
+                            }
+                            pageSearchCofig = {
+                                pageSize: 6,
+                                pageIndex: 1
+                            }
+                            $("#" + Id).remove();
+                            if ($("#from").val() == "" && $("#to").val() == "") {
+                                loadData();
+                            } else {
+                                searchPurchaseOrder();
+                            }
+                            setTimeout(function () {
+                                swal({
+                                    title: "Poof! Purchase Order has been deleted!",
+                                    icon: "success",
+                                    button: true,
+                                    dangermode: false,
+                                });
+                            }, 100);
+                        }
+                    }
+                });
+            }
+        });
     }
 </script>
 

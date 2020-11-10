@@ -30,6 +30,7 @@
     <Property Name="PurchaseOrderDate" Type="date" />
     <Property Name="CreatedDate" Type="datetime" />
     <Property Name="UpdatedDate" Type="datetime" />
+    <Property Name="Sold" Type="int" />
   </EntityType>
   <EntityType Name="Customers">
     <Key>

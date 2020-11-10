@@ -20,37 +20,93 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult LoadData(int page, int pageSize = 2)
+        public JsonResult LoadData(int? Id, int page, int pageSize)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             List<Car> listCars = db.Cars.ToList();
             List<Image> listImages = db.Images.ToList();
-            var list = (from c in listCars
-                        join i in listImages on c.ModelNumberCar equals i.ModelNumberCar
-                        where i.Status == 1
-                        select new { ModelNumberCar = c.ModelNumberCar, CarName = c.CarName, PriceInput = c.PriceInput, PriceOutput = c.PriceOutput, SeatQuantity = c.SeatQuantity, Color = c.Color, Gearbox = c.Gearbox, Engine = c.Engine, Status = c.Status, Checking = c.Checking, ImageName = i.Name }).ToList();
-            db.Configuration.ProxyCreationEnabled = false;
-            var model = list.Skip((page - 1) * pageSize).Take(pageSize);
-            var totalRow = list.Count;
-            if (totalRow > 1)
+            if (Id == null)
             {
-                return Json(new
+               var list = (from c in listCars
+                            join i in listImages on c.ModelNumberCar equals i.ModelNumberCar
+                            where i.Status == 1
+                            select new
+                            {
+                                ModelNumberCar = c.ModelNumberCar,
+                                CarName = c.CarName,
+                                PriceInput = c.PriceInput,
+                                PriceOutput = c.PriceOutput,
+                                SeatQuantity = c.SeatQuantity,
+                                Color = c.Color,
+                                Gearbox = c.Gearbox,
+                                Engine = c.Engine,
+                                Status = c.Status,
+                                Checking = c.Checking,
+                                ImageName = i.Name
+                            }).ToList();
+                var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = list.Count;
+                if (totalRow > 1)
                 {
-                    data = model,
-                    total = totalRow,
-                    status = true
-                }, JsonRequestBehavior.AllowGet);
+                    return Json(new
+                    {
+                        data = model,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = list,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
             }
             else
             {
-                return Json(new
+                var list = (from c in listCars
+                            join i in listImages on c.ModelNumberCar equals i.ModelNumberCar
+                            where i.Status == 1 && c.Id == Id
+                            select new
+                            {
+                                ModelNumberCar = c.ModelNumberCar,
+                                CarName = c.CarName,
+                                PriceInput = c.PriceInput,
+                                PriceOutput = c.PriceOutput,
+                                SeatQuantity = c.SeatQuantity,
+                                Color = c.Color,
+                                Gearbox = c.Gearbox,
+                                Engine = c.Engine,
+                                Status = c.Status,
+                                Checking = c.Checking,
+                                ImageName = i.Name
+                            }).ToList();
+                var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = list.Count;
+                if (totalRow > 1)
                 {
-                    data = list,
-                    total = totalRow,
-                    status = true
-                }, JsonRequestBehavior.AllowGet);
+                    return Json(new
+                    {
+                        data = model,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = list,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
             }
         }
-
+       
         [HttpGet]
         public ActionResult Create(int Id)
         {
@@ -85,6 +141,13 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                 }
                 db.Images.Add(img);
                 db.SaveChanges();
+                PurchaseOrder purchaseOrder = db.PurchaseOrders.Where(p => p.Id == Id).FirstOrDefault();
+                int countCars = db.Cars.Where(c => c.Id == Id).Count();
+                if (countCars == purchaseOrder.QuantityCarImport)
+                {
+                    purchaseOrder.Status = 1;
+                    db.SaveChanges();
+                }
             }
             
             return RedirectToAction("Index","PurchaseOrder");
