@@ -20,7 +20,7 @@
 <div class="form-horizontal">
     <hr />
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-5">
             <div class="form-group">
                 @Html.LabelFor(model => model.ModelNumberCar, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
                 <div class="col-md-10">
@@ -63,11 +63,12 @@
                 <div class="col-md-10">
                     <input type="file" name="Images" id="Images" multiple />
                     <hr />
-                    <div id="dvPreview" style="width: 300px; height:200px"></div>
+                    <div id="dvPreview" style="width: 800px; height:100px;"></div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
             <div class="form-group">
                 @Html.LabelFor(model => model.Gearbox, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
                 <div class="col-md-10">

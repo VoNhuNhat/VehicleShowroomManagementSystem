@@ -126,7 +126,7 @@
                     var row = "";
                     for (var i = 0; i < response.data.length; i++) {
                         var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
-                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = importCar(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Import</a> </td>" + "<td>" + response.data[i].PurchaseOrderId + "</td>" + "<td style = 'text-align: center'>" + response.data[i].QuantityCarImport + "</td>" + "<td>" + response.data[i].ModelCarName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Incomplete" : "Completed") + "</td>" + "<td> <a href='/Admin/PurchaseOrder/Details/" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/PurchaseOrder/Edit/" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deletePurchaseOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = importCar(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Import</a> </td>" + "<td>" + response.data[i].PurchaseOrderId + "</td>" + "<td style = 'text-align: center'>" + response.data[i].QuantityCarImport + "</td>" + "<td>" + response.data[i].ModelCarName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Incomplete" : "Completed") + "</td>" + "<td> <a href='/Admin/PurchaseOrder/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/PurchaseOrder/Edit?Id=" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deletePurchaseOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                     }
                     $("#tablePurchaseOrder").append(row);
                     $("#pagination").show();
@@ -148,10 +148,12 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
+                if (response.purchaseOrders > 0) {
+                    if (response.data.length > 0) {
                     var row = "";
                     for (var i = 0; i < response.data.length; i++) {
                         var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
-                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = importCar(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Import</a> </td>" + "<td>" + response.data[i].PurchaseOrderId + "</td>" + "<td style = 'text-align: center'>" + response.data[i].QuantityCarImport + "</td>" + "<td>" + response.data[i].ModelCarName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Incomplete" : "Completed") + "</td>" + "<td> <a href='/Admin/PurchaseOrder/Details/" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/PurchaseOrder/Edit/" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deletePurchaseOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = importCar(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Import</a> </td>" + "<td>" + response.data[i].PurchaseOrderId + "</td>" + "<td style = 'text-align: center'>" + response.data[i].QuantityCarImport + "</td>" + "<td>" + response.data[i].ModelCarName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Incomplete" : "Completed") + "</td>" + "<td> <a href='/Admin/PurchaseOrder/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/PurchaseOrder/Edit?Id=" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deletePurchaseOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                     }
                     $("#tablePurchaseOrder").append(row);
                     $("#paginationSearchMutiplePages").show();
@@ -161,6 +163,34 @@
                     paginationSearchMutiplePages(response.total, function () {
                         searchPurchaseOrder();
                     })
+                    } else {
+                        $("#resultSearch").show();
+                        $("#reload").show();
+                    $("#totalRowSearch").text(response.total);
+                    }
+                } else {
+                    swal({
+                        title: "Nothing to search !",
+                        text: "Please add new Purchase Order",
+                        icon: "error",
+                        button: "Got it",
+                        dangerMode: false
+                    }).then((logOut) => {
+                        if (logOut) {
+                            window.location.replace("/Admin/PurchaseOrder/Create");
+                        }
+                    });
+                    $("#from").val("");
+                    $("#from").datepicker("option", {
+                        minDate: null,
+                        maxDate: null
+                    });
+                    $("#to").val("");
+                    $("#to").datepicker("option", {
+                        minDate: null,
+                        maxDate: null
+                    });
+                }
             }
         });
     }
@@ -198,7 +228,7 @@
                     var row = "";
                     for (var i = 0; i < response.data.length; i++) {
                         var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
-                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = importCar(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Import</a> </td>" + "<td>" + response.data[i].PurchaseOrderId + "</td>" + "<td style = 'text-align: center'>" + response.data[i].QuantityCarImport + "</td>" + "<td>" + response.data[i].ModelCarName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Incomplete" : "Completed") + "</td>" + "<td> <a href='/Admin/PurchaseOrder/Details/" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/PurchaseOrder/Edit/" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deletePurchaseOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = importCar(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Import</a> </td>" + "<td>" + response.data[i].PurchaseOrderId + "</td>" + "<td style = 'text-align: center'>" + response.data[i].QuantityCarImport + "</td>" + "<td>" + response.data[i].ModelCarName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Incomplete" : "Completed") + "</td>" + "<td> <a href='/Admin/PurchaseOrder/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/PurchaseOrder/Edit?Id=" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deletePurchaseOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                     }
                     $("#tablePurchaseOrder").append(row);
                     $("#pagination").show();

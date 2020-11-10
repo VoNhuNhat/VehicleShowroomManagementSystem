@@ -57,6 +57,7 @@
           <Property Name="ImageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ModelNumberCar" Type="varchar" MaxLength="100" />
           <Property Name="Name" Type="text" />
+          <Property Name="Status" Type="int" />
         </EntityType>
         <EntityType Name="ModelCars">
           <Key>
@@ -451,6 +452,7 @@
           <Property Name="ModelNumberCar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Car" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Images__ModelNum__24927208" FromRole="Image" ToRole="Car" />
+          <Property Name="Status" Type="Int32" />
         </EntityType>
         <EntityType Name="ModelCar">
           <Key>
@@ -647,6 +649,7 @@
           <EntitySetMapping Name="Images">
             <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Image">
               <MappingFragment StoreEntitySet="Images">
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ModelNumberCar" ColumnName="ModelNumberCar" />
                 <ScalarProperty Name="ImageId" ColumnName="ImageId" />

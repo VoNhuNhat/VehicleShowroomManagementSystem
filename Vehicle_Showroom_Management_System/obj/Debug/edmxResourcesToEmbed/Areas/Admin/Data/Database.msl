@@ -61,6 +61,7 @@
     <EntitySetMapping Name="Images">
       <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Image">
         <MappingFragment StoreEntitySet="Images">
+          <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="ModelNumberCar" ColumnName="ModelNumberCar" />
           <ScalarProperty Name="ImageId" ColumnName="ImageId" />

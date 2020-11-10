@@ -22,8 +22,13 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult LoadData(int page, int pageSize = 2)
         {
+            List<Car> listCars = db.Cars.ToList();
+            List<Image> listImages = db.Images.ToList();
+            var list = (from c in listCars
+                        join i in listImages on c.ModelNumberCar equals i.ModelNumberCar
+                        where i.Status == 1
+                        select new { ModelNumberCar = c.ModelNumberCar, CarName = c.CarName, PriceInput = c.PriceInput, PriceOutput = c.PriceOutput, SeatQuantity = c.SeatQuantity, Color = c.Color, Gearbox = c.Gearbox, Engine = c.Engine, Status = c.Status, Checking = c.Checking, ImageName = i.Name }).ToList();
             db.Configuration.ProxyCreationEnabled = false;
-            List<Car> list = db.Cars.ToList();
             var model = list.Skip((page - 1) * pageSize).Take(pageSize);
             var totalRow = list.Count;
             if (totalRow > 1)
@@ -59,6 +64,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         {
             db.Insert_Car(ModelNumberCar, Id, CarName, PriceInput, PriceOutput, SeatQuantity, Color, Gearbox, Engine, FuelConsumption, KilometerGone, Status, Checking, PurchaseOrderDate);
             db.SaveChanges();
+                var firstImage = Images.First();
             foreach (HttpPostedFileBase Image in Images)
             {
                 string fileName = Path.GetFileNameWithoutExtension(Image.FileName);
@@ -68,7 +74,15 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                 Image.SaveAs(path);
                 Image img = new Image();
                 img.ModelNumberCar = ModelNumberCar;
-                img.Name = Image.FileName;
+                img.Name = fileName;
+                if (Image.Equals(firstImage))
+                {
+                img.Status = 1;
+                }
+                else
+                {
+                img.Status = 0;
+                }
                 db.Images.Add(img);
                 db.SaveChanges();
             }

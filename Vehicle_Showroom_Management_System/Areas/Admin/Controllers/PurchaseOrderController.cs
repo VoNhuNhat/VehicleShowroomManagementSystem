@@ -103,8 +103,8 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         public JsonResult Search(int page, int pageSize, DateTime? fromDate, DateTime? toDate)
         {
             db.Configuration.ProxyCreationEnabled = false;
-            List<PurchaseOrder> listPurchaseOrders = db.PurchaseOrders.ToList();
-            List<ModelCar> listModelCars = db.ModelCars.ToList();
+            var listPurchaseOrders = db.PurchaseOrders.ToList();
+            var listModelCars = db.ModelCars.ToList();
             if (fromDate == null)
             {
             var list = (from p in listPurchaseOrders
@@ -117,13 +117,14 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                 {
                     data = model,
                     total = totalRow,
+                    purchaseOrders = listPurchaseOrders.Count()
                 }, JsonRequestBehavior.AllowGet);
             }
             else
             {
                 if (toDate == null)
                 {
-                   var list = (from p in listPurchaseOrders
+                    var list = (from p in listPurchaseOrders
                             join m in listModelCars on p.ModelCarId equals m.ModelCarId
                             where p.OrderDate >= fromDate
                             select new { Id = p.Id, PurchaseOrderId = p.PurchaseOrderId, QuantityCarImport = p.QuantityCarImport, ModelCarName = p.ModelCar.ModelCarName, OrderDate = p.OrderDate, Status = p.Status }).ToList();
@@ -133,11 +134,12 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                     {
                         data = model,
                         total = totalRow,
+                        purchaseOrders = listPurchaseOrders.Count()
                     }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                  var list = (from p in listPurchaseOrders
+                    var list = (from p in listPurchaseOrders
                             join m in listModelCars on p.ModelCarId equals m.ModelCarId
                             where p.OrderDate >= fromDate && p.OrderDate <= toDate
                             select new { Id = p.Id, PurchaseOrderId = p.PurchaseOrderId, QuantityCarImport = p.QuantityCarImport, ModelCarName = p.ModelCar.ModelCarName, OrderDate = p.OrderDate, Status = p.Status }).ToList();
@@ -147,12 +149,47 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                     {
                         data = model,
                         total = totalRow,
+                        purchaseOrders = listPurchaseOrders.Count()
                     }, JsonRequestBehavior.AllowGet);
                 }
             }
-           
-         
         }
-
+        [HttpGet]
+        public ActionResult Details(int Id)
+        {
+            PurchaseOrder purchaseOrder = db.PurchaseOrders.Where(p => p.Id == Id).FirstOrDefault();
+            return View(purchaseOrder);
+        }
+        [HttpPost]
+        public JsonResult LoadCars(int page,int pageSize,int Id)
+        {
+            List<Car> listCars = db.Cars.ToList();
+            List<Image> listImages = db.Images.ToList();
+            var list = (from c in listCars
+                        join i in listImages on c.ModelNumberCar equals i.ModelNumberCar
+                        where c.Id == Id
+                        select new { ModelNumberCar= c.ModelNumberCar, CarName=c.CarName, PriceInput=c.PriceInput, PriceOutput=c.PriceOutput, SeatQuantity=c.SeatQuantity, Color=c.Color, Gearbox=c.Gearbox, Engine=c.Engine, Status=c.Status, Checking=c.Checking,ImageName = i.Name }).ToList();
+            db.Configuration.ProxyCreationEnabled = false;
+            var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+            var totalRow = list.Count;
+            if (totalRow > 1)
+            {
+                return Json(new
+                {
+                    data = model,
+                    total = totalRow,
+                    status = true
+                }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new
+                {
+                    data = list,
+                    total = totalRow,
+                    status = true
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

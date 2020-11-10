@@ -157,6 +157,7 @@ UpdatedDate DateTime,
 )
 go
 
+
 create proc Insert_Car
 	@ModelNumberCar varchar(100),
 	@Id int,
@@ -168,7 +169,7 @@ create proc Insert_Car
 	@Gearbox varchar(256),
 	@Engine varchar(256),
 	@FuelConsumption float,
-	@KilometerGone float,
+	@KilometerGone float,	
 	@Status int,
 	@Checking int,
 	@PurchaseOrderDate Date
@@ -186,10 +187,10 @@ go
 create table Images(
 ImageId int primary key identity,
 ModelNumberCar varchar(100) references Cars(ModelNumberCar),
-Name text	
+Name text,
+Status int
 )
 go
-	
 
 --select * from Images
 --go
@@ -246,8 +247,3 @@ UpdateDate DateTime,
 Status int
 )
 go
-
---insert into PurchaseOrders values (1, 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 0)
---insert into PurchaseOrders values (1, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 0)
---insert into PurchaseOrders values (1, 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 0)
---insert into PurchaseOrders values (1, 10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 1)

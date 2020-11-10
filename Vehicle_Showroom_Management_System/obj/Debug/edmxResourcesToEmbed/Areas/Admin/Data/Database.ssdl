@@ -52,6 +52,7 @@
     <Property Name="ImageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ModelNumberCar" Type="varchar" MaxLength="100" />
     <Property Name="Name" Type="text" />
+    <Property Name="Status" Type="int" />
   </EntityType>
   <EntityType Name="ModelCars">
     <Key>
