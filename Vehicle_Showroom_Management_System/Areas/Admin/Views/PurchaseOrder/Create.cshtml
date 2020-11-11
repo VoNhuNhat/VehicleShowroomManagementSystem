@@ -53,6 +53,15 @@
 </div>
 <script>
     $(document).ready(function () {
+        if ($("#ModelCarId").val() == null) {
+            swal("There was a problem !!!", "Please add new Car Model before add Purchase Order", "error").then((res) => {
+                if (res) {
+                    window.location.replace("/Admin/ModelCar/Create");
+                } else {
+                    window.location.replace("/Admin/ModelCar/Create");
+                }
+            });
+        }
         $('#OrderDate').datepicker({
             dateFormat: 'mm/dd/yy',
             changeMonth: true,

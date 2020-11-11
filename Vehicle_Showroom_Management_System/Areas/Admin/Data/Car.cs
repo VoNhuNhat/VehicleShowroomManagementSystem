@@ -20,6 +20,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
             this.Images = new HashSet<Image>();
         }
     
+        public int CarId { get; set; }
         public string ModelNumberCar { get; set; }
         public Nullable<int> Id { get; set; }
         public string CarName { get; set; }

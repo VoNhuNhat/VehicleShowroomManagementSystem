@@ -70,7 +70,7 @@
         <hr />
         <table class="table table-bordered" id="tableCar">
             <tr>
-                <th>
+                <th style="width: 250px">
                     <b>Car Name</b>
                 </th>
                 <th>
@@ -143,7 +143,7 @@
                 type: "POST",
                 url: "/Admin/Car/LoadData",
                 data:
-                    '{page: ' + pageCofig.pageIndex + ',pageSize:' + pageCofig.pageSize + ' }',
+                    '{'+'Id: ' + @Model.Id+',page: ' + pageCofig.pageIndex + ',pageSize:' + pageCofig.pageSize + ' }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {

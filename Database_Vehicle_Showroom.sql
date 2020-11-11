@@ -138,7 +138,8 @@ go
 --go
 
 create table Cars(
-ModelNumberCar varchar(100) primary key,
+CarId int primary key identity,
+ModelNumberCar varchar(100),
 Id int references PurchaseOrders(Id),
 CarName varchar(256),
 PriceInput float,
@@ -184,10 +185,11 @@ go
 	--go
 	--delete from Cars
 	--go
+	
 
 create table Images(
 ImageId int primary key identity,
-ModelNumberCar varchar(100) references Cars(ModelNumberCar),
+CarId int references Cars(CarId),
 Name text,
 Status int
 )

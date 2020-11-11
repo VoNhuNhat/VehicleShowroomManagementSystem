@@ -12,9 +12,10 @@
   </EntityType>
   <EntityType Name="Cars">
     <Key>
-      <PropertyRef Name="ModelNumberCar" />
+      <PropertyRef Name="CarId" />
     </Key>
-    <Property Name="ModelNumberCar" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CarId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ModelNumberCar" Type="varchar" MaxLength="100" />
     <Property Name="Id" Type="int" />
     <Property Name="CarName" Type="varchar" MaxLength="256" />
     <Property Name="PriceInput" Type="float" />
@@ -51,7 +52,7 @@
       <PropertyRef Name="ImageId" />
     </Key>
     <Property Name="ImageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ModelNumberCar" Type="varchar" MaxLength="100" />
+    <Property Name="CarId" Type="int" />
     <Property Name="Name" Type="text" />
     <Property Name="Status" Type="int" />
   </EntityType>
@@ -130,15 +131,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Images__ModelNum__24927208">
+  <Association Name="FK__Images__CarId__24927208">
     <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
     <End Role="Images" Type="Self.Images" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Cars">
-        <PropertyRef Name="ModelNumberCar" />
+        <PropertyRef Name="CarId" />
       </Principal>
       <Dependent Role="Images">
-        <PropertyRef Name="ModelNumberCar" />
+        <PropertyRef Name="CarId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -265,7 +266,7 @@
       <End Role="UserAccount" EntitySet="UserAccount" />
       <End Role="Customers" EntitySet="Customers" />
     </AssociationSet>
-    <AssociationSet Name="FK__Images__ModelNum__24927208" Association="Self.FK__Images__ModelNum__24927208">
+    <AssociationSet Name="FK__Images__CarId__24927208" Association="Self.FK__Images__CarId__24927208">
       <End Role="Cars" EntitySet="Cars" />
       <End Role="Images" EntitySet="Images" />
     </AssociationSet>

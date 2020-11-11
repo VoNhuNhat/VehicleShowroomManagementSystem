@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Vehicle_Showroom_Management_System.Areas.Admin.Data;
 
@@ -130,7 +131,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             {
             var list = (from p in listPurchaseOrders
                         join m in listModelCars on p.ModelCarId equals m.ModelCarId
-                            where p.OrderDate >= DateTime.Now && p.OrderDate <= toDate
+                            where p.OrderDate >= DateTime.Now.Date && p.OrderDate <= toDate
                         select new { 
                             Id = p.Id, 
                             PurchaseOrderId = p.PurchaseOrderId,
@@ -196,7 +197,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             List<Car> listCars = db.Cars.ToList();
             List<Image> listImages = db.Images.ToList();
             var list = (from c in listCars
-                        join i in listImages on c.ModelNumberCar equals i.ModelNumberCar
+                        join i in listImages on c.CarId equals i.CarId
                         where c.Id == Id
                         select new { ModelNumberCar= c.ModelNumberCar, CarName=c.CarName, PriceInput=c.PriceInput, PriceOutput=c.PriceOutput, SeatQuantity=c.SeatQuantity, Color=c.Color, Gearbox=c.Gearbox, Engine=c.Engine, Status=c.Status, Checking=c.Checking,ImageName = i.Name }).ToList();
             db.Configuration.ProxyCreationEnabled = false;
@@ -262,5 +263,6 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             }
             return Json(deleted);
         }
+
     }
 }

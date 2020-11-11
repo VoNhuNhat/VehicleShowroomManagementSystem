@@ -41,6 +41,7 @@
           <ScalarProperty Name="CarName" ColumnName="CarName" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="ModelNumberCar" ColumnName="ModelNumberCar" />
+          <ScalarProperty Name="CarId" ColumnName="CarId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -64,7 +65,7 @@
         <MappingFragment StoreEntitySet="Images">
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="ModelNumberCar" ColumnName="ModelNumberCar" />
+          <ScalarProperty Name="CarId" ColumnName="CarId" />
           <ScalarProperty Name="ImageId" ColumnName="ImageId" />
         </MappingFragment>
       </EntityTypeMapping>

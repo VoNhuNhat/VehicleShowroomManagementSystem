@@ -15,7 +15,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
     public partial class Image
     {
         public int ImageId { get; set; }
-        public string ModelNumberCar { get; set; }
+        public Nullable<int> CarId { get; set; }
         public string Name { get; set; }
         public Nullable<int> Status { get; set; }
     

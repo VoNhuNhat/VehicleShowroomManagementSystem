@@ -87,7 +87,7 @@
       <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
       <End Role="Car" EntitySet="Cars" />
     </AssociationSet>
-    <AssociationSet Name="FK__Images__ModelNum__24927208" Association="Vehicle_Showroom_Management_SystemModel.FK__Images__ModelNum__24927208">
+    <AssociationSet Name="FK__Images__CarId__24927208" Association="Vehicle_Showroom_Management_SystemModel.FK__Images__CarId__24927208">
       <End Role="Car" EntitySet="Cars" />
       <End Role="Image" EntitySet="Images" />
     </AssociationSet>
@@ -117,9 +117,10 @@
   </EntityType>
   <EntityType Name="Car">
     <Key>
-      <PropertyRef Name="ModelNumberCar" />
+      <PropertyRef Name="CarId" />
     </Key>
-    <Property Name="ModelNumberCar" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CarId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ModelNumberCar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="Id" Type="Int32" />
     <Property Name="CarName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
     <Property Name="PriceInput" Type="Double" />
@@ -135,9 +136,9 @@
     <Property Name="PurchaseOrderDate" Type="DateTime" Precision="0" />
     <Property Name="CreatedDate" Type="DateTime" Precision="3" />
     <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="PurchaseOrder" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Cars__Id__20C1E124" FromRole="Car" ToRole="PurchaseOrder" />
-    <NavigationProperty Name="Images" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Images__ModelNum__24927208" FromRole="Car" ToRole="Image" />
     <Property Name="Sold" Type="Int32" />
+    <NavigationProperty Name="PurchaseOrder" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Cars__Id__20C1E124" FromRole="Car" ToRole="PurchaseOrder" />
+    <NavigationProperty Name="Images" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Images__CarId__24927208" FromRole="Car" ToRole="Image" />
   </EntityType>
   <EntityType Name="Customer">
     <Key>
@@ -160,10 +161,10 @@
       <PropertyRef Name="ImageId" />
     </Key>
     <Property Name="ImageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ModelNumberCar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CarId" Type="Int32" />
     <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="Car" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Images__ModelNum__24927208" FromRole="Image" ToRole="Car" />
     <Property Name="Status" Type="Int32" />
+    <NavigationProperty Name="Car" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Images__CarId__24927208" FromRole="Image" ToRole="Car" />
   </EntityType>
   <EntityType Name="ModelCar">
     <Key>
@@ -246,15 +247,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Images__ModelNum__24927208">
+  <Association Name="FK__Images__CarId__24927208">
     <End Type="Vehicle_Showroom_Management_SystemModel.Car" Role="Car" Multiplicity="0..1" />
     <End Type="Vehicle_Showroom_Management_SystemModel.Image" Role="Image" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Car">
-        <PropertyRef Name="ModelNumberCar" />
+        <PropertyRef Name="CarId" />
       </Principal>
       <Dependent Role="Image">
-        <PropertyRef Name="ModelNumberCar" />
+        <PropertyRef Name="CarId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
