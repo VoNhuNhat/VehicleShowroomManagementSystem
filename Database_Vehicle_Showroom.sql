@@ -241,7 +241,8 @@ end
 go
 
 create table Orders(
-OrderId int primary key identity,
+Id int primary key identity,
+OrderId varchar(256) unique,
 ModelNumberCar varchar(100),	
 CustomerId int references Customers(CustomerId), 
 TotalMoney float,
@@ -249,4 +250,15 @@ CreatedDate DateTime,
 UpdateDate DateTime,
 Status int
 )
+go
+
+create proc Insert_Order
+	@OrderId varchar(256),
+	@ModelNumberCar varchar(100),
+	@CustomerId int,
+	@TotalMoney float
+as
+begin
+	insert into Orders values(@OrderId,@ModelNumberCar,@CustomerId,@TotalMoney,CURRENT_TIMESTAMP,NULL,0)
+end
 go

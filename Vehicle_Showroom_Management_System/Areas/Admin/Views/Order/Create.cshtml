@@ -1,0 +1,343 @@
+﻿@model Vehicle_Showroom_Management_System.Areas.Admin.Data.Order
+@using Vehicle_Showroom_Management_System.Areas.Admin.Data
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
+}
+
+<div class="container">
+    <h2 style="text-align: center"><b>List of Cars</b></h2>
+    <p>
+        <a href="/Admin/Customer" class="btn btn-primary" style="float: left"><b>Back to List</b></a>
+        <input style="float: right;position: relative" class="form-control col-md-4" name="searchCar" id="searchCar" type="text" placeholder="Search Car By..." aria-label="Search" aria-describedby="basic-addon2" />
+        <select style="float: right;position: absolute;margin-left:1000px;width:92px" class="form-control" id="typeSearch">
+            <option value="Name">Name</option>
+            <option value="Model">Model</option>
+        </select>
+        <br />
+        <br />
+    </p>
+    <table class="table table-bordered" id="tableCar">
+        <tr>
+            <th style="width: 250px">
+                <b>Car Name</b>
+            </th>
+            <th>
+                <b>Image</b>
+            </th>
+            <th>
+                <b>Price Output</b>
+            </th>
+            <th>
+                <b>Status</b>
+            </th>
+            <th>
+                <b>Checking</b>
+            </th>
+            <th></th>
+        </tr>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="pagination" id="pagination" style="float: right">
+    </div>
+    <div class="pagination" id="paginationSearchMutiplePages" style="float: right">
+    </div>
+    <div style="float: left; display: none" id="resultSearch">
+        <div id="totalRowSearch" style="font-weight: bold"></div>
+    </div>
+</div>
+
+<script>
+    var pageCofig = {
+        pageSize: 3,
+        pageIndex: 1
+    }
+    var pageSearchCofig = {
+        pageSize: 3,
+        pageIndex: 1
+    }
+    var pageSearchOneCofig = {
+        pageSize: 1,
+        pageIndex: 1
+    }
+
+    $(document).ready(function () {
+        $("#pagination").hide();
+        $("#paginationSearchMutiplePages").hide();
+        $("#paginationSearchOnePage").hide();
+        $("#tableCar").find('.dataTable').remove();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Car/LoadData",
+            data: '{page: ' + pageCofig.pageIndex + ',pageSize:' + pageCofig.pageSize + ' }',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response.data.length > 0) {
+                    var row = "";
+                    for (var i = 0; i < response.data.length; i++) {
+                        var status = (response.data[i].Status == 0) ? "New" : "Used";
+                        var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
+                        row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img title='" + response.data[i].ModelCarName + "' src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:180px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = order('" + response.data[i].ModelNumberCar + "'," + response.data[i].PriceOutput + ") class='btn btn-success' style = 'font-weight: bold; color: white'>Order</a> </td>" + "</tr>"
+                    }
+                    $("#tableCar").append(row);
+                    $("#pagination").show();
+                    $("#resultSearch").show();
+                    $("#totalRowSearch").text("Total numbers of car: " + response.total);
+                    pagination(response.total, function () { })
+                }
+            }
+        });
+    });
+
+
+    $("#pagination").click(function () {
+        loadData();
+    });
+
+
+    function loadData() {
+        $("#tableCar").find('.dataTable').remove();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Car/LoadData",
+            data:
+                '{page: ' + pageCofig.pageIndex + ',pageSize:' + pageCofig.pageSize + ' }',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response.data.length > 0) {
+                    var row = "";
+                    for (var i = 0; i < response.data.length; i++) {
+                        var status = (response.data[i].Status == 0) ? "New" : "Used";
+                        var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
+                        row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img title='" + response.data[i].ModelCarName + "' src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:180px'> <a href='/Admin/Car/Details?ModelNumberCar=" + "'" + response.data[i].ModelNumberCar + "'" + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = order('" + response.data[i].ModelNumberCar + "'," + response.data[i].PriceOutput + ") class='btn btn-success' style = 'font-weight: bold; color: white'>Order</a> </td>" + "</tr>"
+                    }
+                    $("#tableCar").append(row);
+                    $("#paginationSearchMutiplePages").hide();
+                    $("#paginationSearchOnePage").hide();
+                    $("#pagination").show();
+                    $("#resultSearch").show();
+                    $("#totalRowSearch").text("Total numbers of car: " + response.total);
+                    pagination(response.total, function () {
+                        loadData();
+                    })
+                }
+            }
+        });
+    };
+    $('#typeSearch').change(function () {
+        pageSearchCofig = {
+            pageSize: 3,
+            pageIndex: 1
+        }
+
+        $('#paginationSearchMutiplePages').empty();
+        $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+        $('#paginationSearchMutiplePages').unbind("page");
+        $('#pagination').empty();
+        $('#pagination').removeData("twbs-pagination");
+        $('#pagination').unbind("page");
+        searchCarName();
+    });
+    $("#searchCar").keyup(function () {
+        pageSearchCofig = {
+            pageSize: 3,
+            pageIndex: 1
+        }
+
+        $('#paginationSearchMutiplePages').empty();
+        $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+        $('#paginationSearchMutiplePages').unbind("page");
+        $('#pagination').empty();
+        $('#pagination').removeData("twbs-pagination");
+        $('#pagination').unbind("page");
+        searchCarName();
+    });
+
+    function searchCarName() {
+        $("#tableCar").find('.dataTable').remove();
+        var name = $("#searchCar").val().toLowerCase();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Car/Search",
+            data: '{' + 'CarNameSearch: ' + "'" + name + "'" + ',type: ' + "'" + $("#typeSearch").val() + "'" + ',page: ' + pageSearchCofig.pageIndex + ', pageSize: ' + pageSearchCofig.pageSize + ' }',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (name == "") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/Car/LoadData",
+                        data:
+                            '{page: ' + pageCofig.pageIndex + ',pageSize:' + pageCofig.pageSize + ' }',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.data.length > 0) {
+                                var row = "";
+                                for (var i = 0; i < response.data.length; i++) {
+                                    var status = (response.data[i].Status == 0) ? "New" : "Used";
+                                    var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
+                                    row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:180px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = order('" + response.data[i].ModelNumberCar + "'," + response.data[i].PriceOutput + ") class='btn btn-success' style = 'font-weight: bold; color: white'>Order</a> </td>" + "</tr>"
+                                }
+                                $("#tableCar").append(row);
+                                $("#paginationSearchMutiplePages").hide();
+                                $("#paginationSearchOnePage").hide();
+                                $("#pagination").show();
+
+                                $("#resultSearch").show();
+                                $("#totalRowSearch").text("Total numbers of car: " + response.total);
+                                pagination(response.total, function () {
+                                    loadData();
+                                })
+                            } else {
+                            }
+                        }
+                    });
+                } else {
+                    if (response.allCars > 0) {
+                        if (response.data.length > 0) {
+                            var row = "";
+                            for (var i = 0; i < response.data.length; i++) {
+                                var status = (response.data[i].Status == 0) ? "New" : "Used";
+                                var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
+                                row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:180px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = order('" + response.data[i].ModelNumberCar + "'," + response.data[i].PriceOutput + ") class='btn btn-success' style = 'font-weight: bold; color: white'>Order</a> </td>" + "</tr>"
+                            }
+                            $("#tableCar").append(row);
+                            $("#paginationSearchMutiplePages").show();
+                            paginationSearchMutiplePages(response.total, function () {
+                                searchCarName();
+                            })
+                        }
+                        $("#resultSearch").show();
+                        $("#totalRowSearch").text("Found " + response.total + " results");
+                    } else {
+                        swal({
+                            title: "Nothing to search !",
+                            text: "Please add new Car in Purchase Order",
+                            icon: "error",
+                            button: "Got it",
+                            dangerMode: false
+                        }).then((logOut) => {
+                            if (logOut) {
+                                window.location.replace("/Admin/PurchaseOrder");
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    function pagination(totalRow, callback) {
+        var totalPage = Math.ceil(totalRow / pageCofig.pageSize);
+        $('#pagination').twbsPagination({
+            totalPages: totalPage,
+            visiblePages: 10,
+            onPageClick: function (event, page) {
+                pageCofig.pageIndex = page;
+                setTimeout(callback, 200);
+            }
+        });
+    };
+
+    function paginationSearchMutiplePages(totalRow, callback) {
+        var totalPage = Math.ceil(totalRow / pageCofig.pageSize);
+        $('#paginationSearchMutiplePages').twbsPagination({
+            totalPages: totalPage,
+            visiblePages: 10,
+            onPageClick: function (event, page) {
+                pageSearchCofig.pageIndex = page;
+                setTimeout(callback, 500);
+            }
+        });
+    }
+
+    function order(ModelNumberCar, TotalMoney) {
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Order/Create",
+            data: '{ModelNumberCar: "' + ModelNumberCar + '", CustomerId: '+@ViewBag.CU.CustomerId+', TotalMoney: ' + TotalMoney + ' }',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response == 0) {
+                    setTimeout(function () {
+                        swal({
+                            title: "Order car for customer success!",
+                            icon: "success",
+                            buttons: false,
+                            dangerMode: false,
+                        })
+                        setTimeout(function () {
+                            window.location.replace("/Admin/Customer");
+                        }, 900);
+                    }, 100);
+                }
+            }
+        });
+    }
+
+    //function deleteModelCar(ModelCarId) {
+
+    //    swal({
+    //        title: "Are you sure you want to delete?",
+    //        text: "Once deleted, you will not be able to recover this Car Model!",
+    //        icon: "warning",
+    //        buttons: true,
+    //        dangerMode: true,
+    //    }).then((logOut) => {
+    //        if (logOut) {
+    //                $('#pagination').empty();
+    //                $('#pagination').removeData("twbs-pagination");
+    //            $('#pagination').unbind("page");
+
+    //                $('#paginationSearchMutiplePages').empty();
+    //                $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+    //            $('#paginationSearchMutiplePages').unbind("page");
+
+    //            $('#paginationSearchOnePage').empty();
+    //            $('#paginationSearchOnePage').removeData("twbs-pagination");
+    //            $('#paginationSearchOnePage').unbind("page");
+
+    //            pageCofig = {
+    //                pageSize: 3,
+    //                pageIndex: 1
+    //            }
+    //            pageSearchCofig = {
+    //                pageSize: 3,
+    //                pageIndex: 1
+    //            }
+    //            $.ajax({
+    //                type: "POST",
+    //                url: "/Admin/ModelCar/Delete",
+    //                data: {ModelCarId:  ModelCarId },
+    //                contenttype: "application/json; charset=utf-8",
+    //                datatype: "json",
+    //                success: function (response) {
+    //                    if (response) {
+    //                        $("#" + ModelCarId).remove();
+    //                        if ($("#searchModelCar").val() == "") {
+    //                            loadData();
+    //                        } else {
+    //                            searchModelCar();
+    //                        }
+    //                        setTimeout(function () {
+    //                            swal({
+    //                                title: "Poof! Car Model has been deleted!",
+    //                                icon: "success",
+    //                                button: true,
+    //                                dangermode: false,
+    //                            });
+    //                        }, 100);
+    //                    } else {
+    //                        swal("can not delete brand!", "error");
+    //                    }
+    //                }
+    //            });
+    //        }
+    //    });
+    //}
+</script>

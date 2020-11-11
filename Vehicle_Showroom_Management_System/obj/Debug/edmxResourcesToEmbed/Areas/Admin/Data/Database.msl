@@ -91,6 +91,7 @@
           <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
           <ScalarProperty Name="ModelNumberCar" ColumnName="ModelNumberCar" />
           <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -125,5 +126,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Insert_Order" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_Order" />
   </EntityContainerMapping>
 </Mapping>
