@@ -142,6 +142,7 @@
     <Compile Include="Areas\Admin\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\ModelCarController.cs" />
+    <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\PurchaseOrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserAccountController.cs" />
     <Compile Include="Areas\Admin\Data\Brand.cs">
@@ -345,8 +346,10 @@
     <Content Include="Areas\Admin\Views\PurchaseOrder\Create.cshtml" />
     <Content Include="Areas\Admin\Views\PurchaseOrder\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\PurchaseOrder\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Car\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Car\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Car\Details.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

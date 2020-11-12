@@ -53,7 +53,7 @@
     </Key>
     <Property Name="ImageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CarId" Type="int" />
-    <Property Name="Name" Type="text" />
+    <Property Name="Name" Type="varchar(max)" />
     <Property Name="Status" Type="int" />
   </EntityType>
   <EntityType Name="ModelCars">
@@ -68,9 +68,10 @@
   </EntityType>
   <EntityType Name="Orders">
     <Key>
-      <PropertyRef Name="OrderId" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderId" Type="varchar" MaxLength="256" />
     <Property Name="ModelNumberCar" Type="varchar" MaxLength="100" />
     <Property Name="CustomerId" Type="int" />
     <Property Name="TotalMoney" Type="float" />
@@ -155,7 +156,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Orders__Customer__2C3393D0">
+  <Association Name="FK__Orders__Customer__2D27B809">
     <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
     <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
     <ReferentialConstraint>
@@ -210,6 +211,12 @@
   <Function Name="Insert_ModeCar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ModelCarName" Type="varchar" Mode="In" />
     <Parameter Name="BrandId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Insert_Order" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="OrderId" Type="varchar" Mode="In" />
+    <Parameter Name="ModelNumberCar" Type="varchar" Mode="In" />
+    <Parameter Name="CustomerId" Type="int" Mode="In" />
+    <Parameter Name="TotalMoney" Type="float" Mode="In" />
   </Function>
   <Function Name="Insert_PurchaseOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="PurchaseOrderId" Type="varchar" Mode="In" />
@@ -274,7 +281,7 @@
       <End Role="Brands" EntitySet="Brands" />
       <End Role="ModelCars" EntitySet="ModelCars" />
     </AssociationSet>
-    <AssociationSet Name="FK__Orders__Customer__2C3393D0" Association="Self.FK__Orders__Customer__2C3393D0">
+    <AssociationSet Name="FK__Orders__Customer__2D27B809" Association="Self.FK__Orders__Customer__2D27B809">
       <End Role="Customers" EntitySet="Customers" />
       <End Role="Orders" EntitySet="Orders" />
     </AssociationSet>

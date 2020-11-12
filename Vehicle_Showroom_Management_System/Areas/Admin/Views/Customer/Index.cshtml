@@ -14,6 +14,8 @@
     </p>
     <table class="table table-bordered" id="tableCustomer">
         <tr>
+            <th style="width: 35px">
+            </th>
             <th>
                 <b>@Html.DisplayNameFor(model => model.FullName)</b>
             </th>
@@ -79,7 +81,7 @@
                 if (response.data.length > 0) {
                     var row = "";
                     for (var i = 0; i < response.data.length; i++) {
-                        row += "<tr class='dataTable' id='" + response.data[i].CustomerId + "'>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].Phone + "</td>" + "<td>" + response.data[i].userFullName + "</td>" + "<td> <a href='/Admin/Customer/Details?customerId=" + response.data[i].CustomerId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Customer/Edit?customerId=" + response.data[i].CustomerId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCustomer(" + response.data[i].CustomerId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                        row += "<tr class='dataTable' id='" + response.data[i].CustomerId + "'>" + "<td> <a onclick = order(" + response.data[i].CustomerId + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Order</a> </td>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].Phone + "</td>" + "<td>" + response.data[i].userFullName + "</td>" + "<td> <a href='/Admin/Customer/Details?customerId=" + response.data[i].CustomerId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Customer/Edit?customerId=" + response.data[i].CustomerId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCustomer(" + response.data[i].CustomerId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                     }
                     $("#tableCustomer").append(row);
                     $("#pagination").show();
@@ -157,7 +159,7 @@
                             success: function (response) {
                                 var row = "";
                                 for (var i = 0; i < response.data.length; i++) {
-                                    row += "<tr class='dataTable' id='" + response.data[i].CustomerId + "'>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].Phone + "</td>" + "<td>" + response.data[i].userFullName + "</td>" + "<td> <a href='/Admin/Customer/Details?customerId=" + response.data[i].CustomerId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Customer/Edit?customerId=" + response.data[i].CustomerId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCustomer(" + response.data[i].CustomerId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                                    row += "<tr class='dataTable' id='" + response.data[i].CustomerId + "'>" + "<td> <a onclick = order(" + response.data[i].CustomerId + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Order</a> </td>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].Phone + "</td>" + "<td>" + response.data[i].userFullName + "</td>" + "<td> <a href='/Admin/Customer/Details?customerId=" + response.data[i].CustomerId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Customer/Edit?customerId=" + response.data[i].CustomerId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCustomer(" + response.data[i].CustomerId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                                 }
                                 $("#tableCustomer").append(row);
                                 pagination(response.total, function () {
@@ -169,7 +171,7 @@
                         $("#tableCustomer").find('.dataTable').remove();
                         var row = "";
                         for (var i = 0; i < response.data.length; i++) {
-                            row += "<tr class='dataTable' id='" + response.data[i].CustomerId + "'>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].Phone + "</td>" + "<td>" + response.data[i].userFullName + "</td>" + "<td> <a href='/Admin/Customer/Details?customerId=" + response.data[i].CustomerId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Customer/Edit?customerId=" + response.data[i].CustomerId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCustomer(" + response.data[i].CustomerId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                            row += "<tr class='dataTable' id='" + response.data[i].CustomerId + "'>" + "<td> <a onclick = order(" + response.data[i].CustomerId + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Order</a> </td>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].Phone + "</td>" + "<td>" + response.data[i].userFullName + "</td>" + "<td> <a href='/Admin/Customer/Details?customerId=" + response.data[i].CustomerId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Customer/Edit?customerId=" + response.data[i].CustomerId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCustomer(" + response.data[i].CustomerId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                         }
                         $("#tableCustomer").append(row);
                         $("#pagination").hide();
@@ -245,6 +247,10 @@
 
             }
         });
+    }
+
+    function order(CustomerId) {
+        window.location.replace("/Admin/Order/Create?CustomerId=" + CustomerId);
     }
 
 </script>

@@ -288,5 +288,26 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_PurchaseOrder", purchaseOrderIdParameter, modelCarIdParameter, quantityCarImportParameter, orderDateParameter);
         }
+    
+        public virtual int Insert_Order(string orderId, string modelNumberCar, Nullable<int> customerId, Nullable<double> totalMoney)
+        {
+            var orderIdParameter = orderId != null ?
+                new ObjectParameter("OrderId", orderId) :
+                new ObjectParameter("OrderId", typeof(string));
+    
+            var modelNumberCarParameter = modelNumberCar != null ?
+                new ObjectParameter("ModelNumberCar", modelNumberCar) :
+                new ObjectParameter("ModelNumberCar", typeof(string));
+    
+            var customerIdParameter = customerId.HasValue ?
+                new ObjectParameter("CustomerId", customerId) :
+                new ObjectParameter("CustomerId", typeof(int));
+    
+            var totalMoneyParameter = totalMoney.HasValue ?
+                new ObjectParameter("TotalMoney", totalMoney) :
+                new ObjectParameter("TotalMoney", typeof(double));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_Order", orderIdParameter, modelNumberCarParameter, customerIdParameter, totalMoneyParameter);
+        }
     }
 }

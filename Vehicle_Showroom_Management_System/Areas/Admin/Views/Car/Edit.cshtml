@@ -139,7 +139,7 @@
                             @Html.EditorFor(model => model.PurchaseOrderDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Click to choose date" } })
                             <div class="form-group" style="margin-top: 50px">
                                 <a onclick="clickEdit()" class="btn btn-success" style="color: white"><b>Edit Car</b></a>&nbsp;&nbsp;
-                                <a href="/Admin/Car" class="btn btn-primary"><b>Back to List</b></a>
+                                <a style="color: white" onclick="backPrevious()" class="btn btn-primary"><b>Back to List</b></a>
                             </div>
                         </div>
                     </div>
@@ -156,6 +156,7 @@
 </div>
 
 <script>
+    
     var checkChangeImage = false;
     $(document).ready(function () {
         var input = String(@Model.PriceInput).replace(/(.)(?=(\d{3})+$)/g, '$1,');
@@ -396,8 +397,10 @@
                                                                                 dangerMode: false,
                                                                             })
                                                                             setTimeout(function () {
+
                                                                                 $("#btnSubmit").prop("disabled", false);
                                                                                 $("#btnSubmit").click();
+                                                                                window.location.replace(document.referrer);
                                                                             }, 800);
                                                                         }, 100);
                                                                         }
@@ -417,5 +420,8 @@
                 }
             }
         }
+    }
+    function backPrevious() {
+        window.location.replace(document.referrer);
     }
 </script>

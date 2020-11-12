@@ -21,43 +21,84 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult LoadData(int page, int pageSize)
+        public JsonResult LoadData(int? Id, int page, int pageSize)
         {
             db.Configuration.ProxyCreationEnabled = false;
             List<PurchaseOrder> listPurchaseOrders = db.PurchaseOrders.ToList();
             List<ModelCar> listModelCars = db.ModelCars.ToList();
-            var list = (from p in listPurchaseOrders
-                        join m in listModelCars on p.ModelCarId equals m.ModelCarId
-                        orderby p.CreatedDate descending
-                        select new {
-                            Id = p.Id, 
-                            PurchaseOrderId = p.PurchaseOrderId, 
-                            QuantityCarImport = p.QuantityCarImport,
-                            ModelCarName = m.ModelCarName,
-                            OrderDate = p.OrderDate,
-                            Status = p.Status,
-                            ImportedCar = db.Cars.Where(car=>car.Id == p.Id).Count()
-                        }).ToList();
-            var model = list.Skip((page - 1) * pageSize).Take(pageSize);
-            var totalRow = list.Count;
-            if (totalRow > 1)
+            if (Id == null)
             {
-                return Json(new
+                var list = (from p in listPurchaseOrders
+                            join m in listModelCars on p.ModelCarId equals m.ModelCarId
+                            orderby p.CreatedDate descending
+                            select new
+                            {
+                                Id = p.Id,
+                                PurchaseOrderId = p.PurchaseOrderId,
+                                QuantityCarImport = p.QuantityCarImport,
+                                ModelCarName = m.ModelCarName,
+                                OrderDate = p.OrderDate,
+                                Status = p.Status,
+                                ImportedCar = db.Cars.Where(car => car.Id == p.Id).Count()
+                            }).ToList();
+                var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = list.Count;
+                if (totalRow > 1)
                 {
-                    data = model,
-                    total = totalRow,
-                    status = true
-                }, JsonRequestBehavior.AllowGet);
+                    return Json(new
+                    {
+                        data = model,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = list,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
             }
             else
             {
-                return Json(new
+                var list = (from p in listPurchaseOrders
+                            join m in listModelCars on p.ModelCarId equals m.ModelCarId
+                            where p.Id == Id
+                            select new
+                            {
+                                Id = p.Id,
+                                PurchaseOrderId = p.PurchaseOrderId,
+                                QuantityCarImport = p.QuantityCarImport,
+                                ModelCarName = m.ModelCarName,
+                                OrderDate = p.OrderDate,
+                                Status = p.Status,
+                                ImportedCar = db.Cars.Where(car => car.Id == p.Id).Count()
+                            }).ToList();
+                var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = list.Count;
+                if (totalRow > 1)
                 {
-                    data = list,
-                    total = totalRow,
-                    status = true
-                }, JsonRequestBehavior.AllowGet);
+                    return Json(new
+                    {
+                        data = model,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = list,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
             }
+            
         }
 
         [HttpGet]

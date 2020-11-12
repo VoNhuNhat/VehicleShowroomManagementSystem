@@ -10,14 +10,14 @@
         <EntityTypeShape EntityType="Vehicle_Showroom_Management_SystemModel.Customer" Width="1.5" PointX="3" PointY="7.125" />
         <EntityTypeShape EntityType="Vehicle_Showroom_Management_SystemModel.Image" Width="1.5" PointX="9.75" PointY="2.5" />
         <EntityTypeShape EntityType="Vehicle_Showroom_Management_SystemModel.ModelCar" Width="1.5" PointX="3" PointY="2.375" />
-        <EntityTypeShape EntityType="Vehicle_Showroom_Management_SystemModel.Order" Width="1.5" PointX="5.25" PointY="7.375" />
+        <EntityTypeShape EntityType="Vehicle_Showroom_Management_SystemModel.Order" Width="1.5" PointX="5.25" PointY="7.25" />
         <EntityTypeShape EntityType="Vehicle_Showroom_Management_SystemModel.PurchaseOrder" Width="1.5" PointX="5.25" PointY="2" />
         <EntityTypeShape EntityType="Vehicle_Showroom_Management_SystemModel.UserAccount" Width="1.5" PointX="0.75" PointY="7" />
         <AssociationConnector Association="Vehicle_Showroom_Management_SystemModel.FK__ModelCars__Brand__182C9B23" />
         <AssociationConnector Association="Vehicle_Showroom_Management_SystemModel.FK__Cars__Id__20C1E124" />
         <AssociationConnector Association="Vehicle_Showroom_Management_SystemModel.FK__Images__CarId__24927208" />
         <AssociationConnector Association="Vehicle_Showroom_Management_SystemModel.FK__Customers__UserI__276EDEB3" />
-        <AssociationConnector Association="Vehicle_Showroom_Management_SystemModel.FK__Orders__Customer__2C3393D0" />
+        <AssociationConnector Association="Vehicle_Showroom_Management_SystemModel.FK__Orders__Customer__2D27B809" />
         <AssociationConnector Association="Vehicle_Showroom_Management_SystemModel.FK__PurchaseO__Model__1CF15040" />
       </Diagram>
     </edmx:Diagrams>

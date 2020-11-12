@@ -88,7 +88,7 @@
                     dataType: "json",
                     success: function (response) {
                         if (response == false) {
-                            swal("There was a problem !!!", "Quantity Import must greater than Quantity Import Car", "error").then(() => { $("#QuantityCarImport").focus(); });
+                            swal("There was a problem !!!", "Quantity Import Car must greater than or equal "+@Model.QuantityCarImport, "error").then(() => { $("#QuantityCarImport").focus(); });
                         } else {
                             if (orderDate == "") {
                                 swal("There was a problem !!!", "Please choose Order Date", "error").then(() => { $("#OrderDate").focus(); });
