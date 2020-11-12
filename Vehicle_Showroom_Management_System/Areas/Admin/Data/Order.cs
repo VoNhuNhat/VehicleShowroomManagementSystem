@@ -11,7 +11,8 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Order
     {
         public int Id { get; set; }
@@ -19,6 +20,8 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         public string ModelNumberCar { get; set; }
         public Nullable<int> CustomerId { get; set; }
         public Nullable<double> TotalMoney { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public Nullable<System.DateTime> OrderDate { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
         public Nullable<int> Status { get; set; }

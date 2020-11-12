@@ -10,6 +10,8 @@
     <FunctionImportMapping FunctionImportName="Insert_ModeCar" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_ModeCar" />
     <FunctionImportMapping FunctionImportName="Insert_Car" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_Car" />
     <FunctionImportMapping FunctionImportName="Insert_PurchaseOrder" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_PurchaseOrder" />
+    <FunctionImportMapping FunctionImportName="Insert_Order" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_Order" />
+    <FunctionImportMapping FunctionImportName="Update_Car_Sold" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_Car_Sold" />
     <EntitySetMapping Name="Brands">
       <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Brand">
         <MappingFragment StoreEntitySet="Brands">
@@ -87,6 +89,7 @@
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
           <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
           <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
           <ScalarProperty Name="ModelNumberCar" ColumnName="ModelNumberCar" />
@@ -126,6 +129,5 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="Insert_Order" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_Order" />
   </EntityContainerMapping>
 </Mapping>

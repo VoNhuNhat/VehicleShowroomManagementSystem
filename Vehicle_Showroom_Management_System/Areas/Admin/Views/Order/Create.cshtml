@@ -19,6 +19,8 @@
     </p>
     <table class="table table-bordered" id="tableCar">
         <tr>
+            <th style="width: 35px">
+            </th>
             <th style="width: 250px">
                 <b>Car Name</b>
             </th>
@@ -69,7 +71,7 @@
         $("#tableCar").find('.dataTable').remove();
         $.ajax({
             type: "POST",
-            url: "/Admin/Car/LoadData",
+            url: "/Admin/Order/LoadDataCar",
             data: '{page: ' + pageCofig.pageIndex + ',pageSize:' + pageCofig.pageSize + ' }',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -79,13 +81,21 @@
                     for (var i = 0; i < response.data.length; i++) {
                         var status = (response.data[i].Status == 0) ? "New" : "Used";
                         var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
-                        row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img title='" + response.data[i].ModelCarName + "' src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:180px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = order('" + response.data[i].ModelNumberCar + "'," + response.data[i].PriceOutput + ") class='btn btn-success' style = 'font-weight: bold; color: white'>Order</a> </td>" + "</tr>"
+                        row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td> <a onclick = order('" + response.data[i].ModelNumberCar + "'," + response.data[i].PriceOutput + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Order</a> </td>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img title='" + response.data[i].ModelCarName + "' src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:100px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> </td>" + "</tr>"
                     }
                     $("#tableCar").append(row);
                     $("#pagination").show();
                     $("#resultSearch").show();
                     $("#totalRowSearch").text("Total numbers of car: " + response.total);
                     pagination(response.total, function () { })
+                } else {
+                    swal("There was a problem !!!", "Please add new Car before order Car", "error").then((res) => {
+                        if (res) {
+                            window.location.replace("/Admin/PurchaseOrder");
+                        } else {
+                            window.location.replace("/Admin/PurchaseOrder");
+                        }
+                    });
                 }
             }
         });
@@ -101,7 +111,7 @@
         $("#tableCar").find('.dataTable').remove();
         $.ajax({
             type: "POST",
-            url: "/Admin/Car/LoadData",
+            url: "/Admin/Order/LoadDataCar",
             data:
                 '{page: ' + pageCofig.pageIndex + ',pageSize:' + pageCofig.pageSize + ' }',
             contentType: "application/json; charset=utf-8",
@@ -112,7 +122,7 @@
                     for (var i = 0; i < response.data.length; i++) {
                         var status = (response.data[i].Status == 0) ? "New" : "Used";
                         var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
-                        row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img title='" + response.data[i].ModelCarName + "' src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:180px'> <a href='/Admin/Car/Details?ModelNumberCar=" + "'" + response.data[i].ModelNumberCar + "'" + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = order('" + response.data[i].ModelNumberCar + "'," + response.data[i].PriceOutput + ") class='btn btn-success' style = 'font-weight: bold; color: white'>Order</a> </td>" + "</tr>"
+                        row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td> <a onclick = order('" + response.data[i].ModelNumberCar + "'," + response.data[i].PriceOutput + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Order</a> </td>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img title='" + response.data[i].ModelCarName + "' src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:100px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> </td>" + "</tr>"
                     }
                     $("#tableCar").append(row);
                     $("#paginationSearchMutiplePages").hide();
@@ -161,7 +171,7 @@
         var name = $("#searchCar").val().toLowerCase();
         $.ajax({
             type: "POST",
-            url: "/Admin/Car/Search",
+            url: "/Admin/Order/SearchCar",
             data: '{' + 'CarNameSearch: ' + "'" + name + "'" + ',type: ' + "'" + $("#typeSearch").val() + "'" + ',page: ' + pageSearchCofig.pageIndex + ', pageSize: ' + pageSearchCofig.pageSize + ' }',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -169,7 +179,7 @@
                 if (name == "") {
                     $.ajax({
                         type: "POST",
-                        url: "/Admin/Car/LoadData",
+                        url: "/Admin/Order/LoadDataCar",
                         data:
                             '{page: ' + pageCofig.pageIndex + ',pageSize:' + pageCofig.pageSize + ' }',
                         contentType: "application/json; charset=utf-8",
@@ -180,7 +190,7 @@
                                 for (var i = 0; i < response.data.length; i++) {
                                     var status = (response.data[i].Status == 0) ? "New" : "Used";
                                     var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
-                                    row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:180px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = order('" + response.data[i].ModelNumberCar + "'," + response.data[i].PriceOutput + ") class='btn btn-success' style = 'font-weight: bold; color: white'>Order</a> </td>" + "</tr>"
+                                    row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td> <a onclick = order('" + response.data[i].ModelNumberCar + "'," + response.data[i].PriceOutput + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Order</a> </td>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img title='" + response.data[i].ModelCarName + "' src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:100px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> </td>" + "</tr>"
                                 }
                                 $("#tableCar").append(row);
                                 $("#paginationSearchMutiplePages").hide();
@@ -203,7 +213,7 @@
                             for (var i = 0; i < response.data.length; i++) {
                                 var status = (response.data[i].Status == 0) ? "New" : "Used";
                                 var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
-                                row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:180px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = order('" + response.data[i].ModelNumberCar + "'," + response.data[i].PriceOutput + ") class='btn btn-success' style = 'font-weight: bold; color: white'>Order</a> </td>" + "</tr>"
+                                row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td> <a onclick = order('" + response.data[i].ModelNumberCar + "'," + response.data[i].PriceOutput + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Order</a> </td>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img title='" + response.data[i].ModelCarName + "' src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:100px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> </td>" + "</tr>"
                             }
                             $("#tableCar").append(row);
                             $("#paginationSearchMutiplePages").show();
@@ -256,26 +266,36 @@
     }
 
     function order(ModelNumberCar, TotalMoney) {
-        $.ajax({
-            type: "POST",
-            url: "/Admin/Order/Create",
-            data: '{ModelNumberCar: "' + ModelNumberCar + '", CustomerId: '+@ViewBag.CU.CustomerId+', TotalMoney: ' + TotalMoney + ' }',
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                if (response == 0) {
-                    setTimeout(function () {
-                        swal({
-                            title: "Order car for customer success!",
-                            icon: "success",
-                            buttons: false,
-                            dangerMode: false,
-                        })
-                        setTimeout(function () {
-                            window.location.replace("/Admin/Customer");
-                        }, 900);
-                    }, 100);
-                }
+        swal({
+            title: "Are you sure you want to order?",
+            text: "If ordered, you can only delete it without paying!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((logOut) => {
+            if (logOut) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/Order/Create",
+                    data: '{ModelNumberCar: "' + ModelNumberCar + '", CustomerId: '+@ViewBag.CU.CustomerId+', TotalMoney: ' + TotalMoney + ' }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response == 0) {
+                            setTimeout(function () {
+                                swal({
+                                    title: "Order car for customer success!",
+                                    icon: "success",
+                                    buttons: false,
+                                    dangerMode: false,
+                                })
+                                setTimeout(function () {
+                                    window.location.replace("/Admin/Customer");
+                                }, 900);
+                            }, 100);
+                        }
+                    }
+                });
             }
         });
     }

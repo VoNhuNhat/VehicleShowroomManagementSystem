@@ -75,6 +75,7 @@
     <Property Name="ModelNumberCar" Type="varchar" MaxLength="100" />
     <Property Name="CustomerId" Type="int" />
     <Property Name="TotalMoney" Type="float" />
+    <Property Name="OrderDate" Type="date" />
     <Property Name="CreatedDate" Type="datetime" />
     <Property Name="UpdateDate" Type="datetime" />
     <Property Name="Status" Type="int" />
@@ -120,7 +121,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Customers__UserI__276EDEB3">
+  <Association Name="FK__Customers__UserI__286302EC">
     <End Role="UserAccount" Type="Self.UserAccount" Multiplicity="0..1" />
     <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
     <ReferentialConstraint>
@@ -132,7 +133,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Images__CarId__24927208">
+  <Association Name="FK__Images__CarId__25869641">
     <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
     <End Role="Images" Type="Self.Images" Multiplicity="*" />
     <ReferentialConstraint>
@@ -156,7 +157,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Orders__Customer__2D27B809">
+  <Association Name="FK__Orders__Customer__2E1BDC42">
     <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
     <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
     <ReferentialConstraint>
@@ -238,6 +239,10 @@
     <Parameter Name="BrandName" Type="varchar" Mode="In" />
     <Parameter Name="image" Type="text" Mode="In" />
   </Function>
+  <Function Name="Update_Car_Sold" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ModelNumberCar" Type="varchar" Mode="In" />
+    <Parameter Name="Sold" Type="int" Mode="In" />
+  </Function>
   <Function Name="Update_Customer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="CustomerId" Type="int" Mode="In" />
     <Parameter Name="FullName" Type="varchar" Mode="In" />
@@ -269,11 +274,11 @@
       <End Role="PurchaseOrders" EntitySet="PurchaseOrders" />
       <End Role="Cars" EntitySet="Cars" />
     </AssociationSet>
-    <AssociationSet Name="FK__Customers__UserI__276EDEB3" Association="Self.FK__Customers__UserI__276EDEB3">
+    <AssociationSet Name="FK__Customers__UserI__286302EC" Association="Self.FK__Customers__UserI__286302EC">
       <End Role="UserAccount" EntitySet="UserAccount" />
       <End Role="Customers" EntitySet="Customers" />
     </AssociationSet>
-    <AssociationSet Name="FK__Images__CarId__24927208" Association="Self.FK__Images__CarId__24927208">
+    <AssociationSet Name="FK__Images__CarId__25869641" Association="Self.FK__Images__CarId__25869641">
       <End Role="Cars" EntitySet="Cars" />
       <End Role="Images" EntitySet="Images" />
     </AssociationSet>
@@ -281,7 +286,7 @@
       <End Role="Brands" EntitySet="Brands" />
       <End Role="ModelCars" EntitySet="ModelCars" />
     </AssociationSet>
-    <AssociationSet Name="FK__Orders__Customer__2D27B809" Association="Self.FK__Orders__Customer__2D27B809">
+    <AssociationSet Name="FK__Orders__Customer__2E1BDC42" Association="Self.FK__Orders__Customer__2E1BDC42">
       <End Role="Customers" EntitySet="Customers" />
       <End Role="Orders" EntitySet="Orders" />
     </AssociationSet>

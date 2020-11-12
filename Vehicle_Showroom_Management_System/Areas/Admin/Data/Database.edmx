@@ -80,6 +80,7 @@
           <Property Name="ModelNumberCar" Type="varchar" MaxLength="100" />
           <Property Name="CustomerId" Type="int" />
           <Property Name="TotalMoney" Type="float" />
+          <Property Name="OrderDate" Type="date" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdateDate" Type="datetime" />
           <Property Name="Status" Type="int" />
@@ -125,7 +126,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Customers__UserI__276EDEB3">
+        <Association Name="FK__Customers__UserI__286302EC">
           <End Role="UserAccount" Type="Self.UserAccount" Multiplicity="0..1" />
           <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
           <ReferentialConstraint>
@@ -137,7 +138,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Images__CarId__24927208">
+        <Association Name="FK__Images__CarId__25869641">
           <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
           <End Role="Images" Type="Self.Images" Multiplicity="*" />
           <ReferentialConstraint>
@@ -161,7 +162,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Orders__Customer__2D27B809">
+        <Association Name="FK__Orders__Customer__2E1BDC42">
           <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
           <ReferentialConstraint>
@@ -243,6 +244,10 @@
           <Parameter Name="BrandName" Type="varchar" Mode="In" />
           <Parameter Name="image" Type="text" Mode="In" />
         </Function>
+        <Function Name="Update_Car_Sold" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ModelNumberCar" Type="varchar" Mode="In" />
+          <Parameter Name="Sold" Type="int" Mode="In" />
+        </Function>
         <Function Name="Update_Customer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CustomerId" Type="int" Mode="In" />
           <Parameter Name="FullName" Type="varchar" Mode="In" />
@@ -274,11 +279,11 @@
             <End Role="PurchaseOrders" EntitySet="PurchaseOrders" />
             <End Role="Cars" EntitySet="Cars" />
           </AssociationSet>
-          <AssociationSet Name="FK__Customers__UserI__276EDEB3" Association="Self.FK__Customers__UserI__276EDEB3">
+          <AssociationSet Name="FK__Customers__UserI__286302EC" Association="Self.FK__Customers__UserI__286302EC">
             <End Role="UserAccount" EntitySet="UserAccount" />
             <End Role="Customers" EntitySet="Customers" />
           </AssociationSet>
-          <AssociationSet Name="FK__Images__CarId__24927208" Association="Self.FK__Images__CarId__24927208">
+          <AssociationSet Name="FK__Images__CarId__25869641" Association="Self.FK__Images__CarId__25869641">
             <End Role="Cars" EntitySet="Cars" />
             <End Role="Images" EntitySet="Images" />
           </AssociationSet>
@@ -286,7 +291,7 @@
             <End Role="Brands" EntitySet="Brands" />
             <End Role="ModelCars" EntitySet="ModelCars" />
           </AssociationSet>
-          <AssociationSet Name="FK__Orders__Customer__2D27B809" Association="Self.FK__Orders__Customer__2D27B809">
+          <AssociationSet Name="FK__Orders__Customer__2E1BDC42" Association="Self.FK__Orders__Customer__2E1BDC42">
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
@@ -370,6 +375,16 @@
             <Parameter Name="QuantityCarImport" Mode="In" Type="Int32" />
             <Parameter Name="OrderDate" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="Insert_Order">
+            <Parameter Name="OrderId" Mode="In" Type="String" />
+            <Parameter Name="ModelNumberCar" Mode="In" Type="String" />
+            <Parameter Name="CustomerId" Mode="In" Type="Int32" />
+            <Parameter Name="TotalMoney" Mode="In" Type="Double" />
+          </FunctionImport>
+          <FunctionImport Name="Update_Car_Sold">
+            <Parameter Name="ModelNumberCar" Mode="In" Type="String" />
+            <Parameter Name="Sold" Mode="In" Type="Int32" />
+          </FunctionImport>
           <EntitySet Name="Brands" EntityType="Vehicle_Showroom_Management_SystemModel.Brand" />
           <EntitySet Name="Cars" EntityType="Vehicle_Showroom_Management_SystemModel.Car" />
           <EntitySet Name="Customers" EntityType="Vehicle_Showroom_Management_SystemModel.Customer" />
@@ -386,15 +401,15 @@
             <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
             <End Role="Car" EntitySet="Cars" />
           </AssociationSet>
-          <AssociationSet Name="FK__Images__CarId__24927208" Association="Vehicle_Showroom_Management_SystemModel.FK__Images__CarId__24927208">
+          <AssociationSet Name="FK__Images__CarId__25869641" Association="Vehicle_Showroom_Management_SystemModel.FK__Images__CarId__25869641">
             <End Role="Car" EntitySet="Cars" />
             <End Role="Image" EntitySet="Images" />
           </AssociationSet>
-          <AssociationSet Name="FK__Customers__UserI__276EDEB3" Association="Vehicle_Showroom_Management_SystemModel.FK__Customers__UserI__276EDEB3">
+          <AssociationSet Name="FK__Customers__UserI__286302EC" Association="Vehicle_Showroom_Management_SystemModel.FK__Customers__UserI__286302EC">
             <End Role="UserAccount" EntitySet="UserAccounts" />
             <End Role="Customer" EntitySet="Customers" />
           </AssociationSet>
-          <AssociationSet Name="FK__Orders__Customer__2D27B809" Association="Vehicle_Showroom_Management_SystemModel.FK__Orders__Customer__2D27B809">
+          <AssociationSet Name="FK__Orders__Customer__2E1BDC42" Association="Vehicle_Showroom_Management_SystemModel.FK__Orders__Customer__2E1BDC42">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
@@ -402,12 +417,6 @@
             <End Role="ModelCar" EntitySet="ModelCars" />
             <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
           </AssociationSet>
-          <FunctionImport Name="Insert_Order">
-            <Parameter Name="OrderId" Mode="In" Type="String" />
-            <Parameter Name="ModelNumberCar" Mode="In" Type="String" />
-            <Parameter Name="CustomerId" Mode="In" Type="Int32" />
-            <Parameter Name="TotalMoney" Mode="In" Type="Double" />
-          </FunctionImport>
           </EntityContainer>
         <EntityType Name="Brand">
           <Key>
@@ -443,7 +452,7 @@
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <Property Name="Sold" Type="Int32" />
           <NavigationProperty Name="PurchaseOrder" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Cars__Id__20C1E124" FromRole="Car" ToRole="PurchaseOrder" />
-          <NavigationProperty Name="Images" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Images__CarId__24927208" FromRole="Car" ToRole="Image" />
+          <NavigationProperty Name="Images" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Images__CarId__25869641" FromRole="Car" ToRole="Image" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -458,8 +467,8 @@
           <Property Name="Birthday" Type="DateTime" Precision="0" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="UserAccount" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Customers__UserI__276EDEB3" FromRole="Customer" ToRole="UserAccount" />
-          <NavigationProperty Name="Orders" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Orders__Customer__2D27B809" FromRole="Customer" ToRole="Order" />
+          <NavigationProperty Name="UserAccount" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Customers__UserI__286302EC" FromRole="Customer" ToRole="UserAccount" />
+          <NavigationProperty Name="Orders" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Orders__Customer__2E1BDC42" FromRole="Customer" ToRole="Order" />
         </EntityType>
         <EntityType Name="Image">
           <Key>
@@ -469,7 +478,7 @@
           <Property Name="CarId" Type="Int32" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="Int32" />
-          <NavigationProperty Name="Car" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Images__CarId__24927208" FromRole="Image" ToRole="Car" />
+          <NavigationProperty Name="Car" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Images__CarId__25869641" FromRole="Image" ToRole="Car" />
         </EntityType>
         <EntityType Name="ModelCar">
           <Key>
@@ -492,10 +501,11 @@
           <Property Name="ModelNumberCar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="CustomerId" Type="Int32" />
           <Property Name="TotalMoney" Type="Double" />
+          <Property Name="OrderDate" Type="DateTime" Precision="0" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <Property Name="Status" Type="Int32" />
-          <NavigationProperty Name="Customer" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Orders__Customer__2D27B809" FromRole="Order" ToRole="Customer" />
+          <NavigationProperty Name="Customer" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Orders__Customer__2E1BDC42" FromRole="Order" ToRole="Customer" />
         </EntityType>
         <EntityType Name="PurchaseOrder">
           <Key>
@@ -527,7 +537,7 @@
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <Property Name="Status" Type="Int32" />
-          <NavigationProperty Name="Customers" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Customers__UserI__276EDEB3" FromRole="UserAccount" ToRole="Customer" />
+          <NavigationProperty Name="Customers" Relationship="Vehicle_Showroom_Management_SystemModel.FK__Customers__UserI__286302EC" FromRole="UserAccount" ToRole="Customer" />
         </EntityType>
         <Association Name="FK__ModelCars__Brand__182C9B23">
           <End Type="Vehicle_Showroom_Management_SystemModel.Brand" Role="Brand" Multiplicity="0..1" />
@@ -553,7 +563,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Images__CarId__24927208">
+        <Association Name="FK__Images__CarId__25869641">
           <End Type="Vehicle_Showroom_Management_SystemModel.Car" Role="Car" Multiplicity="0..1" />
           <End Type="Vehicle_Showroom_Management_SystemModel.Image" Role="Image" Multiplicity="*" />
           <ReferentialConstraint>
@@ -565,7 +575,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Customers__UserI__276EDEB3">
+        <Association Name="FK__Customers__UserI__286302EC">
           <End Type="Vehicle_Showroom_Management_SystemModel.UserAccount" Role="UserAccount" Multiplicity="0..1" />
           <End Type="Vehicle_Showroom_Management_SystemModel.Customer" Role="Customer" Multiplicity="*" />
           <ReferentialConstraint>
@@ -577,7 +587,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Orders__Customer__2D27B809">
+        <Association Name="FK__Orders__Customer__2E1BDC42">
           <End Type="Vehicle_Showroom_Management_SystemModel.Customer" Role="Customer" Multiplicity="0..1" />
           <End Type="Vehicle_Showroom_Management_SystemModel.Order" Role="Order" Multiplicity="*" />
           <ReferentialConstraint>
@@ -616,6 +626,8 @@
           <FunctionImportMapping FunctionImportName="Insert_ModeCar" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_ModeCar" />
           <FunctionImportMapping FunctionImportName="Insert_Car" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_Car" />
           <FunctionImportMapping FunctionImportName="Insert_PurchaseOrder" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_PurchaseOrder" />
+          <FunctionImportMapping FunctionImportName="Insert_Order" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_Order" />
+          <FunctionImportMapping FunctionImportName="Update_Car_Sold" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_Car_Sold" />
           <EntitySetMapping Name="Brands">
             <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Brand">
               <MappingFragment StoreEntitySet="Brands">
@@ -693,6 +705,7 @@
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
                 <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="ModelNumberCar" ColumnName="ModelNumberCar" />
@@ -732,7 +745,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="Insert_Order" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_Order" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

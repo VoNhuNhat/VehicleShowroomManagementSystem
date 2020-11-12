@@ -309,5 +309,18 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_Order", orderIdParameter, modelNumberCarParameter, customerIdParameter, totalMoneyParameter);
         }
+    
+        public virtual int Update_Car_Sold(string modelNumberCar, Nullable<int> sold)
+        {
+            var modelNumberCarParameter = modelNumberCar != null ?
+                new ObjectParameter("ModelNumberCar", modelNumberCar) :
+                new ObjectParameter("ModelNumberCar", typeof(string));
+    
+            var soldParameter = sold.HasValue ?
+                new ObjectParameter("Sold", sold) :
+                new ObjectParameter("Sold", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_Car_Sold", modelNumberCarParameter, soldParameter);
+        }
     }
 }

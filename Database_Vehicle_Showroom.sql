@@ -181,6 +181,15 @@ begin
 end
 go
 
+create proc Update_Car_Sold
+	@ModelNumberCar varchar(100),
+	@Sold int
+as
+begin
+	update Cars set Sold = @Sold where ModelNumberCar = @ModelNumberCar
+end
+go
+
 	--select * from Cars
 	--go
 	--delete from Cars
@@ -246,6 +255,7 @@ OrderId varchar(256) unique,
 ModelNumberCar varchar(100),	
 CustomerId int references Customers(CustomerId), 
 TotalMoney float,
+OrderDate Date,
 CreatedDate DateTime,
 UpdateDate DateTime,
 Status int
@@ -259,6 +269,6 @@ create proc Insert_Order
 	@TotalMoney float
 as
 begin
-	insert into Orders values(@OrderId,@ModelNumberCar,@CustomerId,@TotalMoney,CURRENT_TIMESTAMP,NULL,0)
+	insert into Orders values(@OrderId,@ModelNumberCar,@CustomerId,@TotalMoney,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL,0)
 end
 go

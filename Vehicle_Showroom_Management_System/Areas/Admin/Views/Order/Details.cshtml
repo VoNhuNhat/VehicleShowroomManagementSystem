@@ -1,0 +1,197 @@
+﻿@model Vehicle_Showroom_Management_System.Areas.Admin.Data.Order
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
+}
+
+<div class="container">
+    <hr />
+    <div style="margin-bottom: -40px">
+        <a href="/Admin/Order" class="btn btn-primary" style="font-weight: bold">Back to List</a>&nbsp;&nbsp;
+    </div>
+    <h2 style="text-align:center; font-weight: bold">Details of Order Id: @Model.OrderId</h2>
+    <div style="margin-top: -45px;float: right">
+        <a href="#" class="btn btn-success" style="font-weight: bold"><i style="font-size: 20px" class="fas fa-file-export"></i> Export Report</a>
+    </div>
+    <hr />
+    <table class="table table-bordered" id="tableOrder">
+        <tr>
+            <th>
+                <b>Model Number Car</b>
+            </th>
+            <th>
+                <b>Total Money</b>
+            </th>
+            <th>
+                <b>Customer</b>
+            </th>
+            <th>
+                <b>Order Date</b>
+            </th>
+            <th>
+                <b>Created Date</b>
+            </th>
+            <th>
+                <b>Updated Date</b>
+            </th>
+            <th>
+                <b>@Html.DisplayNameFor(model => model.Status)</b>
+            </th>
+        </tr>
+        <tbody>
+        <td>
+            @Model.ModelNumberCar
+        </td>
+        <td>
+            @Model.TotalMoney
+        </td>
+        <td>
+            @Model.Customer.FullName
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.OrderDate)
+        </td>
+        <td>
+            @Model.CreatedDate
+        </td>
+        <td>
+            @Model.UpdateDate
+        </td>
+        <td>
+            @if (@Model.Status == 0)
+            {
+                @: Unpaid
+            }
+            else
+            {
+                @: Paid
+            }
+        </td>
+        </tbody>
+    </table>
+    <hr />
+    <h4 style="text-align:center; font-weight: bold">Ordered Cars</h4>
+    <hr />
+    <table class="table table-bordered" id="tableCar">
+        <tr>
+            <th style="width: 250px">
+                <b>Car Name</b>
+            </th>
+            <th>
+                <b>Image</b>
+            </th>
+            <th>
+                <b>Seat Quantity</b>
+            </th>
+            <th>
+                <b>Color</b>
+            </th>
+            <th>
+                <b>Status</b>
+            </th>
+            <th></th>
+        </tr>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="pagination" id="pagination" style="float: right">
+    </div>
+    <div class="pagination" id="paginationSearchMutiplePages" style="float: right">
+    </div>
+</div>
+
+<script>
+        var pageCofig = {
+            pageSize: 2,
+            pageIndex: 1
+        }
+        var pageSearchCofig = {
+            pageSize: 2,
+            pageIndex: 1
+        }
+        $(document).ready(function () {
+            $("#pagination").hide();
+            $("#paginationSearchMutiplePages").hide();
+            $("#paginationSearchOnePage").hide();
+            $("#tableCar").find('.dataTable').remove();
+            $.ajax({
+                type: "POST",
+                url: "/Admin/Car/LoadData",
+                data: '{' + 'Id: ' + @Model.Id + ',page: ' + pageCofig.pageIndex + ',pageSize:' + pageCofig.pageSize + ' }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.data.length > 0) {
+                        var row = "";
+                        for (var i = 0; i < response.data.length; i++) {
+                            var status = (response.data[i].Status == 0) ? "New" : "Used";
+                            var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
+                            row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceInput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style = 'width: 160px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'><i class='fas fa-info-circle'></i></a> <a href='/Admin/Car/Edit?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-success' style = 'font-weight: bold'><i class='fas fa-edit'></i></a> <a onclick = deleteCar(" + response.data[i].ModelNumberCar + ") class='btn btn-danger' style = 'font-weight: bold; color: white'><i class='fas fa-times'></i></a> </td>" + "</tr>"
+                        }
+                        $("#tableCar").append(row);
+                        $("#pagination").show();
+                        pagination(response.total, function () { })
+                    }
+                }
+            });
+        });
+
+
+        $("#pagination").click(function () {
+            loadData();
+        });
+
+
+        function loadData() {
+            $("#tableCar").find('.dataTable').remove();
+            $.ajax({
+                type: "POST",
+                url: "/Admin/Car/LoadData",
+                data:
+                    '{'+'Id: ' + @Model.Id+',page: ' + pageCofig.pageIndex + ',pageSize:' + pageCofig.pageSize + ' }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.data.length > 0) {
+                        var row = "";
+                        for (var i = 0; i < response.data.length; i++) {
+                            var status = (response.data[i].Status == 0) ? "New" : "Used";
+                            var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
+                            row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceInput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style = 'width: 160px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'><i class='fas fa-info-circle'></i></a> <a href='/Admin/Car/Edit?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-success' style = 'font-weight: bold'><i class='fas fa-edit'></i></a> <a onclick = deleteCar(" + response.data[i].ModelNumberCar + ") class='btn btn-danger' style = 'font-weight: bold; color: white'><i class='fas fa-times'></i></a> </td>" + "</tr>"
+                        }
+                        $("#tableCar").append(row);
+                        $("#paginationSearchMutiplePages").hide();
+                        $("#paginationSearchOnePage").hide();
+                        $("#pagination").show();
+                        pagination(response.total, function () {
+                            loadData();
+                        })
+                    }
+                }
+            });
+        };
+        function pagination(totalRow, callback) {
+            var totalPage = Math.ceil(totalRow / pageCofig.pageSize);
+            $('#pagination').twbsPagination({
+                totalPages: totalPage,
+                visiblePages: 10,
+                onPageClick: function (event, page) {
+                    pageCofig.pageIndex = page;
+                    setTimeout(callback, 200);
+                }
+            });
+        };
+
+        function paginationSearchMutiplePages(totalRow, callback) {
+            var totalPage = Math.ceil(totalRow / pageCofig.pageSize);
+            $('#paginationSearchMutiplePages').twbsPagination({
+                totalPages: totalPage,
+                visiblePages: 10,
+                onPageClick: function (event, page) {
+                    pageSearchCofig.pageIndex = page;
+                    setTimeout(callback, 500);
+                }
+            });
+        }
+</script>
