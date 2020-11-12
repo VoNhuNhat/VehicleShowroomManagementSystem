@@ -53,7 +53,7 @@
     </Key>
     <Property Name="ImageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CarId" Type="int" />
-    <Property Name="Name" Type="text" />
+    <Property Name="Name" Type="varchar(max)" />
     <Property Name="Status" Type="int" />
   </EntityType>
   <EntityType Name="ModelCars">

@@ -1,1 +1,219 @@
-﻿details
+﻿@model Vehicle_Showroom_Management_System.Areas.Admin.Data.Car
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
+}
+<hr />
+
+<a onclick="backPrevious()" class="btn btn-primary" style="color:white;font-weight: bold; width: 120px;margin-bottom :-62px;margin-left: 20px">Back to List</a>&nbsp;&nbsp;
+<h2 style="margin: 0 auto;text-align:center;width:800px; font-weight: bold">@Model.CarName</h2>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <div style="margin-left: 50px">
+            <div>
+<h5 style="font-weight: bold;margin-left: 240px;">Avatar</h5>
+                @foreach (var item in ViewBag.Images)
+                {
+                    if (item.Status == 1)
+                    {
+                        <script>
+                                currentAvatar = @Html.Raw(Json.Encode(item.Name))
+                        </script>
+                        <img src="~/Areas/Admin/Contents/Images/@item.Name" id="avatar" width="550px" height="320px" class="img-responsive wc-image">
+                        <a class="btn btn-success" id="setAvatar" style="display: none;position: absolute; margin-top: 134px;margin-left:-325px;color: white;"><b>Set avatar</b></a>
+                    }
+                }
+            </div>
+            <br>
+            <div class="row" style="width: 582px; margin-left: 0px">
+                @foreach (var item in ViewBag.Images)
+                {
+                    <div style="margin-right: 30px" class="imageCar">
+                        <div class="form-group">
+                            <img src="~/Areas/Admin/Contents/Images/@item.Name" onclick="changeImage(this)" style="cursor: pointer" width="164px" height="110px" class="img-responsive">
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <ul style="text-decoration: none">
+            <li class="list-group-item">
+                <div class="clearfix">
+                    <strong class="pull-left">Car Model Number: </strong>
+                    <span class="pull-right" style="float: right">@Model.ModelNumberCar</span>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="clearfix">
+                    <strong class="pull-left">Price Input: </strong>
+                    <span class="pull-right" style="float: right" id="priceInput"></span>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="clearfix">
+                    <strong class="pull-left">Price Output: </strong>
+                    <span class="pull-right" style="float: right" id="priceOutput"></span>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="clearfix">
+                    <strong class="pull-left">Number of Seat: </strong>
+                    <span class="pull-right" style="float: right">@Model.SeatQuantity</span>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="clearfix">
+                    <strong class="pull-left">Gearbox: </strong>
+                    <span class="pull-right" style="float: right">@Model.Gearbox</span>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="clearfix">
+                    <strong class="pull-left">Engine: </strong>
+                    <span class="pull-right" style="float: right">@Model.Engine</span>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="clearfix">
+                    <strong class="pull-left">Fuel Consumption: </strong>
+                    <span class="pull-right" style="float: right">@Model.FuelConsumption L/ 100km</span>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="clearfix">
+                    <strong class="pull-left">Kilometer Gone: </strong>
+                    <span class="pull-right" style="float: right">@Model.KilometerGone Km</span>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="clearfix">
+                    <strong class="pull-left">Status: </strong>
+                    <span class="pull-right" style="float: right">
+                        @if (Model.Status == 0)
+                        {
+                            @: Used
+                        }
+                        else
+                        {
+                            @: New
+                        }
+                    </span>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="clearfix">
+                    <strong class="pull-left">Checking: </strong>
+                    <span class="pull-right" style="float: right">
+                        @if (Model.Checking == 0)
+                        {
+                            @: Available
+                        }
+                        else
+                        {
+                            @: Unavailable
+                        }
+                    </span>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="clearfix">
+                    <strong class="pull-left">Purchase Order Date: </strong>
+                    <span class="pull-right" style="float: right">@Model.PurchaseOrderDate</span>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="clearfix">
+                    <strong class="pull-left">Created Date: </strong>
+                    <span class="pull-right" style="float: right">@Model.CreatedDate</span>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="clearfix">
+                    <strong class="pull-left">Updated Date: </strong>
+                    <span class="pull-right" style="float: right">@Model.UpdatedDate</span>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="clearfix">
+                    <strong class="pull-left">Sold: </strong>
+                    <span class="pull-right" style="float: right">@Model.Sold</span>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+                    var currentAvatar;
+                    $("#priceInput").text(String(@Model.PriceInput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $");
+                    $("#priceOutput").text(String(@Model.PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $");
+                });
+
+            function changeImage(element) {
+                $("#avatar").attr("src", element.src);
+            };
+
+            $('#avatar').hover(function () {
+                $("#setAvatar").show();
+                $(this).css('filter', 'blur(3px)');
+            }, function () {
+                $("#setAvatar").hide();
+                $(this).css('filter', 'blur(0px)');
+            });
+
+            $("#setAvatar").hover(function () {
+                $("#setAvatar").show();
+                $("#avatar").css('filter', 'blur(3px)');
+            });
+
+            $("#setAvatar").click(function () {
+                swal({
+                    title: "Confirm",
+                    text: "Are you sure you want to update avatar ?",
+                    icon: "info",
+                    buttons: true,
+                    dangerMode: false,
+                }).then((logOut) => {
+                    if (logOut) {
+                        var lastInStringImage = "Images/";
+                        var index = $("#avatar").attr('src').indexOf(lastInStringImage);
+                        var newAvatar = $("#avatar").attr('src').toString().substr(index + lastInStringImage.length);
+                        $.ajax({
+                            type: "POST",
+                            url: "/Admin/Car/UpdateAvatar",
+                            data:
+                                '{oldImage: ' + "'"+currentAvatar +"'" + ',newImage:' + "'"+newAvatar+"'" + ' }',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (response) {
+                                if (response) {
+                                    setTimeout(function () {
+                                        swal({
+                                            title: "Update avatar successful!",
+                                            icon: "success",
+                                            button: true,
+                                            dangerMode: false,
+                                        });
+                                    }, 100);
+                                    $("#setAvatar").hide();
+                                    $("#avatar").css('filter', 'blur(0px)');
+                                }
+                            }
+                        });
+                    } else {
+                        $("#setAvatar").hide();
+                        $("#avatar").css('filter', 'blur(0px)');
+                    }
+                });
+            });
+    function backPrevious() {
+        var referrer = document.referrer;
+        window.location.replace(referrer);
+    }
+
+</script>

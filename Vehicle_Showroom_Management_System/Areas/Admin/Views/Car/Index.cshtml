@@ -47,17 +47,13 @@
         </div>
     </div>
 
-<script>
+    <script>
     var pageCofig = {
         pageSize: 3,
         pageIndex: 1
     }
     var pageSearchCofig = {
         pageSize: 3,
-        pageIndex: 1
-    }
-    var pageSearchOneCofig = {
-        pageSize: 1,
         pageIndex: 1
     }
 
@@ -78,7 +74,7 @@
                     for (var i = 0; i < response.data.length; i++) {
                         var status = (response.data[i].Status == 0) ? "New" : "Used";
                         var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
-                        row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img title='" + response.data[i].ModelCarName +"' src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:242px'> <a href='/Admin/Car/Details?ModelNumberCar="+ response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Car/Edit?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCar(" + response.data[i].ModelNumberCar + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                        row += "<tr class='dataTable' id='" + response.data[i].CarId + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img title='" + response.data[i].ModelCarName + "' src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:242px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Car/Edit?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCar(" + response.data[i].CarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                     }
                     $("#tableCar").append(row);
                     $("#pagination").show();
@@ -111,7 +107,7 @@
                     for (var i = 0; i < response.data.length; i++) {
                         var status = (response.data[i].Status == 0) ? "New" : "Used";
                         var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
-                        row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img title='" + response.data[i].ModelCarName +"' src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:242px'> <a href='/Admin/Car/Details?ModelNumberCar=" + "'" + response.data[i].ModelNumberCar+ "'" + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Car/Edit?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCar(" + response.data[i].ModelNumberCar + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                        row += "<tr class='dataTable' id='" + response.data[i].CarId + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img title='" + response.data[i].ModelCarName + "' src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:242px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Car/Edit?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCar(" + response.data[i].CarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                     }
                     $("#tableCar").append(row);
                     $("#paginationSearchMutiplePages").hide();
@@ -125,7 +121,8 @@
                 }
             }
         });
-    };
+        };
+
     $('#typeSearch').change(function () {
         pageSearchCofig = {
             pageSize: 3,
@@ -140,6 +137,7 @@
         $('#pagination').unbind("page");
         searchCarName();
     });
+
     $("#searchCar").keyup(function () {
         pageSearchCofig = {
             pageSize: 3,
@@ -179,7 +177,7 @@
                                 for (var i = 0; i < response.data.length; i++) {
                                     var status = (response.data[i].Status == 0) ? "New" : "Used";
                                     var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
-                                    row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:242px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Car/Edit?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCar(" + response.data[i].ModelNumberCar + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                                    row += "<tr class='dataTable' id='" + response.data[i].CarId + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:242px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Car/Edit?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCar(" + response.data[i].CarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                                 }
                                 $("#tableCar").append(row);
                                 $("#paginationSearchMutiplePages").hide();
@@ -202,7 +200,7 @@
                             for (var i = 0; i < response.data.length; i++) {
                                 var status = (response.data[i].Status == 0) ? "New" : "Used";
                                 var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
-                                row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:242px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Car/Edit?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCar(" + response.data[i].ModelNumberCar + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                                row += "<tr class='dataTable' id='" + response.data[i].CarId + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:242px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Car/Edit?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteCar(" + response.data[i].CarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                             }
                             $("#tableCar").append(row);
                             $("#paginationSearchMutiplePages").show();
@@ -255,64 +253,66 @@
     }
 
 
-    //function deleteModelCar(ModelCarId) {
+        function deleteCar(CarId) {
+        swal({
+            title: "Are you sure you want to delete?",
+            text: "Once deleted, you will not be able to recover this car!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((logOut) => {
+            if (logOut) {
+                    
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/Car/Delete",
+                    data: { CarId: CarId },
+                    contenttype: "application/json; charset=utf-8",
+                    datatype: "json",
+                    success: function (response) {
+                        if (response) {
+                            $("#" + CarId).remove();
+                            if ($("#searchCar").val() == "") {
+                                loadData();
+                            } else {
+                                searchCarName();
+                            }
+                            setTimeout(function () {
+                                swal({
+                                    title: "Poof! Car has been deleted!",
+                                    icon: "success",
+                                    button: true,
+                                    dangermode: false,
+                                });
+                            }, 100);
+                            $('#pagination').empty();
+                            $('#pagination').removeData("twbs-pagination");
+                            $('#pagination').unbind("page");
 
-    //    swal({
-    //        title: "Are you sure you want to delete?",
-    //        text: "Once deleted, you will not be able to recover this Car Model!",
-    //        icon: "warning",
-    //        buttons: true,
-    //        dangerMode: true,
-    //    }).then((logOut) => {
-    //        if (logOut) {
-    //                $('#pagination').empty();
-    //                $('#pagination').removeData("twbs-pagination");
-    //            $('#pagination').unbind("page");
+                            $('#paginationSearchMutiplePages').empty();
+                            $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+                            $('#paginationSearchMutiplePages').unbind("page");
 
-    //                $('#paginationSearchMutiplePages').empty();
-    //                $('#paginationSearchMutiplePages').removeData("twbs-pagination");
-    //            $('#paginationSearchMutiplePages').unbind("page");
-
-    //            $('#paginationSearchOnePage').empty();
-    //            $('#paginationSearchOnePage').removeData("twbs-pagination");
-    //            $('#paginationSearchOnePage').unbind("page");
-
-    //            pageCofig = {
-    //                pageSize: 3,
-    //                pageIndex: 1
-    //            }
-    //            pageSearchCofig = {
-    //                pageSize: 3,
-    //                pageIndex: 1
-    //            }
-    //            $.ajax({
-    //                type: "POST",
-    //                url: "/Admin/ModelCar/Delete",
-    //                data: {ModelCarId:  ModelCarId },
-    //                contenttype: "application/json; charset=utf-8",
-    //                datatype: "json",
-    //                success: function (response) {
-    //                    if (response) {
-    //                        $("#" + ModelCarId).remove();
-    //                        if ($("#searchModelCar").val() == "") {
-    //                            loadData();
-    //                        } else {
-    //                            searchModelCar();
-    //                        }
-    //                        setTimeout(function () {
-    //                            swal({
-    //                                title: "Poof! Car Model has been deleted!",
-    //                                icon: "success",
-    //                                button: true,
-    //                                dangermode: false,
-    //                            });
-    //                        }, 100);
-    //                    } else {
-    //                        swal("can not delete brand!", "error");
-    //                    }
-    //                }
-    //            });
-    //        }
-    //    });
-    //}
-</script>
+                            pageCofig = {
+                                pageSize: 3,
+                                pageIndex: 1
+                            }
+                            pageSearchCofig = {
+                                pageSize: 3,
+                                pageIndex: 1
+                            }
+                        } else {
+                            swal({
+                                title: "Can not delete this car!",
+                                text: "This car is exsiting in sale order",
+                                icon: "error",
+                                button: true,
+                                dangermode: true,
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    }
+    </script>

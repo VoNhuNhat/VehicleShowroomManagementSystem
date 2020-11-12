@@ -199,7 +199,7 @@ go
 create table Images(
 ImageId int primary key identity,
 CarId int references Cars(CarId),
-Name text,
+Name varchar(MAX),
 Status int
 )
 go

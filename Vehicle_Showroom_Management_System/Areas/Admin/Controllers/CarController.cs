@@ -41,6 +41,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                                 ModelCarName = m.ModelCarName,
                                 ModelNumberCar = c.ModelNumberCar,
                                 CarName = c.CarName,
+                                CarId = c.CarId,
                                 PriceInput = c.PriceInput,
                                 PriceOutput = c.PriceOutput,
                                 SeatQuantity = c.SeatQuantity,
@@ -86,6 +87,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                                 ModelCarName = m.ModelCarName,
                                 ModelNumberCar = c.ModelNumberCar,
                                 CarName = c.CarName,
+                                CarId = c.CarId,
                                 PriceInput = c.PriceInput,
                                 PriceOutput = c.PriceOutput,
                                 SeatQuantity = c.SeatQuantity,
@@ -197,6 +199,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                                 {
                                     ModelNumberCar = c.ModelNumberCar,
                                     CarName = c.CarName,
+                                    CarId = c.CarId,
                                     PriceInput = c.PriceInput,
                                     PriceOutput = c.PriceOutput,
                                     SeatQuantity = c.SeatQuantity,
@@ -241,6 +244,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                                 {
                                     ModelNumberCar = c.ModelNumberCar,
                                     CarName = c.CarName,
+                                    CarId = c.CarId,
                                     PriceInput = c.PriceInput,
                                     PriceOutput = c.PriceOutput,
                                     SeatQuantity = c.SeatQuantity,
@@ -294,16 +298,138 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         public ActionResult Edit(string ModelNumberCar)
         {
             Car car = db.Cars.Where(c => c.ModelNumberCar == ModelNumberCar).FirstOrDefault();
+            List<Image> listImages = db.Images.Where(i => i.CarId == car.CarId).ToList();
+            ViewBag.Images = listImages;    
             ViewBag.PO = db.PurchaseOrders.Where(p => p.Id == car.Id).FirstOrDefault();
             return View(car);
+        }
+        [HttpPost]
+        public ActionResult Edit(int CarId, string ModelNumberCar, string CarName, float PriceInput, float PriceOutput, int SeatQuantity, string Color, string Gearbox, string Engine, float FuelConsumption, float KilometerGone, int Status, int Checking, DateTime PurchaseOrderDate, HttpPostedFileBase[] Images)
+        {
+            Car car = db.Cars.Where(c => c.CarId == CarId).FirstOrDefault();
+                var firstImage = Images.First();
+            if (firstImage != null)
+            {
+            List<Image> listImages = db.Images.Where(i => i.CarId == car.CarId).ToList();
+
+                foreach (var item in listImages)
+                {
+                    string oldPath = Server.MapPath("~/Areas/Admin/Contents/Images/" + item.Name);
+                    System.IO.File.Delete(oldPath);
+                    db.Images.Remove(item);
+                    db.SaveChanges();
+                }
+
+                foreach (HttpPostedFileBase Image in Images)
+                {
+                    string fileName = Path.GetFileNameWithoutExtension(Image.FileName);
+                    string extension = Path.GetExtension(Image.FileName);
+                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    string path = Path.Combine(Server.MapPath("~/Areas/Admin/Contents/Images/"), fileName);
+                    Image.SaveAs(path);
+                    Image img = new Image();
+                    img.CarId = CarId;
+                    img.Name = fileName;
+                    if (Image.Equals(firstImage))
+                    {
+                        img.Status = 1;
+                    }
+                    else
+                    {
+                        img.Status = 0;
+                    }
+                    db.Images.Add(img);
+                    db.SaveChanges();
+                }
+            }
+            car.ModelNumberCar = ModelNumberCar;
+            car.CarName = CarName;
+            car.PriceInput = PriceInput;
+            car.PriceOutput = PriceOutput;
+            car.SeatQuantity = SeatQuantity;
+            car.Color = Color;
+            car.Gearbox = Gearbox;
+            car.Engine = Engine;
+            car.FuelConsumption = FuelConsumption;
+            car.KilometerGone = KilometerGone;
+            car.Status = Status;
+            car.Checking = Checking;
+            car.PurchaseOrderDate = PurchaseOrderDate;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
         public ActionResult Details(string ModelNumberCar)
         {
-            return View();
+            Car carByNumber = db.Cars.Where(c => c.ModelNumberCar == ModelNumberCar).FirstOrDefault();
+            List<Image> listImages = db.Images.Where(i => i.CarId == carByNumber.CarId).ToList();
+            ViewBag.Images = listImages;
+            return View(carByNumber);
         }
 
+        [HttpPost]
+        public JsonResult CheckModelNumberCarEdit(string oldModelNumberCar, string newModelNumberCar)
+        {
+            bool check = db.Cars.Where(ua => ua.ModelNumberCar != oldModelNumberCar).ToList().Exists(u => u.ModelNumberCar.Equals(newModelNumberCar, StringComparison.CurrentCultureIgnoreCase));
+            return Json(check);
+        }
+        [HttpPost]
+        public JsonResult UpdateAvatar(string oldImage, string newImage)
+        {
+            bool check = false;
+            if (oldImage.Equals(newImage))
+            {
+                check = true;
+            }
+            else
+            {
+            db.Images.Where(i => i.Name == oldImage).FirstOrDefault().Status = 0;
+            db.Images.Where(i => i.Name == newImage).FirstOrDefault().Status = 1;
+            int update = db.SaveChanges();
+            if (update > 0)
+            {
+                check = true;
+            }
+            }
+            return Json(check);
+        }
+
+        [HttpPost]
+        public JsonResult Delete(int CarId)
+        {
+            bool check = true;
+            Car car = db.Cars.Where(c => c.CarId == CarId).FirstOrDefault();
+            if (db.Orders.Any(o => o.ModelNumberCar == car.ModelNumberCar) == true)
+            {
+                check = false;
+            }
+            else
+            {
+                    PurchaseOrder purchaseOrder = db.PurchaseOrders.Where(p => p.Id == car.Id).FirstOrDefault();
+                    purchaseOrder.Status = 0;
+                List<Image> listImages = db.Images.Where(i => i.CarId == CarId).ToList();
+                foreach (var item in listImages)
+                {
+                    string oldPath = Server.MapPath("~/Areas/Admin/Contents/Images/" + item.Name);
+                    System.IO.File.Delete(oldPath);
+                    db.Images.Remove(item);
+                    db.SaveChanges();
+                }
+                db.Cars.Remove(car);
+                    int v = db.SaveChanges();
+                    if (v>0)
+                    {
+                    check = true;
+                    }
+                    else
+                    {
+                        check = false;
+                    }
+            }
+            
+            return Json(check);
+        }
 
     }
 }
