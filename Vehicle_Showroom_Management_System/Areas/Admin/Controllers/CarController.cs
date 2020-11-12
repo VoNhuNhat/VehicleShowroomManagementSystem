@@ -294,8 +294,65 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         public ActionResult Edit(string ModelNumberCar)
         {
             Car car = db.Cars.Where(c => c.ModelNumberCar == ModelNumberCar).FirstOrDefault();
+            List<Image> listImages = db.Images.Where(i => i.CarId == car.CarId).ToList();
+            ViewBag.Images = listImages;    
             ViewBag.PO = db.PurchaseOrders.Where(p => p.Id == car.Id).FirstOrDefault();
             return View(car);
+        }
+        [HttpPost]
+        public ActionResult Edit(int CarId, string ModelNumberCar, string CarName, float PriceInput, float PriceOutput, int SeatQuantity, string Color, string Gearbox, string Engine, float FuelConsumption, float KilometerGone, int Status, int Checking, DateTime PurchaseOrderDate, HttpPostedFileBase[] Images)
+        {
+            Car car = db.Cars.Where(c => c.CarId == CarId).FirstOrDefault();
+                var firstImage = Images.First();
+            if (firstImage != null)
+            {
+            List<Image> listImages = db.Images.Where(i => i.CarId == car.CarId).ToList();
+
+                foreach (var item in listImages)
+                {
+                    string oldPath = Server.MapPath("~/Areas/Admin/Contents/Images/" + item.Name);
+                    System.IO.File.Delete(oldPath);
+                    db.Images.Remove(item);
+                    db.SaveChanges();
+                }
+
+                foreach (HttpPostedFileBase Image in Images)
+                {
+                    string fileName = Path.GetFileNameWithoutExtension(Image.FileName);
+                    string extension = Path.GetExtension(Image.FileName);
+                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    string path = Path.Combine(Server.MapPath("~/Areas/Admin/Contents/Images/"), fileName);
+                    Image.SaveAs(path);
+                    Image img = new Image();
+                    img.CarId = CarId;
+                    img.Name = fileName;
+                    if (Image.Equals(firstImage))
+                    {
+                        img.Status = 1;
+                    }
+                    else
+                    {
+                        img.Status = 0;
+                    }
+                    db.Images.Add(img);
+                    db.SaveChanges();
+                }
+            }
+            car.ModelNumberCar = ModelNumberCar;
+            car.CarName = CarName;
+            car.PriceInput = PriceInput;
+            car.PriceOutput = PriceOutput;
+            car.SeatQuantity = SeatQuantity;
+            car.Color = Color;
+            car.Gearbox = Gearbox;
+            car.Engine = Engine;
+            car.FuelConsumption = FuelConsumption;
+            car.KilometerGone = KilometerGone;
+            car.Status = Status;
+            car.Checking = Checking;
+            car.PurchaseOrderDate = PurchaseOrderDate;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -303,7 +360,12 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         {
             return View();
         }
-
+        [HttpPost]
+        public JsonResult CheckModelNumberCarEdit(string oldModelNumberCar, string newModelNumberCar)
+        {
+            bool check = db.Cars.Where(ua => ua.ModelNumberCar != oldModelNumberCar).ToList().Exists(u => u.ModelNumberCar.Equals(newModelNumberCar, StringComparison.CurrentCultureIgnoreCase));
+            return Json(check);
+        }
 
     }
 }

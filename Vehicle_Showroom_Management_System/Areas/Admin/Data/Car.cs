@@ -11,7 +11,8 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Car
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -34,6 +35,8 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
         public Nullable<double> KilometerGone { get; set; }
         public Nullable<int> Status { get; set; }
         public Nullable<int> Checking { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+
         public Nullable<System.DateTime> PurchaseOrderDate { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
