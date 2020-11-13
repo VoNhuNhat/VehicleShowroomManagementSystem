@@ -251,6 +251,9 @@
     <Parameter Name="Phone" Type="varchar" Mode="In" />
     <Parameter Name="Birthday" Type="date" Mode="In" />
   </Function>
+  <Function Name="Update_Order_Paid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
   <Function Name="Update_UserAccount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="UserId" Type="int" Mode="In" />
     <Parameter Name="FullName" Type="varchar" Mode="In" />

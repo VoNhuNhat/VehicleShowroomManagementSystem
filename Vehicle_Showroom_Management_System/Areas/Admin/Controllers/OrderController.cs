@@ -69,6 +69,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             List<Image> listImages = db.Images.ToList();
             List<PurchaseOrder> listPuchaseOrders = db.PurchaseOrders.ToList();
             List<ModelCar> listModelCars = db.ModelCars.ToList();
+            List<Order> listOrders = db.Orders.ToList();
             if (Id == null)
             {
                 var list = (from c in listCars
@@ -117,11 +118,13 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             }
             else
             {
+                Order order = db.Orders.Where(ord => ord.Id == Id).FirstOrDefault();
                 var list = (from c in listCars
                             join i in listImages on c.CarId equals i.CarId
                             join p in listPuchaseOrders on c.Id equals p.Id
                             join m in listModelCars on p.ModelCarId equals m.ModelCarId
-                            where i.Status == 1 && c.Id == Id && c.Checking == 0 && c.Sold == 0
+                            join o in listOrders on c.ModelNumberCar equals o.ModelNumberCar
+                            where i.Status == 1 && c.ModelNumberCar.Contains(order.ModelNumberCar)
                             orderby c.CarId descending
                             select new
                             {
@@ -190,8 +193,22 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             OrderId += id;
             db.Insert_Order(OrderId, ModelNumberCar, CustomerId, TotalMoney);
             db.Update_Car_Sold(ModelNumberCar, 1);
-            db.SaveChanges();
-            return Json(db.SaveChanges());
+            if (db.SaveChanges()==0)
+            {
+                Order order = db.Orders.Where(o => o.ModelNumberCar.Contains(ModelNumberCar)).FirstOrDefault();
+                return Json(new
+                {
+                    data = order.Id,
+                    status = true
+                }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new
+                {
+                    status = false
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [HttpGet]
@@ -199,6 +216,29 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         {
             Order order = db.Orders.Where(o => o.Id == Id).FirstOrDefault();
             return View(order);
+        }
+
+        [HttpPost]
+        public JsonResult PayOrder(int Id)
+        {
+            db.Update_Order_Paid(Id);
+            db.SaveChanges();
+            return Json(db.SaveChanges());
+        }
+
+        [HttpPost]
+        public JsonResult Delete(int Id)
+        {
+            bool deleted = false;
+            Order orderDelete = db.Orders.Where(o => o.Id == Id).FirstOrDefault();
+            db.Orders.Remove(orderDelete);
+            db.Update_Car_Sold(orderDelete.ModelNumberCar, 0);
+            int d = db.SaveChanges();
+            if (d > 0)
+            {
+                deleted = true;
+            }
+            return Json(deleted);
         }
 
         [HttpPost]

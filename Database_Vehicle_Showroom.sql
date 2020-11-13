@@ -272,3 +272,11 @@ begin
 	insert into Orders values(@OrderId,@ModelNumberCar,@CustomerId,@TotalMoney,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL,0)
 end
 go
+
+create proc Update_Order_Paid
+	@Id int
+as
+begin
+	update Orders set Status = 1 where Id = @Id
+end
+go
