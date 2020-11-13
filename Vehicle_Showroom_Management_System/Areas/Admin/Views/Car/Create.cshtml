@@ -1,5 +1,4 @@
 ﻿@model Vehicle_Showroom_Management_System.Areas.Admin.Data.Car
-@using Vehicle_Showroom_Management_System.Areas.Admin.Data
 @{
     ViewBag.Title = "Create";
     Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
@@ -10,126 +9,128 @@
 
 <br />
 <div class="container">
-    
+
     <h2 style="text-align: center"><b>Import Car in Purchase Order Id: @ViewBag.PO.PurchaseOrderId</b></h2>
     <h4 style="text-align: center"><b>Car Model: @ViewBag.PO.ModelCar.ModelCarName</b></h4>
     @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formCreate", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.Id)
-<div class="form-horizontal">
-    <hr />
-    <div class="row">
-        <div class="col-md-5">
-            <div class="form-group">
-                @Html.LabelFor(model => model.ModelNumberCar, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ModelNumberCar, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.CarName, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.CarName, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-            <div class="form-group">
+        <input type="text" hidden name="urlPrevious" value="@ViewBag.urlPrevious" />
 
-                @Html.LabelFor(model => model.PriceInput, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                <div class="col-md-10">
-                    <input type="text" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="PriceInput" name="PriceInput" class="form-control" />
+        <div class="form-horizontal">
+            <hr />
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ModelNumberCar, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ModelNumberCar, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CarName, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.CarName, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        @Html.LabelFor(model => model.PriceInput, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                        <div class="col-md-10">
+                            <input type="text" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="PriceInput" name="PriceInput" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PriceOutput, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                        <div class="col-md-10">
+                            <input type="text" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="PriceOutput" name="PriceOutput" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SeatQuantity, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                        <div class="col-md-10">
+                            <input type="number" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="SeatQuantity" name="SeatQuantity" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 20px">
+                        <label for="Images" class="control-label col-md-4"><b>Images for Car</b></label>
+                        <div class="col-md-10">
+                            <input type="file" name="Images" id="Images" multiple />
+                            <hr />
+                            <div id="dvPreview" style="width: 800px; height:100px;"></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.PriceOutput, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                <div class="col-md-10">
-                    <input type="text" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="PriceOutput" name="PriceOutput" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.SeatQuantity, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                <div class="col-md-10">
-                    <input type="number" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="SeatQuantity" name="SeatQuantity" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-            <div class="form-group" style="margin-top: 20px">
-                <label for="Images" class="control-label col-md-4"><b>Images for Car</b></label>
-                <div class="col-md-10">
-                    <input type="file" name="Images" id="Images" multiple />
-                    <hr />
-                    <div id="dvPreview" style="width: 800px; height:100px;"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2"></div>
-        <div class="col-md-5">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Gearbox, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Gearbox, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Engine, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Engine, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.FuelConsumption, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                <div class="col-md-10">
-                    <input type="text" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="FuelConsumption" name="FuelConsumption" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.KilometerGone, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                <div class="col-md-10">
-                    <input type="text" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="KilometerGone" name="KilometerGone" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                <div class="col-md-10">
-                    <select name="Status" class="form-control" id="Status">
-                        <option value="0">New</option>
-                        <option value="1">Used</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Checking, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                <div class="col-md-10">
-                    <select name="Checking" class="form-control" id="Checking">
-                        <option value="0">Available</option>
-                        <option value="1">Unavailable</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.PurchaseOrderDate, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.PurchaseOrderDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Click to choose date" } })
-                    <div class="form-group" style="margin-top: 50px">
-                        <a onclick="clickCreate()" class="btn btn-success" style="color: white"><b>Import new Car</b></a>&nbsp;&nbsp;
-                        <a href="/Admin/PurchaseOrder" class="btn btn-primary"><b>Back to List</b></a>
+                <div class="col-md-2"></div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Gearbox, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Gearbox, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Engine, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Engine, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FuelConsumption, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                        <div class="col-md-10">
+                            <input type="text" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="FuelConsumption" name="FuelConsumption" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.KilometerGone, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                        <div class="col-md-10">
+                            <input type="text" onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))" id="KilometerGone" name="KilometerGone" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                        <div class="col-md-10">
+                            <select name="Status" class="form-control" id="Status">
+                                <option value="0">New</option>
+                                <option value="1">Used</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Checking, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                        <div class="col-md-10">
+                            <select name="Checking" class="form-control" id="Checking">
+                                <option value="0">Available</option>
+                                <option value="1">Unavailable</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PurchaseOrderDate, htmlAttributes: new { @class = "control-label col-md-4", @style = "font-weight: bold" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.PurchaseOrderDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Click to choose date" } })
+                            <div class="form-group" style="margin-top: 50px">
+                                <a onclick="clickCreate()" class="btn btn-success" style="color: white"><b>Import new Car</b></a>&nbsp;&nbsp;
+                                <a onclick="backPrevious()" style="color: white" class="btn btn-primary"><b>Back to List</b></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" id="btnSubmit" hidden disabled />
+                </div>
+            </div>
         </div>
-    </div>
-    <hr />
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" id="btnSubmit" hidden disabled />
-        </div>
-    </div>
-</div>
     }
 </div>
 
@@ -346,7 +347,7 @@
                                                                 if (i == 12) {
                                                                     var priceInput = $("#PriceInput").val().replace(new RegExp(',', 'g'), "");
                                                                     $("#PriceInput").val(priceInput);
-                                                                    var priceOutput = $("#PriceInput").val().replace(new RegExp(',', 'g'), "");
+                                                                    var priceOutput = $("#PriceOutput").val().replace(new RegExp(',', 'g'), "");
                                                                     $("#PriceOutput").val(priceOutput);
                                                                     var kilometerGone = $("#KilometerGone").val().replace(new RegExp(',', 'g'), "");
                                                                     $("#KilometerGone").val(kilometerGone);
@@ -381,5 +382,8 @@
             }
             }
         }
-    }    
+    }
+    function backPrevious() {
+        window.location.replace(document.referrer);
+    }
 </script>

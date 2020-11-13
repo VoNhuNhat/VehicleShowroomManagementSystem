@@ -126,11 +126,12 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         {
             PurchaseOrder purchaseOrder = db.PurchaseOrders.Where(p => p.Id == Id).FirstOrDefault();
             ViewBag.PO = purchaseOrder;
+            ViewBag.urlPrevious = Request.UrlReferrer.ToString();
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create(int Id, string ModelNumberCar, string CarName, float PriceInput, float PriceOutput, int SeatQuantity, string Color, string Gearbox, string Engine, float FuelConsumption, float KilometerGone, int Status, int Checking, DateTime PurchaseOrderDate, HttpPostedFileBase[] Images)
+        public ActionResult Create(string urlPrevious, int Id, string ModelNumberCar, string CarName, float PriceInput, float PriceOutput, int SeatQuantity, string Color, string Gearbox, string Engine, float FuelConsumption, float KilometerGone, int Status, int Checking, DateTime PurchaseOrderDate, HttpPostedFileBase[] Images)
         {
             db.Insert_Car(ModelNumberCar, Id, CarName, PriceInput, PriceOutput, SeatQuantity, Color, Gearbox, Engine, FuelConsumption, KilometerGone, Status, Checking, PurchaseOrderDate);
             db.SaveChanges();
@@ -164,7 +165,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                 }
             }
             
-            return RedirectToAction("Index","PurchaseOrder");
+            return Redirect(urlPrevious);
         }
 
         [HttpPost]
@@ -293,18 +294,128 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
         }
-
-        [HttpGet]
-        public ActionResult Edit(string ModelNumberCar)
+        [HttpPost]
+        public JsonResult SearchInPuchaseOrder(int Id,string CarNameSearch, string type, int page, int pageSize)
         {
-            Car car = db.Cars.Where(c => c.ModelNumberCar == ModelNumberCar).FirstOrDefault();
+            db.Configuration.ProxyCreationEnabled = false;
+            List<Car> listCars = db.Cars.Where(c=>c.Id == Id).ToList();
+            if (CarNameSearch != "")
+            {
+                if (type == "Name")
+                {
+                    var list = (from c in listCars
+                                join i in db.Images.ToList() on c.CarId equals i.CarId
+                                where i.Status == 1 && c.CarName.ToLower().Contains(CarNameSearch) && c.Id == Id
+                                select new
+                                {
+                                    ModelNumberCar = c.ModelNumberCar,
+                                    CarName = c.CarName,
+                                    CarId = c.CarId,
+                                    PriceInput = c.PriceInput,
+                                    PriceOutput = c.PriceOutput,
+                                    SeatQuantity = c.SeatQuantity,
+                                    Color = c.Color,
+                                    Gearbox = c.Gearbox,
+                                    Engine = c.Engine,
+                                    Status = c.Status,
+                                    Checking = c.Checking,
+                                    ImageName = i.Name
+                                }).ToList();
+                    var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                    var totalRow = list.Count;
+                    if (totalRow > 1)
+                    {
+                        return Json(new
+                        {
+                            data = model,
+                            allCars = listCars.Count(),
+                            total = totalRow,
+                            status = true
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            data = list,
+                            allCars = listCars.Count(),
+                            total = totalRow,
+                            status = true
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                else
+                {
+                    var list = (from c in listCars
+                                join i in db.Images.ToList() on c.CarId equals i.CarId
+                                join p in db.PurchaseOrders.ToList() on c.Id equals p.Id
+                                join m in db.ModelCars.ToList() on p.ModelCarId equals m.ModelCarId
+                                where i.Status == 1 && m.ModelCarName.ToLower().Contains(CarNameSearch) && c.Id == Id
+                                select new
+                                {
+                                    ModelNumberCar = c.ModelNumberCar,
+                                    CarName = c.CarName,
+                                    CarId = c.CarId,
+                                    PriceInput = c.PriceInput,
+                                    PriceOutput = c.PriceOutput,
+                                    SeatQuantity = c.SeatQuantity,
+                                    Color = c.Color,
+                                    Gearbox = c.Gearbox,
+                                    Engine = c.Engine,
+                                    Status = c.Status,
+                                    Checking = c.Checking,
+                                    ImageName = i.Name
+                                }).ToList();
+                    var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                    var totalRow = list.Count;
+                    if (totalRow > 1)
+                    {
+                        return Json(new
+                        {
+                            data = model,
+                            allCars = listCars.Count(),
+                            total = totalRow,
+                            status = true
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            data = list,
+                            allCars = listCars.Count(),
+                            total = totalRow,
+                            status = true
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+
+            }
+            else
+            {
+                var model = listCars.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = listCars.Count;
+                return Json(new
+                {
+                    data = model,
+                    allCars = listCars.Count(),
+                    total = totalRow,
+                    status = true
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public ActionResult Edit(int CarId)
+        {
+            Car car = db.Cars.Where(c => c.CarId == CarId).FirstOrDefault();
             List<Image> listImages = db.Images.Where(i => i.CarId == car.CarId).ToList();
             ViewBag.Images = listImages;    
             ViewBag.PO = db.PurchaseOrders.Where(p => p.Id == car.Id).FirstOrDefault();
+            ViewBag.urlPrevious = Request.UrlReferrer.ToString();
             return View(car);
         }
         [HttpPost]
-        public ActionResult Edit(int CarId, string ModelNumberCar, string CarName, float PriceInput, float PriceOutput, int SeatQuantity, string Color, string Gearbox, string Engine, float FuelConsumption, float KilometerGone, int Status, int Checking, DateTime PurchaseOrderDate, HttpPostedFileBase[] Images)
+        public ActionResult Edit(string urlPrevious, int CarId, string ModelNumberCar, string CarName, float PriceInput, float PriceOutput, int SeatQuantity, string Color, string Gearbox, string Engine, float FuelConsumption, float KilometerGone, int Status, int Checking, DateTime PurchaseOrderDate, HttpPostedFileBase[] Images)
         {
             Car car = db.Cars.Where(c => c.CarId == CarId).FirstOrDefault();
                 var firstImage = Images.First();
@@ -356,7 +467,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             car.Checking = Checking;
             car.PurchaseOrderDate = PurchaseOrderDate;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return Redirect(urlPrevious);
         }
 
         [HttpGet]
@@ -428,6 +539,14 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                     }
             }
             
+            return Json(check);
+        }
+
+        [HttpPost]
+        public JsonResult CheckEdit(int CarId)
+        {
+            Car car = db.Cars.Where(c => c.CarId == CarId).FirstOrDefault();
+            bool check = db.Orders.Any(o => o.ModelNumberCar == car.ModelNumberCar);
             return Json(check);
         }
 

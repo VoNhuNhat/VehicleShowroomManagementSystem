@@ -384,7 +384,11 @@
             <Parameter Name="CustomerId" Mode="In" Type="Int32" />
             <Parameter Name="TotalMoney" Mode="In" Type="Double" />
           </FunctionImport>
+<<<<<<< HEAD
           <FunctionImport Name="Update_Car_Sold">
+=======
+           <FunctionImport Name="Update_Car_Sold">
+>>>>>>> 4b5236cbca975e341f037c747ff477191d507b1c
             <Parameter Name="ModelNumberCar" Mode="In" Type="String" />
             <Parameter Name="Sold" Mode="In" Type="Int32" />
           </FunctionImport>

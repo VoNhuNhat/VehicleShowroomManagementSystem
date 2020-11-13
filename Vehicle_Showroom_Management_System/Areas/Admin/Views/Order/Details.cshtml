@@ -148,7 +148,7 @@
                         var row = "";
                         for (var i = 0; i < response.data.length; i++) {
                             var status = (response.data[i].Status == 0) ? "New" : "Used";
-                            row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td style = 'text-align: center'>" + response.data[i].SeatQuantity + "</td>" + "<td>" + response.data[i].Color + "</td>" + "<td>" + status + "</td>" + "<td style = 'width: 10px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'><i class='fas fa-info-circle'></i></a> </td>" + "</tr>"
+                            row += "<tr class='dataTable' id='" + response.data[i].ModelNumberCar + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td style = 'text-align: center'>" + response.data[i].SeatQuantity + "</td>" + "<td>" + response.data[i].Color + "</td>" + "<td>" + status + "</td>" + "<td style = 'width: 10px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> </td>" + "</tr>"
                         }
                         $("#tableCar").append(row);
                         $("#pagination").show();

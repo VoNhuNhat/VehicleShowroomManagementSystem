@@ -222,7 +222,8 @@ CreatedDate DateTime,
 UpdatedDate DateTime,
 )
 go
-
+--select * from Customers
+--go
 create proc Insert_Customer
 	@UserId int,
 	@FullName varchar(256),

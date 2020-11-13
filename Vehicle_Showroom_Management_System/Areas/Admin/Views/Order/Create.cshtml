@@ -267,11 +267,11 @@
 
     function order(ModelNumberCar, TotalMoney) {
         swal({
-            title: "Are you sure you want to order?",
-            text: "If ordered, you can only delete it without paying!",
-            icon: "warning",
+            title: "Are you sure to sell this car ?",
+            text: "Create new order for this car",
+            icon: "info",
             buttons: true,
-            dangerMode: true,
+            dangerMode: false,
         }).then((logOut) => {
             if (logOut) {
                 $.ajax({
