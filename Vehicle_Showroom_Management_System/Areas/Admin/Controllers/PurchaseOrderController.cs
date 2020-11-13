@@ -74,6 +74,8 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                                 QuantityCarImport = p.QuantityCarImport,
                                 ModelCarName = m.ModelCarName,
                                 OrderDate = p.OrderDate,
+                                CreatedDate = p.CreatedDate,
+                                UpdatedDate = p.UpdatedDate,
                                 Status = p.Status,
                                 ImportedCar = db.Cars.Where(car => car.Id == p.Id).Count()
                             }).ToList();

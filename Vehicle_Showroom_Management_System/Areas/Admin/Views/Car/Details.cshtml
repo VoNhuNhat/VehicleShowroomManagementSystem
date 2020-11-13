@@ -86,7 +86,7 @@
             <li class="list-group-item">
                 <div class="clearfix">
                     <strong class="pull-left">Kilometer Gone: </strong>
-                    <span class="pull-right" style="float: right">@Model.KilometerGone Km</span>
+                    <span class="pull-right" style="float: right" id="kilometerGone"></span>
                 </div>
             </li>
             <li class="list-group-item">
@@ -95,18 +95,18 @@
                     <span class="pull-right" style="float: right">
                         @if (Model.Status == 0)
                         {
-                            @: Used
+                            @: Used Car
                         }
                         else
                         {
-                            @: New
+                            @: New Car
                         }
                     </span>
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="clearfix">
-                    <strong class="pull-left">Checking: </strong>
+                    <strong class="pull-left">Availabe in Showroom: </strong>
                     <span class="pull-right" style="float: right">
                         @if (Model.Checking == 0)
                         {
@@ -122,7 +122,7 @@
             <li class="list-group-item">
                 <div class="clearfix">
                     <strong class="pull-left">Purchase Order Date: </strong>
-                    <span class="pull-right" style="float: right">@Model.PurchaseOrderDate</span>
+                    <span class="pull-right" style="float: right">@Html.DisplayFor(model => model.PurchaseOrderDate)</span>
                 </div>
             </li>
             <li class="list-group-item">
@@ -139,8 +139,17 @@
             </li>
             <li class="list-group-item">
                 <div class="clearfix">
-                    <strong class="pull-left">Sold: </strong>
-                    <span class="pull-right" style="float: right">@Model.Sold</span>
+                    <strong class="pull-left">In Stock: </strong>
+                    <span class="pull-right" style="float: right">
+                        @if (Model.Sold == 0)
+                        {
+                            @: In stock
+                        }
+                        else
+                        {
+                            @:Out of stock
+                        }
+                    </span>
                 </div>
             </li>
 
@@ -152,6 +161,7 @@
                     var currentAvatar;
                     $("#priceInput").text(String(@Model.PriceInput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $");
                     $("#priceOutput").text(String(@Model.PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $");
+                    $("#kilometerGone").text(String(@Model.KilometerGone).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " Km");
                 });
 
             function changeImage(element) {

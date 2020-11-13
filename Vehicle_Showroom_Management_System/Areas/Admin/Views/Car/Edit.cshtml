@@ -17,6 +17,7 @@
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.CarId)
+<input type="text"hidden name="urlPrevious" value="@ViewBag.urlPrevious" />
         <div class="form-horizontal">
             <hr />
             <div class="row">
@@ -397,10 +398,8 @@
                                                                                 dangerMode: false,
                                                                             })
                                                                             setTimeout(function () {
-
                                                                                 $("#btnSubmit").prop("disabled", false);
                                                                                 $("#btnSubmit").click();
-                                                                                window.location.replace(document.referrer);
                                                                             }, 800);
                                                                         }, 100);
                                                                         }

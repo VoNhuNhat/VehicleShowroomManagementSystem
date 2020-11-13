@@ -381,13 +381,10 @@
             <Parameter Name="CustomerId" Mode="In" Type="Int32" />
             <Parameter Name="TotalMoney" Mode="In" Type="Double" />
           </FunctionImport>
-<<<<<<< HEAD
-          <FunctionImport Name="Update_Car_Sold">
+           <FunctionImport Name="Update_Car_Sold">
             <Parameter Name="ModelNumberCar" Mode="In" Type="String" />
             <Parameter Name="Sold" Mode="In" Type="Int32" />
           </FunctionImport>
-=======
->>>>>>> 535697c937c5569ae273c314bc5ce1bec006713c
           <EntitySet Name="Brands" EntityType="Vehicle_Showroom_Management_SystemModel.Brand" />
           <EntitySet Name="Cars" EntityType="Vehicle_Showroom_Management_SystemModel.Car" />
           <EntitySet Name="Customers" EntityType="Vehicle_Showroom_Management_SystemModel.Customer" />
@@ -630,10 +627,7 @@
           <FunctionImportMapping FunctionImportName="Insert_Car" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_Car" />
           <FunctionImportMapping FunctionImportName="Insert_PurchaseOrder" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_PurchaseOrder" />
           <FunctionImportMapping FunctionImportName="Insert_Order" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_Order" />
-<<<<<<< HEAD
           <FunctionImportMapping FunctionImportName="Update_Car_Sold" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_Car_Sold" />
-=======
->>>>>>> 535697c937c5569ae273c314bc5ce1bec006713c
           <EntitySetMapping Name="Brands">
             <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Brand">
               <MappingFragment StoreEntitySet="Brands">
