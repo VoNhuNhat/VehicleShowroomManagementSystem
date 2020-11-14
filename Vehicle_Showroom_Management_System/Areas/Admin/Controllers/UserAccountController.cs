@@ -143,16 +143,17 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult Delete(int userId)
         {
-            bool deleted;
-            db.UserAccounts.Remove(db.UserAccounts.Where(ua => ua.UserId == userId).FirstOrDefault());
-            int v = db.SaveChanges();
-            if (v > 0)
+            bool deleted = false;
+            bool checkExistedCustomer = db.Customers.Any(c => c.UserId == userId);
+            if (!checkExistedCustomer)
             {
-                deleted = true;
-            }
-            else
-            {
-                deleted = false;
+                UserAccount userDelete = db.UserAccounts.Where(ua => ua.UserId == userId).FirstOrDefault();
+                db.UserAccounts.Remove(userDelete);
+                int d = db.SaveChanges();
+                if (d > 0)
+                {
+                    deleted = true;
+                }
             }
             return Json(deleted);
         }

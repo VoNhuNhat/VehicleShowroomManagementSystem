@@ -12,6 +12,7 @@
     <FunctionImportMapping FunctionImportName="Insert_PurchaseOrder" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_PurchaseOrder" />
     <FunctionImportMapping FunctionImportName="Insert_Order" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_Order" />
     <FunctionImportMapping FunctionImportName="Update_Car_Sold" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_Car_Sold" />
+    <FunctionImportMapping FunctionImportName="Update_Order_Paid" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_Order_Paid" />
     <EntitySetMapping Name="Brands">
       <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Brand">
         <MappingFragment StoreEntitySet="Brands">
@@ -129,6 +130,5 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="Update_Order_Paid" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_Order_Paid" />
   </EntityContainerMapping>
 </Mapping>

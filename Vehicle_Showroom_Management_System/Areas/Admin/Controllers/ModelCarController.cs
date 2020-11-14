@@ -25,7 +25,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             var list = (from m in listModelCars
                         join b in listBrands on m.BrandId equals b.BrandId
                         orderby m.CreatedDate descending
-                        select new { ModelCarId = m.ModelCarId,ModelCarName = m.ModelCarName, BrandName = b.BrandName}).ToList();
+                        select new { ModelCarId = m.ModelCarId, ModelCarName = m.ModelCarName, BrandName = b.BrandName }).ToList();
             var model = list.Skip((page - 1) * pageSize).Take(pageSize);
             var totalRow = list.Count;
             if (totalRow > 1)
@@ -55,7 +55,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             ViewBag.CategoryList = listBrand;
             return View();
         }
-        
+
         [HttpPost]
         public ActionResult Create(string ModelCarName, int BrandId)
         {
@@ -127,12 +127,16 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         public JsonResult Delete(int ModelCarId)
         {
             bool check = false;
-            ModelCar modelCar = db.ModelCars.Where(m => m.ModelCarId == ModelCarId).FirstOrDefault();
-            db.ModelCars.Remove(modelCar);
-            int v = db.SaveChanges();
-            if (v > 0)
+            bool checkExistedPurchaseOrder = db.PurchaseOrders.Any(p => p.ModelCarId == ModelCarId);
+            if (!checkExistedPurchaseOrder)
             {
-                check = true;
+                ModelCar modelCar = db.ModelCars.Where(m => m.ModelCarId == ModelCarId).FirstOrDefault();
+                db.ModelCars.Remove(modelCar);
+                int d = db.SaveChanges();
+                if (d > 0)
+                {
+                    check = true;
+                }
             }
             return Json(check);
         }

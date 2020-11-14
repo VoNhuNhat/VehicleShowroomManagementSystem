@@ -247,6 +247,7 @@
         <Function Name="Update_Car_Sold" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ModelNumberCar" Type="varchar" Mode="In" />
           <Parameter Name="Sold" Type="int" Mode="In" />
+          <Parameter Name="Checking" Type="int" Mode="In" />
         </Function>
         <Function Name="Update_Customer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CustomerId" Type="int" Mode="In" />
@@ -384,13 +385,13 @@
             <Parameter Name="CustomerId" Mode="In" Type="Int32" />
             <Parameter Name="TotalMoney" Mode="In" Type="Double" />
           </FunctionImport>
-<<<<<<< HEAD
           <FunctionImport Name="Update_Car_Sold">
-=======
-           <FunctionImport Name="Update_Car_Sold">
->>>>>>> 4b5236cbca975e341f037c747ff477191d507b1c
             <Parameter Name="ModelNumberCar" Mode="In" Type="String" />
             <Parameter Name="Sold" Mode="In" Type="Int32" />
+            <Parameter Name="Checking" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Update_Order_Paid">
+          <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="Brands" EntityType="Vehicle_Showroom_Management_SystemModel.Brand" />
           <EntitySet Name="Cars" EntityType="Vehicle_Showroom_Management_SystemModel.Car" />
@@ -424,10 +425,7 @@
             <End Role="ModelCar" EntitySet="ModelCars" />
             <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
           </AssociationSet>
-          <FunctionImport Name="Update_Order_Paid">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          </EntityContainer>
+        </EntityContainer>
         <EntityType Name="Brand">
           <Key>
             <PropertyRef Name="BrandId" />
@@ -638,6 +636,7 @@
           <FunctionImportMapping FunctionImportName="Insert_PurchaseOrder" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_PurchaseOrder" />
           <FunctionImportMapping FunctionImportName="Insert_Order" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Insert_Order" />
           <FunctionImportMapping FunctionImportName="Update_Car_Sold" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_Car_Sold" />
+          <FunctionImportMapping FunctionImportName="Update_Order_Paid" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_Order_Paid" />
           <EntitySetMapping Name="Brands">
             <EntityTypeMapping TypeName="Vehicle_Showroom_Management_SystemModel.Brand">
               <MappingFragment StoreEntitySet="Brands">
@@ -755,8 +754,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="Update_Order_Paid" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_Order_Paid" />
-          </EntityContainerMapping>
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

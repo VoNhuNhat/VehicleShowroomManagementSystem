@@ -4,7 +4,8 @@
     ViewBag.Title = "Details";
     Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
 }
-
+<link href="~/Areas/Admin/Contents/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/Areas/Admin/Contents/js/jquery-ui.js"></script>
 <div class="container">
     <hr />
     <h2><b>Details of Customer: @Html.DisplayFor(model => model.FullName)</b></h2>
@@ -84,4 +85,380 @@
         <a href="/Admin/Customer" class="btn btn-primary" style="font-weight: bold">Back to List</a>&nbsp;&nbsp;
         <a href="/Admin/Customer/Edit?customerId=@Model.CustomerId" class="btn btn-success" style="font-weight: bold">Edit</a>
     </p>
+    <hr />
+    <a onclick="loadData()" class="btn btn-warning" style="color: white; display: none; float: left" id="reload"><b>Reload</b></a>
+    <input class="form-control col-md-3" style="float: right; margin-left: 5px; width: 155px" type="text" id="to" name="to" placeholder="To Order Date...">
+    <input class="form-control col-md-3" style="float: right;margin-right:5px; width: 155px" type="text" id="from" name="from" placeholder="From Order Date...">
+    <h4 style="text-align:center; font-weight: bold">List of Orders</h4>
+    <hr />
+    <table class="table table-bordered" id="tableOrder">
+        <tr>
+            <th style="width: 10px;"></th>
+            <th>
+                <b>Order Id</b>
+            </th>
+            <th>
+                <b>Car Name</b>
+            </th>
+            <th>
+                <b>Total Money</b>
+            </th>
+            <th>
+                <b>Customer</b>
+            </th>
+            <th>
+                <b>Order Date</b>
+            </th>
+            <th>
+                <b>Status</b>
+            </th>
+            <th></th>
+        </tr>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="pagination" id="pagination" style="float: right">
+    </div>
+    <div class="pagination" id="paginationSearchMutiplePages" style="float: right">
+    </div>
+    <div style="float: left; display: none" id="resultSearch">
+        <b>Found <span id="totalRowSearch"></span> results</b>
+    </div>
 </div>
+
+<script>
+    var pageCofig = {
+        pageSize: 2,
+        pageIndex: 1
+    }
+    var pageSearchCofig = {
+        pageSize: 2,
+        pageIndex: 1
+    }
+    $(document).ready(function () {
+        $('#from').attr('readonly', 'readonly');
+        $('#to').attr('readonly', 'readonly');
+        var dateFormat = "mm/dd/yy",
+            from = $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                changeYear: true,
+            }).on("change", function () {
+                to.datepicker("option", "minDate", getDate(this));
+                $('#paginationSearchMutiplePages').empty();
+                $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+                $('#paginationSearchMutiplePages').unbind("page");
+                $('#pagination').empty();
+                $('#pagination').removeData("twbs-pagination");
+                $('#pagination').unbind("page");
+                searchOrder();
+                $("#pagination").hide();
+                pageSearchCofig = {
+                    pageSize: 2,
+                    pageIndex: 1
+                }
+            }),
+            to = $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                changeYear: true,
+            }).on("change", function () {
+                from.datepicker("option", "maxDate", getDate(this));
+                $('#paginationSearchMutiplePages').empty();
+                $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+                $('#paginationSearchMutiplePages').unbind("page");
+                $('#pagination').empty();
+                $('#pagination').removeData("twbs-pagination");
+                $('#pagination').unbind("page");
+                $("#pagination").hide();
+                searchOrder();
+                pageSearchCofig = {
+                    pageSize: 2,
+                    pageIndex: 1
+                }
+            });
+
+        function getDate(element) {
+            var date;
+            try {
+                date = $.datepicker.parseDate(dateFormat, element.value);
+            } catch (error) {
+                date = null;
+            }
+
+            return date;
+        }
+
+        $("#pagination").hide();
+        $("#paginationSearchMutiplePages").hide();
+        $("#paginationSearchOnePage").hide();
+        $("#tableOrder").find('.dataTable').remove();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Order/LoadData",
+            data: '{customerId: ' + @Model.CustomerId + ', page: ' + pageCofig.pageIndex + ', pageSize: ' + pageCofig.pageSize + ' }',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response.data.length > 0) {
+                    var row = "";
+                    for (var i = 0; i < response.data.length; i++) {
+                        var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
+                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = payOrder(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Pay</a> </td>" + "<td>" + response.data[i].OrderId + "</td>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + response.data[i].TotalMoney + "</td>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Unpaid" : "Paid") + "</td>" + "<td> <a href='/Admin/Order/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = deleteOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Delete</a> </td>" + "</tr>"
+                    }
+                    $("#tableOrder").append(row);
+                    $("#pagination").show();
+                    pagination(response.total, function () {
+                    })
+                }
+            }
+        });
+    });
+
+    function searchOrder() {
+        $("#tableOrder").find('.dataTable').remove();
+        var from = $("#from").val();
+        var to = $("#to").val();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Order/Search",
+            data: '{customerId: ' + @Model.CustomerId + ', page: ' + pageSearchCofig.pageIndex + ', pageSize: ' + pageSearchCofig.pageSize + ' , fromDate: ' + "'" + from + "'" + ' , toDate: ' + "'" + to + "'" + ' }',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response.orders > 0) {
+                    if (response.data.length > 0) {
+                        var row = "";
+                        for (var i = 0; i < response.data.length; i++) {
+                            var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
+                            row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = payOrder(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Pay</a> </td>" + "<td>" + response.data[i].OrderId + "</td>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + response.data[i].TotalMoney + "</td>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Unpaid" : "Paid") + "</td>" + "<td> <a href='/Admin/Order/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = deleteOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Delete</a> </td>" + "</tr>"
+                        }
+                        $("#tableOrder").append(row);
+                        $("#paginationSearchMutiplePages").show();
+                        $("#resultSearch").show();
+                        $("#reload").show();
+                        $("#totalRowSearch").text(response.total);
+                        paginationSearchMutiplePages(response.total, function () {
+                            searchOrder();
+                        })
+                    } else {
+                        $("#resultSearch").show();
+                        $("#reload").show();
+                        $("#totalRowSearch").text(response.total);
+                    }
+                } else {
+                    swal({
+                        title: "Nothing to search !",
+                        text: "Please add new Order by ordering",
+                        icon: "error",
+                        button: "Got it",
+                        dangerMode: false
+                    }).then((logOut) => {
+                        if (logOut) {
+                            window.location.replace("/Admin/Customer");
+                        }
+                    });
+                    $("#from").val("");
+                    $("#from").datepicker("option", {
+                        minDate: null,
+                        maxDate: null
+                    });
+                    $("#to").val("");
+                    $("#to").datepicker("option", {
+                        minDate: null,
+                        maxDate: null
+                    });
+                }
+            }
+        });
+    }
+
+
+
+    $("#from").click(function () {
+        this.click(function () {
+            alert($("#from").val())
+        });
+    })
+    $("#pagination").click(function () {
+        loadData();
+    });
+
+    function loadData() {
+        $("#from").val("");
+        $("#from").datepicker("option", {
+            minDate: null,
+            maxDate: null
+        });
+        $("#to").val("");
+        $("#to").datepicker("option", {
+            minDate: null,
+            maxDate: null
+        });
+        $("#tableOrder").find('.dataTable').remove();
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Order/LoadData",
+            data: '{customerId: ' + @Model.CustomerId + ', page: ' + pageCofig.pageIndex + ', pageSize: ' + pageCofig.pageSize + ' }',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response.data.length > 0) {
+                    var row = "";
+                    for (var i = 0; i < response.data.length; i++) {
+                        var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
+                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = payOrder(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Pay</a> </td>" + "<td>" + response.data[i].OrderId + "</td>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + response.data[i].TotalMoney + "</td>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Unpaid" : "Paid") + "</td>" + "<td> <a href='/Admin/Order/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = deleteOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Delete</a> </td>" + "</tr>"
+                    }
+                    $("#tableOrder").append(row);
+                    $("#pagination").show();
+
+                    $("#resultSearch").hide();
+                    $("#reload").hide();
+                    $("#paginationSearchMutiplePages").hide();
+
+                    pagination(response.total, function () {
+                        loadData();
+                    })
+                }
+            }
+        });
+    }
+
+    function convert(str) {
+        var date = new Date(str),
+            month = ("0" + (date.getMonth() + 1)).slice(-2),
+            day = ("0" + date.getDate()).slice(-2);
+        return [month, day, date.getFullYear()].join("/");
+    }
+
+    function pagination(totalRow, callback) {
+        var totalPage = Math.ceil(totalRow / pageCofig.pageSize);
+        $('#pagination').twbsPagination({
+            totalPages: totalPage,
+            visiblePages: 10,
+            onPageClick: function (event, page) {
+                pageCofig.pageIndex = page;
+                setTimeout(callback, 200);
+            }
+        });
+    }
+
+    function paginationSearchMutiplePages(totalRow, callback) {
+        var totalPage = Math.ceil(totalRow / pageCofig.pageSize);
+        $('#paginationSearchMutiplePages').twbsPagination({
+            totalPages: totalPage,
+            visiblePages: 10,
+            onPageClick: function (event, page) {
+                pageSearchCofig.pageIndex = page;
+                setTimeout(callback, 500);
+            }
+        });
+    }
+
+    function payOrder(Id) {
+        swal({
+            title: "Are you sure you want to pay this order?",
+            text: "Once paid, you won't be able to undo this order!",
+            icon: "info",
+            buttons: true,
+            dangerMode: false,
+        }).then((logOut) => {
+            if (logOut) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/Order/PayOrder",
+                    data: '{Id: ' + Id + ' }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response) {
+                            $('#pagination').empty();
+                            $('#pagination').removeData("twbs-pagination");
+                            $('#pagination').unbind("page");
+
+                            $('#paginationSearchMutiplePages').empty();
+                            $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+                            $('#paginationSearchMutiplePages').unbind("page");
+
+                            pageCofig = {
+                                pageSize: 2,
+                                pageIndex: 1
+                            }
+                            pageSearchCofig = {
+                                pageSize: 2,
+                                pageIndex: 1
+                            }
+                            if ($("#from").val() == "" && $("#to").val() == "") {
+                                loadData();
+                            } else {
+                                searchOrder();
+                            }
+                            setTimeout(function () {
+                                swal({
+                                    title: "Pay order success!",
+                                    icon: "success",
+                                    button: true,
+                                    dangerMode: false,
+                                });
+                            }, 100);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function deleteOrder(Id) {
+        swal({
+            title: "Are you sure you want to delete?",
+            text: "Once deleted, you won't be able to recover this order!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((logOut) => {
+            if (logOut) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/Order/Delete",
+                    data: '{Id: ' + Id + ' }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response) {
+                            $('#pagination').empty();
+                            $('#pagination').removeData("twbs-pagination");
+                            $('#pagination').unbind("page");
+
+                            $('#paginationSearchMutiplePages').empty();
+                            $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+                            $('#paginationSearchMutiplePages').unbind("page");
+
+                            pageCofig = {
+                                pageSize: 2,
+                                pageIndex: 1
+                            }
+                            pageSearchCofig = {
+                                pageSize: 2,
+                                pageIndex: 1
+                            }
+                            $("#" + Id).remove();
+                            if ($("#from").val() == "" && $("#to").val() == "") {
+                                loadData();
+                            } else {
+                                searchOrder();
+                            }
+                            setTimeout(function () {
+                                swal({
+                                    title: "Poof! Order has been deleted!",
+                                    icon: "success",
+                                    button: true,
+                                    dangermode: false,
+                                });
+                            }, 100);
+                        }
+                    }
+                });
+            }
+        });
+    }
+</script>

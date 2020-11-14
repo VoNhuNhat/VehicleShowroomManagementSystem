@@ -255,27 +255,6 @@
             dangerMode: true,
         }).then((logOut) => {
             if (logOut) {
-                $('#pagination').empty();
-                $('#pagination').removeData("twbs-pagination");
-                $('#pagination').unbind("page");
-
-                $('#paginationSearchMutiplePages').empty();
-                $('#paginationSearchMutiplePages').removeData("twbs-pagination");
-                $('#paginationSearchMutiplePages').unbind("page");
-                $('#paginationSearchOnePage').empty();
-
-                $('#paginationSearchOnePage').empty();
-                $('#paginationSearchOnePage').removeData("twbs-pagination");
-                $('#paginationSearchOnePage').unbind("page");
-
-                pageCofig = {
-                    pageSize: 2,
-                    pageIndex: 1
-                }
-                pageSearchCofig = {
-                    pageSize: 2,
-                    pageIndex: 1
-                }
                 $.ajax({
                     type: "POST",
                     url: "/Admin/UserAccount/Delete",
@@ -284,6 +263,27 @@
                     dataType: "json",
                     success: function (response) {
                         if (response) {
+                            $('#pagination').empty();
+                            $('#pagination').removeData("twbs-pagination");
+                            $('#pagination').unbind("page");
+
+                            $('#paginationSearchMutiplePages').empty();
+                            $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+                            $('#paginationSearchMutiplePages').unbind("page");
+                            $('#paginationSearchOnePage').empty();
+
+                            $('#paginationSearchOnePage').empty();
+                            $('#paginationSearchOnePage').removeData("twbs-pagination");
+                            $('#paginationSearchOnePage').unbind("page");
+
+                            pageCofig = {
+                                pageSize: 2,
+                                pageIndex: 1
+                            }
+                            pageSearchCofig = {
+                                pageSize: 2,
+                                pageIndex: 1
+                            }
                             $("#" + userId).remove();
                             if ($("#searchUser").val() == "") {
                                 loadData();
@@ -299,14 +299,11 @@
                                     });
                                 }, 100);
                         } else {
-                            swal("Can not delete user!", "error");
+                            swal("Can not delete !!!", "This User is serving the Customer", "error");
                         }
                     }
                 });
-
-
             }
         });
     }
-
 </script>

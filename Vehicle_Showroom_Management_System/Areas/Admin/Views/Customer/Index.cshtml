@@ -220,27 +220,6 @@
             dangerMode: true,
         }).then((logOut) => {
             if (logOut) {
-                $('#pagination').empty();
-                $('#pagination').removeData("twbs-pagination");
-                $('#pagination').unbind("page");
-
-                $('#paginationSearchMutiplePages').empty();
-                $('#paginationSearchMutiplePages').removeData("twbs-pagination");
-                $('#paginationSearchMutiplePages').unbind("page");
-                $('#paginationSearchOnePage').empty();
-
-                $('#paginationSearchOnePage').empty();
-                $('#paginationSearchOnePage').removeData("twbs-pagination");
-                $('#paginationSearchOnePage').unbind("page");
-
-                pageCofig = {
-                    pageSize: 2,
-                    pageIndex: 1
-                }
-                pageSearchCofig = {
-                    pageSize: 2,
-                    pageIndex: 1
-                }
                 $.ajax({
                     type: "POST",
                     url: "/Admin/Customer/Delete",
@@ -249,6 +228,27 @@
                     dataType: "json",
                     success: function (response) {
                         if (response) {
+                            $('#pagination').empty();
+                            $('#pagination').removeData("twbs-pagination");
+                            $('#pagination').unbind("page");
+
+                            $('#paginationSearchMutiplePages').empty();
+                            $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+                            $('#paginationSearchMutiplePages').unbind("page");
+                            $('#paginationSearchOnePage').empty();
+
+                            $('#paginationSearchOnePage').empty();
+                            $('#paginationSearchOnePage').removeData("twbs-pagination");
+                            $('#paginationSearchOnePage').unbind("page");
+
+                            pageCofig = {
+                                pageSize: 2,
+                                pageIndex: 1
+                            }
+                            pageSearchCofig = {
+                                pageSize: 2,
+                                pageIndex: 1
+                            }
                             $("#" + customerId).remove();
                             if ($("#searchCustomer").val() == "") {
                                 loadData();
@@ -268,8 +268,6 @@
                         }
                     }
                 });
-
-
             }
         });
     }

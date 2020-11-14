@@ -237,7 +237,6 @@
 
 
     function deleteModelCar(ModelCarId) {
-       
         swal({
             title: "Are you sure you want to delete?",
             text: "Once deleted, you will not be able to recover this Car Model!",
@@ -246,26 +245,6 @@
             dangerMode: true,
         }).then((logOut) => {
             if (logOut) {
-                    $('#pagination').empty();
-                    $('#pagination').removeData("twbs-pagination");
-                $('#pagination').unbind("page");
-
-                    $('#paginationSearchMutiplePages').empty();
-                    $('#paginationSearchMutiplePages').removeData("twbs-pagination");
-                $('#paginationSearchMutiplePages').unbind("page");
-
-                $('#paginationSearchOnePage').empty();
-                $('#paginationSearchOnePage').removeData("twbs-pagination");
-                $('#paginationSearchOnePage').unbind("page");
-
-                pageCofig = {
-                    pageSize: 2,
-                    pageIndex: 1
-                }
-                pageSearchCofig = {
-                    pageSize: 2,
-                    pageIndex: 1
-                }
                 $.ajax({
                     type: "POST",
                     url: "/Admin/ModelCar/Delete",
@@ -274,6 +253,26 @@
                     datatype: "json",
                     success: function (response) {
                         if (response) { 
+                            $('#pagination').empty();
+                            $('#pagination').removeData("twbs-pagination");
+                            $('#pagination').unbind("page");
+
+                            $('#paginationSearchMutiplePages').empty();
+                            $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+                            $('#paginationSearchMutiplePages').unbind("page");
+
+                            $('#paginationSearchOnePage').empty();
+                            $('#paginationSearchOnePage').removeData("twbs-pagination");
+                            $('#paginationSearchOnePage').unbind("page");
+
+                            pageCofig = {
+                                pageSize: 2,
+                                pageIndex: 1
+                            }
+                            pageSearchCofig = {
+                                pageSize: 2,
+                                pageIndex: 1
+                            }
                             $("#" + ModelCarId).remove();
                             if ($("#searchModelCar").val() == "") {
                                 loadData();
@@ -289,7 +288,7 @@
                                 });
                             }, 100);
                         } else {
-                            swal("can not delete brand!", "error");
+                            swal("Can not delete !!!", "This Car Model is being purchased", "error");
                         }
                     }
                 });
