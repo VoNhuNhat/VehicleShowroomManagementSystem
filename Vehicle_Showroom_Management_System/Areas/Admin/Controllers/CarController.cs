@@ -466,6 +466,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             car.Status = Status;
             car.Checking = Checking;
             car.PurchaseOrderDate = PurchaseOrderDate;
+            car.UpdatedDate = DateTime.Now;
             db.SaveChanges();
             return Redirect(urlPrevious);
         }

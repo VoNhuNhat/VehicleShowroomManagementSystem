@@ -23,7 +23,14 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         public JsonResult LoadData(int page, int pageSize = 2)
         {
             db.Configuration.ProxyCreationEnabled = false;
-            List<Brand> list = db.Brands.ToList();
+            var list = (from b in db.Brands.ToList()
+                        select new
+                        {
+                            BrandId = b.BrandId,
+                            BrandName = b.BrandName,
+                            Image = b.Image,
+                            CountModelCar = db.ModelCars.Where(m=>m.BrandId == b.BrandId).Count()
+                        }).ToList();
             var model = list.Skip((page - 1) * pageSize).Take(pageSize);
             var totalRow = list.Count;
             if (totalRow > 1)
@@ -106,15 +113,22 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         public JsonResult Delete(int brandId)
         {
             bool deleted;
-            db.Brands.Remove(db.Brands.Where(ua => ua.BrandId == brandId).FirstOrDefault());
-            int v = db.SaveChanges();
-            if (v > 0)
+            if (db.ModelCars.Any(m => m.BrandId == brandId))
             {
-                deleted = true;
+                deleted = false;
             }
             else
             {
-                deleted = false;
+                db.Brands.Remove(db.Brands.Where(ua => ua.BrandId == brandId).FirstOrDefault());
+                int v = db.SaveChanges();
+                if (v > 0)
+                {
+                    deleted = true;
+                }
+                else
+                {
+                    deleted = false;
+                }
             }
             return Json(deleted);
         }
@@ -128,10 +142,25 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         public JsonResult Search(string searchBrand, int page, int pageSize)
         {
             db.Configuration.ProxyCreationEnabled = false;
-            List<Brand> allBrands = db.Brands.ToList();
+            var allBrands = (from b in db.Brands.ToList()
+                                     select new
+                                     {
+                                         BrandId = b.BrandId,
+                                         BrandName = b.BrandName,
+                                         Image = b.Image,
+                                         CountModelCar = db.ModelCars.Where(m => m.BrandId == b.BrandId).Count()
+                                     }).ToList(); ;
             if (searchBrand != "")
             {
-                List<Brand> list = db.Brands.Where(b => b.BrandName.Contains(searchBrand)).ToList();
+                var list = (from b in db.Brands.ToList()
+                            where b.BrandName.ToLower().Contains(searchBrand)
+                                    select new
+                                    {
+                                        BrandId = b.BrandId,
+                                        BrandName = b.BrandName,
+                                        Image = b.Image,
+                                        CountModelCar = db.ModelCars.Where(m => m.BrandId == b.BrandId).Count()
+                                    }).ToList();
                 var model = list.Skip((page - 1) * pageSize).Take(pageSize);
                 var totalRow = list.Count;
                 if (totalRow > 1)

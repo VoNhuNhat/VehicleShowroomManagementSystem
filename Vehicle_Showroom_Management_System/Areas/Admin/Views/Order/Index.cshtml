@@ -17,6 +17,7 @@
     </p>
     <table class="table table-bordered" id="tableOrder" style="margin-top: 55px;">
         <tr>
+            <th style="width: 10px;"></th>
             <th>
                 <b>Order Id</b>
             </th>
@@ -127,7 +128,7 @@
                     var row = "";
                     for (var i = 0; i < response.data.length; i++) {
                         var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
-                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td>" + response.data[i].OrderId + "</td>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + response.data[i].TotalMoney + "</td>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Unpaid" : "Paid") + "</td>" + "<td> <a href='/Admin/Order/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Order/Edit?Id=" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = payOrder(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Pay</a> </td>" + "<td>" + response.data[i].OrderId + "</td>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + response.data[i].TotalMoney + "</td>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Unpaid" : "Paid") + "</td>" + "<td> <a href='/Admin/Order/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = deleteOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Delete</a> </td>" + "</tr>"
                     }
                     $("#tableOrder").append(row);
                     $("#pagination").show();
@@ -154,7 +155,7 @@
                         var row = "";
                         for (var i = 0; i < response.data.length; i++) {
                             var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
-                            row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td>" + response.data[i].OrderId + "</td>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + response.data[i].TotalMoney + "</td>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Unpaid" : "Paid") + "</td>" + "<td> <a href='/Admin/Order/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Order/Edit?Id=" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                            row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = payOrder(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Pay</a> </td>" + "<td>" + response.data[i].OrderId + "</td>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + response.data[i].TotalMoney + "</td>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Unpaid" : "Paid") + "</td>" + "<td> <a href='/Admin/Order/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = deleteOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Delete</a> </td>" + "</tr>"
                         }
                         $("#tableOrder").append(row);
                         $("#paginationSearchMutiplePages").show();
@@ -230,7 +231,7 @@
                     var row = "";
                     for (var i = 0; i < response.data.length; i++) {
                         var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
-                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td>" + response.data[i].OrderId + "</td>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + response.data[i].TotalMoney + "</td>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Unpaid" : "Paid") + "</td>" + "<td> <a href='/Admin/Order/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/Order/Edit?Id=" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = payOrder(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Pay</a> </td>" + "<td>" + response.data[i].OrderId + "</td>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + response.data[i].TotalMoney + "</td>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Unpaid" : "Paid") + "</td>" + "<td> <a href='/Admin/Order/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = deleteOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Delete</a> </td>" + "</tr>"
                     }
                     $("#tableOrder").append(row);
                     $("#pagination").show();
@@ -278,6 +279,41 @@
         });
     }
 
+    function payOrder(Id) {
+        swal({
+            title: "Are you sure you want to pay this order?",
+            text: "Once paid, you won't be able to undo this order!",
+            icon: "info",
+            buttons: true,
+            dangerMode: false,
+        }).then((logOut) => {
+            if (logOut) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/Order/PayOrder",
+                    data: '{Id: ' + Id + ' }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response == 0) {
+                            setTimeout(function () {
+                                swal({
+                                    title: "Pay order success!",
+                                    icon: "success",
+                                    buttons: false,
+                                    dangerMode: false,
+                                })
+                                setTimeout(function () {
+                                    window.location.replace("/Admin/Order");
+                                }, 900);
+                            }, 100);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
     function deleteOrder(Id) {
         swal({
             title: "Are you sure you want to delete?",
@@ -289,14 +325,12 @@
             if (logOut) {
                 $.ajax({
                     type: "POST",
-                    url: "/Admin/PurchaseOrder/Delete",
+                    url: "/Admin/Order/Delete",
                     data: '{Id: ' + Id + ' }',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
-                        if (response == false) {
-                            swal("Can not delete !!!", "This Purchase Order is containing Imported Car", "error");
-                        } else {
+                        if (response) {
                             $('#pagination').empty();
                             $('#pagination').removeData("twbs-pagination");
                             $('#pagination').unbind("page");
@@ -317,11 +351,11 @@
                             if ($("#from").val() == "" && $("#to").val() == "") {
                                 loadData();
                             } else {
-                                searchPurchaseOrder();
+                                searchOrder();
                             }
                             setTimeout(function () {
                                 swal({
-                                    title: "Poof! Purchase Order has been deleted!",
+                                    title: "Poof! Order has been deleted!",
                                     icon: "success",
                                     button: true,
                                     dangermode: false,

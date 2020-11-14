@@ -220,26 +220,51 @@
             dangerMode: true,
         }).then((logOut) => {
             if (logOut) {
+                $('#pagination').empty();
+                $('#pagination').removeData("twbs-pagination");
+                $('#pagination').unbind("page");
+
+                $('#paginationSearchMutiplePages').empty();
+                $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+                $('#paginationSearchMutiplePages').unbind("page");
+                $('#paginationSearchOnePage').empty();
+
+                $('#paginationSearchOnePage').empty();
+                $('#paginationSearchOnePage').removeData("twbs-pagination");
+                $('#paginationSearchOnePage').unbind("page");
+
+                pageCofig = {
+                    pageSize: 2,
+                    pageIndex: 1
+                }
+                pageSearchCofig = {
+                    pageSize: 2,
+                    pageIndex: 1
+                }
                 $.ajax({
                     type: "POST",
                     url: "/Admin/Customer/Delete",
-                    data: '{customerId: "' + customerId + '" }',
+                    data: '{customerId: ' + customerId + ' }',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
                         if (response) {
                             $("#" + customerId).remove();
-                            loadData();
+                            if ($("#searchCustomer").val() == "") {
+                                loadData();
+                            } else {
+                                searchCustomer();
+                            }
                             setTimeout(function () {
                                 swal({
-                                    title: "Poof! Customer has been deleted!",
+                                    title: "Poof! User has been deleted!",
                                     icon: "success",
                                     button: true,
                                     dangerMode: false,
                                 });
                             }, 100);
                         } else {
-                            swal("Can not delete customer!", "error");
+                            swal("Can not delete !!!", "This Customer is ordering Car", "error");
                         }
                     }
                 });

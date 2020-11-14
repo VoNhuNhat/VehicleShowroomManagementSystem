@@ -281,7 +281,7 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
-                        if (response == 0) {
+                        if (response.status) {
                             setTimeout(function () {
                                 swal({
                                     title: "Order car for customer success!",
@@ -290,9 +290,20 @@
                                     dangerMode: false,
                                 })
                                 setTimeout(function () {
-                                    window.location.replace("/Admin/Customer");
+                                    window.location.replace("/Admin/Order/Details?Id=" + response.data);
                                 }, 900);
                             }, 100);
+                        } else {
+                            swal({
+                                title: "Order failed !",
+                                icon: "error",
+                                button: "Got it",
+                                dangerMode: true
+                            }).then((logOut) => {
+                                if (logOut) {
+                                    window.location.replace("/Admin/Order/Create?CustomerId="+@ViewBag.CU.CustomerId);
+                                }
+                            });
                         }
                     }
                 });

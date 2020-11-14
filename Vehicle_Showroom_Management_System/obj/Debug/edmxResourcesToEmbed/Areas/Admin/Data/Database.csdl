@@ -113,6 +113,9 @@
       <End Role="ModelCar" EntitySet="ModelCars" />
       <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
     </AssociationSet>
+    <FunctionImport Name="Update_Order_Paid">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="Brand">
     <Key>

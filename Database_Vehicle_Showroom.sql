@@ -64,6 +64,8 @@ CreatedDate DateTime,
 UpdatedDate DateTime
 )
 go
+--select * from Brands
+--go
 
 create proc Insert_Brand
 	@BrandName varchar(256),
@@ -271,5 +273,13 @@ create proc Insert_Order
 as
 begin
 	insert into Orders values(@OrderId,@ModelNumberCar,@CustomerId,@TotalMoney,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL,0)
+end
+go
+
+create proc Update_Order_Paid
+	@Id int
+as
+begin
+	update Orders set Status = 1 where Id = @Id
 end
 go

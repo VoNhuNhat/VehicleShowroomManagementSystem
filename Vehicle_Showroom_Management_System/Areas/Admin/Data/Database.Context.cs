@@ -322,5 +322,14 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_Car_Sold", modelNumberCarParameter, soldParameter);
         }
+    
+        public virtual int Update_Order_Paid(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_Order_Paid", idParameter);
+        }
     }
 }

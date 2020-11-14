@@ -45,7 +45,7 @@
     <div class="pagination" id="paginationSearchMutiplePages" style="float: right">
     </div>
     <div style="float: left; display: none" id="resultSearch">
-        <b>Found <span id="totalRowSearch"></span> results</b>
+        <div id="totalRowSearch" style="font-weight: bold"></div>
     </div>
 </div>
 <script>
@@ -133,6 +133,8 @@
                     pagination(response.total, function () {
                     })
                 }
+                $("#resultSearch").show();
+                $("#totalRowSearch").text("Total numbers of purchase order: " + response.total);
             }
         });
     });
@@ -157,16 +159,16 @@
                         }
                         $("#tablePurchaseOrder").append(row);
                         $("#paginationSearchMutiplePages").show();
-                        $("#resultSearch").show();
                         $("#reload").show();
-                        $("#totalRowSearch").text(response.total);
+                        $("#resultSearch").show();
+                        $("#totalRowSearch").text("Found: " + response.total+ " results")
                         paginationSearchMutiplePages(response.total, function () {
                             searchPurchaseOrder();
                         })
                     } else {
                         $("#resultSearch").show();
                         $("#reload").show();
-                        $("#totalRowSearch").text(response.total);
+                        $("#totalRowSearch").text("Found: " + response.total+ " results")
                     }
                 } else {
                     swal({
@@ -232,16 +234,16 @@
                         row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = importCar(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white'>Import</a> </td>" + "<td>" + response.data[i].PurchaseOrderId + "</td>" + "<td style = 'text-align: center'>" + response.data[i].ImportedCar + " / " + response.data[i].QuantityCarImport + "</td>" + "<td>" + response.data[i].ModelCarName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Incomplete" : "Completed") + "</td>" + "<td> <a href='/Admin/PurchaseOrder/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/PurchaseOrder/Edit?Id=" + response.data[i].Id + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deletePurchaseOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                     }
                     $("#tablePurchaseOrder").append(row);
-                    $("#pagination").show();
-
-                    $("#resultSearch").hide();
-                    $("#reload").hide();
-                    $("#paginationSearchMutiplePages").hide();
-
                     pagination(response.total, function () {
                         loadData();
-                    })
+                    });
                 }
+                $("#pagination").show();
+                $("#resultSearch").show();
+                $("#reload").hide();
+                $("#paginationSearchMutiplePages").hide();
+                $("#resultSearch").show();
+                $("#totalRowSearch").text("Total numbers of purchase order: " + response.total);
             }
         });
     }

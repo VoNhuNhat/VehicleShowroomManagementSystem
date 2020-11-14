@@ -129,5 +129,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Update_Order_Paid" FunctionName="Vehicle_Showroom_Management_SystemModel.Store.Update_Order_Paid" />
   </EntityContainerMapping>
 </Mapping>
