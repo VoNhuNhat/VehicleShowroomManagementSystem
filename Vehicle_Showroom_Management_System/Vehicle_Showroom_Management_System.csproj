@@ -280,6 +280,7 @@
     <Content Include="Content\img\team-image-3-646x680.jpg" />
     <Content Include="Content\img\team-image-4-646x680.jpg" />
     <Content Include="Content\js\datepicker.js" />
+    <Content Include="Content\js\jquery-3.5.1.min.js" />
     <Content Include="Content\js\main.js" />
     <Content Include="Content\js\plugins.js" />
     <Content Include="Content\js\vendor\bootstrap.js" />
