@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
+}
+<div class="container">
+            <div id="content">
+                <h2 class="text-center" style="text-align: center">Export Purchase Order</h2>
+                <br>
+                <table class="table table-bordered" id="tablePurchaseOrder">
+                    <tr>
+                        <th>
+                            <b>Quantity Imported Car</b>
+                        </th>
+                        <th>
+                            <b>Car Model Name</b>
+                        </th>
+                        <th>
+                            <b>Order Date</b>
+                        </th>
+                        <th>
+                            <b>Created Date</b>
+                        </th>
+                        <th>
+                            <b>Updated Date</b>
+                        </th>
+                        <th>
+                            <b>Status</b>
+                        </th>
+                    </tr>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div>
+                    <button class="btn btn-success" id="export">Save</button>
+                </div>
+                <br>
+            </div>
+</div>
+<br>
+
+<script src="~/Areas/Admin/Contents/js/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+    });
+    document.getElementById('export').addEventListener('click',
+        exportPDF);
+
+    var specialElementHandlers = {
+        // element with id of "bypass" - jQuery style selector
+        '.no-export': function (element, renderer) {
+            // true = "handled elsewhere, bypass text extraction"
+            return true;
+        }
+    };
+
+    function exportPDF() {
+
+        var doc = new jsPDF('p', 'pt', 'a0');
+        var source = document.getElementById('content').innerHTML;
+        var margins = {
+            top: 10,
+            bottom: 10,
+            left: 50,
+            width: 595
+        };
+
+        doc.fromHTML(
+            source, // HTML string or DOM elem ref.
+            margins.left,
+            margins.top, {
+            'width': margins.width,
+            'elementHandlers': specialElementHandlers
+        },
+            function (dispose) {
+                doc.save('Test.pdf');
+            }, margins);
+    }
+
+
+</script>
+

@@ -165,18 +165,13 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             }
             else
             {
-                Order order = db.Orders.Where(ord => ord.Id == Id).FirstOrDefault();
-                var list = (from c in listCars
+                var list = (from o in listOrders
+                            join c in listCars on o.ModelNumberCar equals c.ModelNumberCar
                             join i in listImages on c.CarId equals i.CarId
-                            join p in listPuchaseOrders on c.Id equals p.Id
-                            join m in listModelCars on p.ModelCarId equals m.ModelCarId
-                            join o in listOrders on c.ModelNumberCar equals o.ModelNumberCar
-                            where i.Status == 1 && c.ModelNumberCar.Contains(order.ModelNumberCar)
-                            orderby c.CarId descending
+                            where i.Status == 1 && o.Id == Id
                             select new
                             {
                                 Id = c.Id,
-                                ModelCarName = m.ModelCarName,
                                 ModelNumberCar = c.ModelNumberCar,
                                 CarName = c.CarName,
                                 PriceInput = c.PriceInput,
@@ -190,6 +185,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                                 Sold = c.Sold,
                                 ImageName = i.Name
                             }).ToList();
+
                 var model = list.Skip((page - 1) * pageSize).Take(pageSize);
                 var totalRow = list.Count;
                 if (totalRow > 1)

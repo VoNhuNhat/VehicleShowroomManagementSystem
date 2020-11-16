@@ -266,10 +266,6 @@ Status int
 )
 go
 
---select * from Orders
---inner join Customers on Orders.CustomerId = Customers.CustomerId
---go
-
 
 create proc Insert_Order
 	@OrderId varchar(256),
