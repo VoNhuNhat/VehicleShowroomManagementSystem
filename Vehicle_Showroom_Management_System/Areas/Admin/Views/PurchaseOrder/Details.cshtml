@@ -36,31 +36,6 @@
             </th>
         </tr>
         <tbody>
-            @*<td style="text-align: center">
-                    @ViewBag.importedCar / @Model.QuantityCarImport
-                </td>
-                <td>
-                    @Model.ModelCar.ModelCarName
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.OrderDate)
-                </td>
-                <td>
-                    @Model.CreatedDate
-                </td>
-                <td>
-                    @Model.UpdatedDate
-                </td>
-                <td>
-                    @if (@Model.Status == 0)
-                    {
-                        @: Incomplete
-                    }
-                    else
-                    {
-                        @: Completed
-                    }
-                </td>*@
         </tbody>
     </table>
     <hr />
@@ -119,28 +94,6 @@
             $("#tableCar").find('.dataTable').remove();
             $.ajax({
                 type: "POST",
-                url: "/Admin/Car/LoadData",
-                data: '{' + 'Id: ' + @Model.Id + ',page: ' + pageCofig.pageIndex + ',pageSize:' + pageCofig.pageSize + ' }',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    if (response.data.length > 0) {
-                        var row = "";
-                        for (var i = 0; i < response.data.length; i++) {
-                            var status = (response.data[i].Status == 0) ? "New" : "Used";
-                            var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
-                            row += "<tr class='dataTable' id='" + response.data[i].CarId + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceInput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:242px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'><i class='fas fa-info-circle'></i></a> <a style='color: white; font-weight: bold' onclick = 'editCar(" + response.data[i].CarId + ")' class='btn btn-success' style = 'font-weight: bold'><i class='fas fa-edit'></i></a> <a onclick = deleteCar(" + response.data[i].CarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'><i class='fas fa-times'></i></a> </td>" + "</tr>"
-                        }
-                        $("#tableCar").append(row);
-                        $("#pagination").show();
-                        pagination(response.total, function () { })
-                    }
-                    $("#resultSearch").show();
-                    $("#totalRowSearch").text("Total numbers of car: " + response.total);
-                }
-            });
-            $.ajax({
-                type: "POST",
                 url: "/Admin/PurchaseOrder/LoadData",
                 data: '{' + 'Id: ' + @Model.Id + ',page: ' + pageCofig.pageIndex + ',pageSize:' + pageCofig.pageSize + ' }',
                 contentType: "application/json; charset=utf-8",
@@ -154,12 +107,36 @@
                             if (response.data[i].UpdatedDate != null) {
                             var updatedDate = new Date(parseInt(response.data[i].UpdatedDate.replace('/Date(', '')));
                             }
-                            row += "<tr class='dataTablePurchaseOrder' id='" + response.data[i].Id + "'>" + "<td style = 'text-align: center'>" + response.data[i].ImportedCar + " / " + response.data[i].QuantityCarImport + "</td>" + "<td>" + response.data[i].ModelCarName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + convertCU(createdDate) + "</td>" + "<td>" + ((response.data[i].UpdatedDate != null) ? convertCU(updatedDate) : "NULL") + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Incomplete" : "Completed") + "</td>" + "</tr>"
+                            row += "<tr class='dataTablePurchaseOrder' id='" + response.data[i].Id + "'>" + "<td style = 'text-align: center'>" + response.data[i].ImportedCar + " / " + response.data[i].QuantityCarImport + "</td>" + "<td style = 'width: 200px'>" + response.data[i].ModelCarName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + convertCU(createdDate) + "</td>" + "<td>" + ((response.data[i].UpdatedDate != null) ? convertCU(updatedDate) : "NULL") + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Incomplete" : "Completed") + "</td>" + "</tr>"
                         }
                         $("#tablePurchaseOrder").append(row);
                     }
                 }
             });
+
+            $.ajax({
+                type: "POST",
+                url: "/Admin/Car/LoadData",
+                data: '{' + 'Id: ' + @Model.Id + ',page: ' + pageCofig.pageIndex + ',pageSize:' + pageCofig.pageSize + ' }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.data.length > 0) {
+                        var row = "";
+                        for (var i = 0; i < response.data.length; i++) {
+                            var status = (response.data[i].Status == 0) ? "New" : "Used";
+                            var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
+                            row += "<tr class='dataTable' id='" + response.data[i].CarId + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceInput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:160px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'><i class='fas fa-info-circle'></i></a> <a style='color: white; font-weight: bold' onclick = 'editCar(" + response.data[i].CarId + ")' class='btn btn-success' style = 'font-weight: bold'><i class='fas fa-edit'></i></a> <a onclick = deleteCar(" + response.data[i].CarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'><i class='fas fa-times'></i></a> </td>" + "</tr>"
+                        }
+                        $("#tableCar").append(row);
+                        $("#pagination").show();
+                        pagination(response.total, function () { })
+                    }
+                    $("#resultSearch").show();
+                    $("#totalRowSearch").text("Total numbers of car: " + response.total);
+                }
+            });
+
         });
         function convert(str) {
             var date = new Date(str),
@@ -199,7 +176,7 @@
                         for (var i = 0; i < response.data.length; i++) {
                             var status = (response.data[i].Status == 0) ? "New" : "Used";
                             var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
-                            row += "<tr class='dataTable' id='" + response.data[i].CarId + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceInput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:242px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'><i class='fas fa-info-circle'></i></a> <a style='color: white; font-weight: bold' onclick = 'editCar(" + response.data[i].CarId + ")' class='btn btn-success' style = 'font-weight: bold'><i class='fas fa-edit'></i></a> <a onclick = deleteCar(" + response.data[i].CarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'><i class='fas fa-times'></i></a> </td>" + "</tr>"
+                            row += "<tr class='dataTable' id='" + response.data[i].CarId + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceInput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:160px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'><i class='fas fa-info-circle'></i></a> <a style='color: white; font-weight: bold' onclick = 'editCar(" + response.data[i].CarId + ")' class='btn btn-success' style = 'font-weight: bold'><i class='fas fa-edit'></i></a> <a onclick = deleteCar(" + response.data[i].CarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'><i class='fas fa-times'></i></a> </td>" + "</tr>"
                         }
                         $("#tableCar").append(row);
                         $("#paginationSearchMutiplePages").hide();
@@ -257,7 +234,7 @@
                 dataType: "json",
                 success: function (response) {
                     if (name == "") {
-                        @*$.ajax({
+                        $.ajax({
                             type: "POST",
                             url: "/Admin/Car/LoadData",
                             data:
@@ -270,7 +247,7 @@
                                     for (var i = 0; i < response.data.length; i++) {
                                         var status = (response.data[i].Status == 0) ? "New" : "Used";
                                         var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
-                                        row += "<tr class='dataTable' id='" + response.data[i].CarId + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceInput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style = 'width: 160px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'><i class='fas fa-info-circle'></i></a> <a href='/Admin/Car/Edit?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-success' style = 'font-weight: bold'><i class='fas fa-edit'></i></a> <a onclick = deleteCar(" + response.data[i].CarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'><i class='fas fa-times'></i></a> </td>" + "</tr>"
+                                        row += "<tr class='dataTable' id='" + response.data[i].CarId + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceInput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:160px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'><i class='fas fa-info-circle'></i></a> <a style='color: white; font-weight: bold' onclick = 'editCar(" + response.data[i].CarId + ")' class='btn btn-success' style = 'font-weight: bold'><i class='fas fa-edit'></i></a> <a onclick = deleteCar(" + response.data[i].CarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'><i class='fas fa-times'></i></a> </td>" + "</tr>"
                                     }
                                     $("#tableCar").append(row);
                                     $("#paginationSearchMutiplePages").hide();
@@ -285,8 +262,7 @@
                                 } else {
                                 }
                             }
-                        });*@
-                        loadData();
+                        });
                     } else {
                         if (response.allCars > 0) {
                             if (response.data.length > 0) {
@@ -294,7 +270,7 @@
                                 for (var i = 0; i < response.data.length; i++) {
                                     var status = (response.data[i].Status == 0) ? "New" : "Used";
                                     var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
-                                    row += "<tr class='dataTable' id='" + response.data[i].CarId + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceInput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:242px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'><i class='fas fa-info-circle'></i></a> <a style='color: white; font-weight: bold' onclick = 'editCar(" + response.data[i].CarId + ")' class='btn btn-success' style = 'font-weight: bold'><i class='fas fa-edit'></i></a> <a onclick = deleteCar(" + response.data[i].CarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'><i class='fas fa-times'></i></a> </td>" + "</tr>"
+                                    row += "<tr class='dataTable' id='" + response.data[i].CarId + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td>" + String(response.data[i].PriceInput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td>" + status + "</td>" + "<td>" + checking + "</td>" + "<td style ='width:160px'> <a href='/Admin/Car/Details?ModelNumberCar=" + response.data[i].ModelNumberCar + "' class='btn btn-info' style = 'font-weight: bold'><i class='fas fa-info-circle'></i></a> <a style='color: white; font-weight: bold' onclick = 'editCar(" + response.data[i].CarId + ")' class='btn btn-success' style = 'font-weight: bold'><i class='fas fa-edit'></i></a> <a onclick = deleteCar(" + response.data[i].CarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'><i class='fas fa-times'></i></a> </td>" + "</tr>"
                                 }
                                 $("#tableCar").append(row);
                                 $("#paginationSearchMutiplePages").show();

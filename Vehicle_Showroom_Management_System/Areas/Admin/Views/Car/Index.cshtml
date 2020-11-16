@@ -183,14 +183,13 @@
                                 }
                                 $("#tableCar").append(row);
                                 $("#paginationSearchMutiplePages").hide();
-                                $("#paginationSearchOnePage").hide();
                                 $("#pagination").show();
 
                                 $("#resultSearch").show();
                                 $("#totalRowSearch").text("Total numbers of car: "+response.total);
                                 pagination(response.total, function () {
                                     loadData();
-                                })
+                                });
                             } else {
                             }
                         }

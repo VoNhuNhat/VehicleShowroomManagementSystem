@@ -14,50 +14,97 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         // GET: Admin/Order
         public ActionResult Index()
         {
-            List<Order> lists = db.Orders.ToList();
-            return View(lists);
+            if (Convert.ToInt32(Session["status"]) == 1)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Warning");
+            }
         }
 
         [HttpPost]
-        public JsonResult LoadData(int page, int pageSize)
+        public JsonResult LoadData(int? customerId, int page, int pageSize)
         {
             db.Configuration.ProxyCreationEnabled = false;
             List<Order> listOrders = db.Orders.ToList();
             List<Car> listCars = db.Cars.ToList();
             List<Customer> listCustomers = db.Customers.ToList();
-            var list = (from or in listOrders
-                        join ca in listCars on or.ModelNumberCar equals ca.ModelNumberCar
-                        join cu in listCustomers on or.CustomerId equals cu.CustomerId
-                        orderby or.CreatedDate descending
-                        select new
-                        {
-                            Id = or.Id,
-                            OrderId = or.OrderId,
-                            CarName = ca.CarName,
-                            TotalMoney = or.TotalMoney,
-                            OrderDate = or.OrderDate,
-                            Status = or.Status,
-                            FullName = cu.FullName
-                        }).ToList();
-            var model = list.Skip((page - 1) * pageSize).Take(pageSize);
-            var totalRow = list.Count;
-            if (totalRow > 1)
+            if (customerId == null)
             {
-                return Json(new
+                var list = (from or in listOrders
+                            join ca in listCars on or.ModelNumberCar equals ca.ModelNumberCar
+                            join cu in listCustomers on or.CustomerId equals cu.CustomerId
+                            orderby or.CreatedDate descending
+                            select new
+                            {
+                                Id = or.Id,
+                                OrderId = or.OrderId,
+                                CarName = ca.CarName,
+                                TotalMoney = or.TotalMoney,
+                                OrderDate = or.OrderDate,
+                                Status = or.Status,
+                                FullName = cu.FullName
+                            }).ToList();
+                var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = list.Count;
+                if (totalRow > 1)
                 {
-                    data = model,
-                    total = totalRow,
-                    status = true
-                }, JsonRequestBehavior.AllowGet);
+                    return Json(new
+                    {
+                        data = model,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = list,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
             }
             else
             {
-                return Json(new
+                var list = (from or in listOrders
+                            join ca in listCars on or.ModelNumberCar equals ca.ModelNumberCar
+                            join cu in listCustomers on or.CustomerId equals cu.CustomerId
+                            where or.CustomerId == customerId
+                            orderby or.CreatedDate descending
+                            select new
+                            {
+                                Id = or.Id,
+                                OrderId = or.OrderId,
+                                CarName = ca.CarName,
+                                TotalMoney = or.TotalMoney,
+                                OrderDate = or.OrderDate,
+                                Status = or.Status,
+                                FullName = cu.FullName
+                            }).ToList();
+                var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                var totalRow = list.Count;
+                if (totalRow > 1)
                 {
-                    data = list,
-                    total = totalRow,
-                    status = true
-                }, JsonRequestBehavior.AllowGet);
+                    return Json(new
+                    {
+                        data = model,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        data = list,
+                        total = totalRow,
+                        status = true
+                    }, JsonRequestBehavior.AllowGet);
+                }
             }
         }
 
@@ -192,8 +239,8 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             }
             OrderId += id;
             db.Insert_Order(OrderId, ModelNumberCar, CustomerId, TotalMoney);
-            db.Update_Car_Sold(ModelNumberCar, 1);
-            if (db.SaveChanges()==0)
+            db.Update_Car_Sold(ModelNumberCar, 1, 1);
+            if (db.SaveChanges() == 0)
             {
                 Order order = db.Orders.Where(o => o.ModelNumberCar.Contains(ModelNumberCar)).FirstOrDefault();
                 return Json(new
@@ -221,9 +268,14 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult PayOrder(int Id)
         {
+            bool paid = false;
             db.Update_Order_Paid(Id);
-            db.SaveChanges();
-            return Json(db.SaveChanges());
+            int d = db.SaveChanges();
+            if (d == 0)
+            {
+                paid = true;
+            }
+            return Json(paid);
         }
 
         [HttpPost]
@@ -232,7 +284,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             bool deleted = false;
             Order orderDelete = db.Orders.Where(o => o.Id == Id).FirstOrDefault();
             db.Orders.Remove(orderDelete);
-            db.Update_Car_Sold(orderDelete.ModelNumberCar, 0);
+            db.Update_Car_Sold(orderDelete.ModelNumberCar, 0, 0);
             int d = db.SaveChanges();
             if (d > 0)
             {
@@ -242,45 +294,20 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult Search(int page, int pageSize, DateTime? fromDate, DateTime? toDate)
+        public JsonResult Search(int? customerId, int page, int pageSize, DateTime? fromDate, DateTime? toDate)
         {
             db.Configuration.ProxyCreationEnabled = false;
             var listOrders = db.Orders.ToList();
             var listCars = db.Cars.ToList();
             var listCustomers = db.Customers.ToList();
-            if (fromDate == null)
+            if (customerId == null)
             {
-                var list = (from or in listOrders
-                            join ca in listCars on or.ModelNumberCar equals ca.ModelNumberCar
-                            join cu in listCustomers on or.CustomerId equals cu.CustomerId
-                            where or.OrderDate >= DateTime.Now.Date && or.OrderDate <= toDate
-                            select new
-                            {
-                                Id = or.Id,
-                                OrderId = or.OrderId,
-                                CarName = ca.CarName,
-                                TotalMoney = or.TotalMoney,
-                                OrderDate = or.OrderDate,
-                                Status = or.Status,
-                                FullName = cu.FullName
-                            }).ToList();
-                var model = list.Skip((page - 1) * pageSize).Take(pageSize);
-                var totalRow = list.Count;
-                return Json(new
-                {
-                    data = model,
-                    total = totalRow,
-                    orders = listOrders.Count()
-                }, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                if (toDate == null)
+                if (fromDate == null)
                 {
                     var list = (from or in listOrders
                                 join ca in listCars on or.ModelNumberCar equals ca.ModelNumberCar
                                 join cu in listCustomers on or.CustomerId equals cu.CustomerId
-                                where or.OrderDate >= fromDate
+                                where or.OrderDate >= DateTime.Now.Date && or.OrderDate <= toDate
                                 select new
                                 {
                                     Id = or.Id,
@@ -302,10 +329,66 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                 }
                 else
                 {
+                    if (toDate == null)
+                    {
+                        var list = (from or in listOrders
+                                    join ca in listCars on or.ModelNumberCar equals ca.ModelNumberCar
+                                    join cu in listCustomers on or.CustomerId equals cu.CustomerId
+                                    where or.OrderDate >= fromDate
+                                    select new
+                                    {
+                                        Id = or.Id,
+                                        OrderId = or.OrderId,
+                                        CarName = ca.CarName,
+                                        TotalMoney = or.TotalMoney,
+                                        OrderDate = or.OrderDate,
+                                        Status = or.Status,
+                                        FullName = cu.FullName
+                                    }).ToList();
+                        var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                        var totalRow = list.Count;
+                        return Json(new
+                        {
+                            data = model,
+                            total = totalRow,
+                            orders = listOrders.Count()
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        var list = (from or in listOrders
+                                    join ca in listCars on or.ModelNumberCar equals ca.ModelNumberCar
+                                    join cu in listCustomers on or.CustomerId equals cu.CustomerId
+                                    where or.OrderDate >= fromDate && or.OrderDate <= toDate
+                                    select new
+                                    {
+                                        Id = or.Id,
+                                        OrderId = or.OrderId,
+                                        CarName = ca.CarName,
+                                        TotalMoney = or.TotalMoney,
+                                        OrderDate = or.OrderDate,
+                                        Status = or.Status,
+                                        FullName = cu.FullName
+                                    }).ToList();
+                        var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                        var totalRow = list.Count;
+                        return Json(new
+                        {
+                            data = model,
+                            total = totalRow,
+                            orders = listOrders.Count()
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            else
+            {
+                if (fromDate == null)
+                {
                     var list = (from or in listOrders
                                 join ca in listCars on or.ModelNumberCar equals ca.ModelNumberCar
                                 join cu in listCustomers on or.CustomerId equals cu.CustomerId
-                                where or.OrderDate >= fromDate && or.OrderDate <= toDate
+                                where or.OrderDate >= DateTime.Now.Date && or.OrderDate <= toDate && or.CustomerId == customerId
                                 select new
                                 {
                                     Id = or.Id,
@@ -324,6 +407,59 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                         total = totalRow,
                         orders = listOrders.Count()
                     }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    if (toDate == null)
+                    {
+                        var list = (from or in listOrders
+                                    join ca in listCars on or.ModelNumberCar equals ca.ModelNumberCar
+                                    join cu in listCustomers on or.CustomerId equals cu.CustomerId
+                                    where or.OrderDate >= fromDate && or.CustomerId == customerId
+                                    select new
+                                    {
+                                        Id = or.Id,
+                                        OrderId = or.OrderId,
+                                        CarName = ca.CarName,
+                                        TotalMoney = or.TotalMoney,
+                                        OrderDate = or.OrderDate,
+                                        Status = or.Status,
+                                        FullName = cu.FullName
+                                    }).ToList();
+                        var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                        var totalRow = list.Count;
+                        return Json(new
+                        {
+                            data = model,
+                            total = totalRow,
+                            orders = listOrders.Count()
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        var list = (from or in listOrders
+                                    join ca in listCars on or.ModelNumberCar equals ca.ModelNumberCar
+                                    join cu in listCustomers on or.CustomerId equals cu.CustomerId
+                                    where or.OrderDate >= fromDate && or.OrderDate <= toDate && or.CustomerId == customerId
+                                    select new
+                                    {
+                                        Id = or.Id,
+                                        OrderId = or.OrderId,
+                                        CarName = ca.CarName,
+                                        TotalMoney = or.TotalMoney,
+                                        OrderDate = or.OrderDate,
+                                        Status = or.Status,
+                                        FullName = cu.FullName
+                                    }).ToList();
+                        var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+                        var totalRow = list.Count;
+                        return Json(new
+                        {
+                            data = model,
+                            total = totalRow,
+                            orders = listOrders.Count()
+                        }, JsonRequestBehavior.AllowGet);
+                    }
                 }
             }
         }

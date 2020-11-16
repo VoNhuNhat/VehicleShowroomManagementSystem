@@ -310,7 +310,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insert_Order", orderIdParameter, modelNumberCarParameter, customerIdParameter, totalMoneyParameter);
         }
     
-        public virtual int Update_Car_Sold(string modelNumberCar, Nullable<int> sold)
+        public virtual int Update_Car_Sold(string modelNumberCar, Nullable<int> sold, Nullable<int> checking)
         {
             var modelNumberCarParameter = modelNumberCar != null ?
                 new ObjectParameter("ModelNumberCar", modelNumberCar) :
@@ -320,7 +320,11 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Data
                 new ObjectParameter("Sold", sold) :
                 new ObjectParameter("Sold", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_Car_Sold", modelNumberCarParameter, soldParameter);
+            var checkingParameter = checking.HasValue ?
+                new ObjectParameter("Checking", checking) :
+                new ObjectParameter("Checking", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Update_Car_Sold", modelNumberCarParameter, soldParameter, checkingParameter);
         }
     
         public virtual int Update_Order_Paid(Nullable<int> id)

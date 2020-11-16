@@ -19,16 +19,6 @@
                     <dd>
                         @Html.DisplayFor(model => model.BrandName)
                     </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Image)
-                    </dt>
-
-                    <dd var item in model>
-                        <img src="~/Areas/Admin/Contents/Images/@Model.Image" width="250" />
-                    </dd>
-                </div>
-                <div class="col-md-6">
                     <dt>
                         @Html.DisplayNameFor(model => model.CreatedDate)
                     </dt>
@@ -44,22 +34,20 @@
                     <dd>
                         @Html.DisplayFor(model => model.UpdatedDate)
                     </dd>
+
+                </div>
+                <div class="col-md-6">
+                        <img src="~/Areas/Admin/Contents/Images/@Model.Image" width="250" />
                 </div>
             </div>
             </div>
-    </div>
+    <br />
     <p>
         <a href="/Admin/Brand" class="btn btn-primary" style="font-weight: bold">Back to List</a>&nbsp;&nbsp;
         <a href="/Admin/Brand/Edit/@Model.BrandId" class="btn btn-success" style="font-weight: bold">Edit</a>
 
     </p>
-    <div class="pagination" id="pagination" style="float: right">
     </div>
-    <div class="pagination" id="paginationSearchMutiplePages" style="float: right">
-    </div>
-    <div class="pagination" id="paginationSearchOnePage" style="float: right">
-    </div>
-</div>
 <script>
     $(document).ready(function () {
         $("#pagination").hide();

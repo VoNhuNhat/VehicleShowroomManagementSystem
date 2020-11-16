@@ -185,10 +185,11 @@ go
 
 create proc Update_Car_Sold
 	@ModelNumberCar varchar(100),
-	@Sold int
+	@Sold int,
+	@Checking int
 as
 begin
-	update Cars set Sold = @Sold where ModelNumberCar = @ModelNumberCar
+	update Cars set Sold = @Sold, Checking = @Checking where ModelNumberCar = @ModelNumberCar
 end
 go
 
@@ -264,6 +265,11 @@ UpdateDate DateTime,
 Status int
 )
 go
+
+--select * from Orders
+--inner join Customers on Orders.CustomerId = Customers.CustomerId
+--go
+
 
 create proc Insert_Order
 	@OrderId varchar(256),

@@ -16,14 +16,22 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            if (Convert.ToInt32(Session["status"]) == 1)
+            {
             List<Brand> lists = db.Brands.ToList();
             return View(lists);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Warning");
+            }
         }
         [HttpPost]
         public JsonResult LoadData(int page, int pageSize = 2)
         {
             db.Configuration.ProxyCreationEnabled = false;
             var list = (from b in db.Brands.ToList()
+                        orderby b.CreatedDate descending
                         select new
                         {
                             BrandId = b.BrandId,
@@ -83,30 +91,31 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         public ActionResult Edit(int brandId)
         {
             Brand brandUpdate = db.Brands.Where(ua => ua.BrandId == brandId).FirstOrDefault();
+            ViewBag.urlPrevious = Request.UrlReferrer.ToString();
+
             return View(brandUpdate);
         }
         [HttpPost]
-        public ActionResult Edit(Brand b)
+        public ActionResult Edit(string urlPrevious, int BrandId, string BrandName, HttpPostedFileBase ImageFile)
         {
-            string fileName = Path.GetFileNameWithoutExtension(b.ImageFile.FileName);
-            string extension = Path.GetExtension(b.ImageFile.FileName);
-            fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-            string path = Path.Combine(Server.MapPath("~/Areas/Admin/Contents/Images/"), fileName);
-            b.Image = fileName;
-            b.ImageFile.SaveAs(path);
             Brand b2;
-            b2 = db.Brands.Find(b.BrandId);
-            string oldPath = Server.MapPath("~/Areas/Admin/Contents/Images/" + b2.Image);
-            System.IO.File.Delete(oldPath);
-            //if (System.IO.File.Exists(oldPath))
-            //{
-            //}
-            b2.BrandName = b.BrandName;
-            b2.Image = b.Image;
+            Brand updateBrand = db.Brands.Where(b => b.BrandId == BrandId).FirstOrDefault();
+            if (ImageFile != null)
+            {
+                string fileName = Path.GetFileNameWithoutExtension(ImageFile.FileName);
+                string extension = Path.GetExtension(ImageFile.FileName);
+                fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(Server.MapPath("~/Areas/Admin/Contents/Images/"), fileName);
+                ImageFile.SaveAs(path);
+                System.IO.File.Delete(Server.MapPath("~/Areas/Admin/Contents/Images/" + updateBrand.Image));
+                updateBrand.Image = fileName;
+            }
+            updateBrand.BrandName = BrandName;
+            updateBrand.UpdatedDate = DateTime.Now;
 
-            db.Entry(b2).State = EntityState.Modified;
+            db.Entry(updateBrand).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return Redirect(urlPrevious);
         }
 
         [HttpPost]
@@ -119,7 +128,9 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             }
             else
             {
-                db.Brands.Remove(db.Brands.Where(ua => ua.BrandId == brandId).FirstOrDefault());
+                Brand brand = db.Brands.Where(ua => ua.BrandId == brandId).FirstOrDefault();
+                System.IO.File.Delete(Server.MapPath("~/Areas/Admin/Contents/Images/" + brand.Image));
+                db.Brands.Remove(brand);
                 int v = db.SaveChanges();
                 if (v > 0)
                 {
@@ -131,6 +142,27 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
                 }
             }
             return Json(deleted);
+        }
+
+        [HttpPost]
+        public JsonResult CheckExsistBrandName(string oldBrandName, string newBrandName)
+        {
+            bool check = false;
+            if (oldBrandName == "")
+            {
+                if (db.Brands.Any(b => b.BrandName == newBrandName))
+                {
+                    check = true;
+                }
+            }
+            else
+            {
+                if (db.Brands.Where(b => b.BrandName != oldBrandName).Any(b => b.BrandName == newBrandName))
+                {
+                    check = true;
+                }
+            }
+            return Json(check);
         }
         public ActionResult Details(int brandId, Brand b, string image)
         {

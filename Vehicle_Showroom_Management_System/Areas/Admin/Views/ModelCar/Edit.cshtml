@@ -11,6 +11,7 @@
 
         @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formEdit" }))
         {
+    <input type="text" name="urlPrevious" hidden value="@ViewBag.urlPrevious" />
             @Html.AntiForgeryToken()
         <div class="form-horizontal">
             <hr />

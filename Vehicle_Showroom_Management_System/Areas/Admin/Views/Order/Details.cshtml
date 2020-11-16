@@ -8,7 +8,7 @@
 <div class="container">
     <hr />
     <div style="margin-bottom: -40px">
-        <a href="/Admin/Order" class="btn btn-primary" style="font-weight: bold">Back to List Orders</a>&nbsp;&nbsp;
+        <a onclick="backPrevious()" class="btn btn-primary" style="font-weight: bold; color: white">Back to List</a>&nbsp;&nbsp;
     </div>
     <h2 style="text-align:center; font-weight: bold">Details of Order Id: @Model.OrderId</h2>
     <div style="margin-top: -45px;float: right">
@@ -21,7 +21,7 @@
             <th>
                 <b>Model Number Car</b>
             </th>
-            <th>
+            <th style="text-align: center">
                 <b>Total Money</b>
             </th>
             <th>
@@ -55,10 +55,10 @@
         <td>
             @Model.ModelNumberCar
         </td>
-        <td>
-            @Model.TotalMoney
+        <td style="text-align:center">
+            @Convert.ToDecimal(Model.TotalMoney).ToString("#,##0") $
         </td>
-        <td>
+        <td style="width: 200px">
             @Model.Customer.FullName
         </td>
         <td>
@@ -103,7 +103,7 @@
             <th>
                 <b>Image</b>
             </th>
-            <th>
+            <th style="text-align: center">
                 <b>Seat Quantity</b>
             </th>
             <th>
@@ -173,7 +173,7 @@
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (response) {
-                            if (response == 0) {
+                            if (response) {
                                 setTimeout(function () {
                                     swal({
                                         title: "Pay order success!",
@@ -182,7 +182,7 @@
                                         dangerMode: false,
                                     })
                                     setTimeout(function () {
-                                        window.location.replace("/Admin/Order");
+                                        backPrevious();
                                     }, 900);
                                 }, 100);
                             }
@@ -209,20 +209,30 @@
                     dataType: "json",
                     success: function (response) {
                         if (response) {
-                            swal({
-                                title: "Poof! Order has been deleted!",
-                                icon: "success",
-                                button: true,
-                                dangermode: false,
-                            }).then((logOut) => {
-                                if (logOut) {
-                                    window.location.replace("/Admin/Order");
-                                }
-                            });
+                            setTimeout(function () {
+                                swal({
+                                    title: "Poof! Order has been deleted!",
+                                    icon: "success",
+                                    buttons: false,
+                                    dangerMode: false,
+                                })
+                                setTimeout(function () {
+                                    backPrevious();
+                                }, 900);
+                            }, 100);
                         }
                     }
                 });
             }
         });
+    }
+
+    function backPrevious() {
+        var referrer = document.referrer;
+        if (referrer == "https://localhost:44376/Admin/Order") {
+            window.location.replace(referrer);
+        } else {
+            window.location.replace("/Admin/Customer/Details?customerId="+@Model.CustomerId);
+        }
     }
 </script>

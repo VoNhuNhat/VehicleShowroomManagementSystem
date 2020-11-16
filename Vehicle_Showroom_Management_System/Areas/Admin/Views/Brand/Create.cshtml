@@ -69,28 +69,27 @@
 
 
         }
-    }
-   @* $("form").on("submit", function (e) {
-        e.preventDefault();
-        console.log(this);
-    });*@
+        };
 
-
-        @*function filePreview(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('uploadForm + img').remove();
-                    $('uploadForm').after('img src="' + e.target.result + '"width="450" height="300"/>');
-                };
-                reader.readAsDataURL(input.files[0]);
+        $("#imgInp").change(function () {
+            if ($("#imgInp").val() != "") {
+                var $fileUpload = $("input[type='file']");
+                var bool = true;
+                var match = ['image/jpeg', 'image/png', 'image/jpg'];
+                for (var i = 0; i < $fileUpload.get(0).files.length; i++) {
+                    var fileType = $fileUpload.get(0).files[i].type;
+                    if (!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]))) {
+                        $("#imgInp").val('');
+                        bool = false;
+                    } else {
+                        bool = true;
+                    }
+                }
+                if (bool == false) {
+                    swal("There was a problem !!!", "You are only allowed to upload JPG,JPEG & PNG files", "error").then(() => { $("#imgInp").focus(); });
+                }
             }
-
-        }
-        $("#file").change(function () {
-
-            filePreview(this);
-        })*@
+        });
 
         function clickTest() {
             var i = 0;
@@ -100,22 +99,40 @@
                 if (i == 0 && $("#BrandName").val().length > 256) {
                     swal("There was a problem !!!", "Maximum length of BrandName is 256 characters", "error").then(() => { $("#BrandName").focus(); });
                 } else {
-                    i++;
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/Brand/CheckExsistBrandName",
+                        data: '{newBrandName: "' + $("#BrandName").val() + '" }',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            if (response) {
+                        swal("There was a problem !!!", "Brand Name already existed", "error").then(() => { $("#BrandName").focus(); });
+                            } else {
+                                i++;
+                                if (i == 1 && $("#imgInp").val() == "") {
+                                    swal("There was a problem !!!", "Please choose logo for brand", "error").then(() => { $("#imgInp").focus(); });
+                                } else {
+                                    i++;
+                                }
+                                if (i==2) {
+                                    setTimeout(function () {
+                                        swal({
+                                            title: "Add Brand success!",
+                                            icon: "success",
+                                            buttons: false,
+                                            dangerMode: false,
+                                        })
+                                        setTimeout(function () {
+                                            $("#btnSubmit").removeAttr('disabled');
+                                            $("#btnSubmit").click();
+                                        }, 800);
+                                    }, 100);
+                                }
+                            }
+                        }
+                    });
                 }
-            }
-            if (i == 1) {
-                setTimeout(function () {
-                    swal({
-                        title: "Add Brand success!",
-                        icon: "success",
-                        buttons: false,
-                        dangerMode: false,
-                    })
-                    setTimeout(function () {
-                        $("#btnSubmit").removeAttr('disabled');
-                        $("#btnSubmit").click();
-                    }, 800);
-                }, 100);
             }
         }
     </script>

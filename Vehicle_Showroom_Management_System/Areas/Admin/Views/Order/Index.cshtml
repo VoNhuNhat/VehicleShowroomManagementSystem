@@ -46,7 +46,7 @@
     <div class="pagination" id="paginationSearchMutiplePages" style="float: right">
     </div>
     <div style="float: left; display: none" id="resultSearch">
-        <b>Found <span id="totalRowSearch"></span> results</b>
+        <div id="totalRowSearch" style="font-weight: bold"></div>
     </div>
 </div>
 
@@ -128,13 +128,15 @@
                     var row = "";
                     for (var i = 0; i < response.data.length; i++) {
                         var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
-                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = payOrder(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Pay</a> </td>" + "<td>" + response.data[i].OrderId + "</td>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + response.data[i].TotalMoney + "</td>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Unpaid" : "Paid") + "</td>" + "<td> <a href='/Admin/Order/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = deleteOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Delete</a> </td>" + "</tr>"
+                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = payOrder(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Pay</a> </td>" + "<td>" + response.data[i].OrderId + "</td>" + "<td style = 'width: 100px'>" + response.data[i].CarName + "</td>" + "<td style='text-align: center'>" + String(response.data[i].TotalMoney).replace(/(.)(?=(\d{3})+$)/g, '$1,')+" $" + "</td>" + "<td  style = 'width: 150px'>" + response.data[i].FullName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Unpaid" : "Paid") + "</td>" + "<td> <a href='/Admin/Order/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = deleteOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Delete</a> </td>" + "</tr>"
                     }
                     $("#tableOrder").append(row);
                     $("#pagination").show();
                     pagination(response.total, function () {
-                    })
+                    });
                 }
+                $("#resultSearch").show();
+                $("#totalRowSearch").text("Total numbers of order: " + response.total);
             }
         });
     });
@@ -155,7 +157,7 @@
                         var row = "";
                         for (var i = 0; i < response.data.length; i++) {
                             var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
-                            row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = payOrder(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Pay</a> </td>" + "<td>" + response.data[i].OrderId + "</td>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + response.data[i].TotalMoney + "</td>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Unpaid" : "Paid") + "</td>" + "<td> <a href='/Admin/Order/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = deleteOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Delete</a> </td>" + "</tr>"
+                            row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = payOrder(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Pay</a> </td>" + "<td>" + response.data[i].OrderId + "</td>" + "<td style = 'width: 100px'>" + response.data[i].CarName + "</td>" + "<td style='text-align: center'>" + String(response.data[i].TotalMoney).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $" + "</td>" + "<td  style = 'width: 150px'>" + response.data[i].FullName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Unpaid" : "Paid") + "</td>" + "<td> <a href='/Admin/Order/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = deleteOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Delete</a> </td>" + "</tr>"
                         }
                         $("#tableOrder").append(row);
                         $("#paginationSearchMutiplePages").show();
@@ -164,11 +166,13 @@
                         $("#totalRowSearch").text(response.total);
                         paginationSearchMutiplePages(response.total, function () {
                             searchOrder();
-                        })
-                    } else {
+                        });
                         $("#resultSearch").show();
+                        $("#totalRowSearch").text("Found: " + response.total+ " results");
+                    } else {
                         $("#reload").show();
-                        $("#totalRowSearch").text(response.total);
+                        $("#resultSearch").show();
+                        $("#totalRowSearch").text("Found: " + response.total+ " results");
                     }
                 } else {
                     swal({
@@ -231,7 +235,7 @@
                     var row = "";
                     for (var i = 0; i < response.data.length; i++) {
                         var date = new Date(parseInt(response.data[i].OrderDate.replace('/Date(', '')));
-                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = payOrder(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Pay</a> </td>" + "<td>" + response.data[i].OrderId + "</td>" + "<td>" + response.data[i].CarName + "</td>" + "<td>" + response.data[i].TotalMoney + "</td>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Unpaid" : "Paid") + "</td>" + "<td> <a href='/Admin/Order/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = deleteOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Delete</a> </td>" + "</tr>"
+                        row += "<tr class='dataTable' id='" + response.data[i].Id + "'>" + "<td> <a onclick = payOrder(" + response.data[i].Id + ") class='btn btn-primary' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Pay</a> </td>" + "<td>" + response.data[i].OrderId + "</td>" + "<td style = 'width: 100px'>" + response.data[i].CarName + "</td>" + "<td style='text-align: center'>" + String(response.data[i].TotalMoney).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $" + "</td>" + "<td  style = 'width: 150px'>" + response.data[i].FullName + "</td>" + "<td>" + convert(date) + "</td>" + "<td>" + (response.data[i].Status == 0 ? "Unpaid" : "Paid") + "</td>" + "<td> <a href='/Admin/Order/Details?Id=" + response.data[i].Id + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a onclick = deleteOrder(" + response.data[i].Id + ") class='btn btn-danger' style = 'font-weight: bold; color: white; display: " + (response.data[i].Status == 0 ? "inline" : "none") + "'>Delete</a> </td>" + "</tr>"
                     }
                     $("#tableOrder").append(row);
                     $("#pagination").show();
@@ -242,7 +246,10 @@
 
                     pagination(response.total, function () {
                         loadData();
-                    })
+                    });
+
+                    $("#resultSearch").show();
+                    $("#totalRowSearch").text("Total numbers of order: " + response.total);
                 }
             }
         });
@@ -295,17 +302,35 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
-                        if (response == 0) {
+                        if (response) {
+                            $('#pagination').empty();
+                            $('#pagination').removeData("twbs-pagination");
+                            $('#pagination').unbind("page");
+
+                            $('#paginationSearchMutiplePages').empty();
+                            $('#paginationSearchMutiplePages').removeData("twbs-pagination");
+                            $('#paginationSearchMutiplePages').unbind("page");
+
+                            pageCofig = {
+                                pageSize: 6,
+                                pageIndex: 1
+                            }
+                            pageSearchCofig = {
+                                pageSize: 6,
+                                pageIndex: 1
+                            }
+                            if ($("#from").val() == "" && $("#to").val() == "") {
+                                loadData();
+                            } else {
+                                searchOrder();
+                            }
                             setTimeout(function () {
                                 swal({
                                     title: "Pay order success!",
                                     icon: "success",
-                                    buttons: false,
+                                    button: true,
                                     dangerMode: false,
-                                })
-                                setTimeout(function () {
-                                    window.location.replace("/Admin/Order");
-                                }, 900);
+                                });
                             }, 100);
                         }
                     }

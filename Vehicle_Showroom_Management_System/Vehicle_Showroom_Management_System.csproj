@@ -145,6 +145,7 @@
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\PurchaseOrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserAccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\WarningController.cs" />
     <Compile Include="Areas\Admin\Data\Brand.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
@@ -331,7 +332,6 @@
     <Content Include="Areas\Admin\Views\Brand\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Brand\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Brand\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\UserAccount\WarningUser.cshtml" />
     <Content Include="Areas\Admin\Views\Customer\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Customer\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Customer\Edit.cshtml" />
@@ -351,6 +351,7 @@
     <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Order\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Car\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Warning\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

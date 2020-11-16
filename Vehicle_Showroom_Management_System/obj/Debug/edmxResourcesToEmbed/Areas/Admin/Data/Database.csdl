@@ -80,6 +80,10 @@
     <FunctionImport Name="Update_Car_Sold">
       <Parameter Name="ModelNumberCar" Mode="In" Type="String" />
       <Parameter Name="Sold" Mode="In" Type="Int32" />
+      <Parameter Name="Checking" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Update_Order_Paid">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
     </FunctionImport>
     <EntitySet Name="Brands" EntityType="Vehicle_Showroom_Management_SystemModel.Brand" />
     <EntitySet Name="Cars" EntityType="Vehicle_Showroom_Management_SystemModel.Car" />
@@ -113,9 +117,6 @@
       <End Role="ModelCar" EntitySet="ModelCars" />
       <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
     </AssociationSet>
-    <FunctionImport Name="Update_Order_Paid">
-      <Parameter Name="Id" Mode="In" Type="Int32" />
-    </FunctionImport>
   </EntityContainer>
   <EntityType Name="Brand">
     <Key>

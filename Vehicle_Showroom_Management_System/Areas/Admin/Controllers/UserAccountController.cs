@@ -20,7 +20,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             }
             else
             {
-                return View("WarningUser");
+                return RedirectToAction("Index","Warning");
             }
         }
         [HttpGet]
@@ -87,15 +87,16 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         {
             UserAccount userUpdate = db.UserAccounts.Where(ua => ua.UserId == userId).FirstOrDefault();
             userUpdate.Password = DecryptPassword(userUpdate.Password);
+            ViewBag.urlPrevious = Request.UrlReferrer.ToString();
             return View(userUpdate);
         }
         [HttpPost]
-        public ActionResult Edit(int userId, string fullName, string userName, string password, string address, string email, string phoneNumber, DateTime birthday)
+        public ActionResult Edit(string urlPrevious, int userId, string fullName, string userName, string password, string address, string email, string phoneNumber, DateTime birthday)
         {
             string ePassword = EncryptPassword(password);
             db.Update_UserAccount(userId, fullName, userName, ePassword, address, email, phoneNumber, birthday);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return Redirect(urlPrevious);
         }
         [HttpPost]
         public JsonResult CheckUserEdit(string oldUserName, string newUserName)
@@ -143,16 +144,17 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult Delete(int userId)
         {
-            bool deleted;
-            db.UserAccounts.Remove(db.UserAccounts.Where(ua => ua.UserId == userId).FirstOrDefault());
-            int v = db.SaveChanges();
-            if (v > 0)
+            bool deleted = false;
+            bool checkExistedCustomer = db.Customers.Any(c => c.UserId == userId);
+            if (!checkExistedCustomer)
             {
-                deleted = true;
-            }
-            else
-            {
-                deleted = false;
+                UserAccount userDelete = db.UserAccounts.Where(ua => ua.UserId == userId).FirstOrDefault();
+                db.UserAccounts.Remove(userDelete);
+                int d = db.SaveChanges();
+                if (d > 0)
+                {
+                    deleted = true;
+                }
             }
             return Json(deleted);
         }
@@ -169,7 +171,7 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             List<UserAccount> allUsers = db.UserAccounts.Where(ua => ua.Status == 0).ToList();
             if (searchUser != "")
             {
-            List<UserAccount> list = db.UserAccounts.Where(ua => ua.FullName.Contains(searchUser) && ua.Status == 0).ToList();
+            List<UserAccount> list = db.UserAccounts.Where(ua => ua.FullName.Contains(searchUser.ToLower()) && ua.Status == 0).ToList();
                 var model = list.Skip((page - 1) * pageSize).Take(pageSize);
                 var totalRow = list.Count;
                 if (totalRow > 1)

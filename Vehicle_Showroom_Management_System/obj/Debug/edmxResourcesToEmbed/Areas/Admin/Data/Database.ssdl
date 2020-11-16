@@ -242,6 +242,7 @@
   <Function Name="Update_Car_Sold" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ModelNumberCar" Type="varchar" Mode="In" />
     <Parameter Name="Sold" Type="int" Mode="In" />
+    <Parameter Name="Checking" Type="int" Mode="In" />
   </Function>
   <Function Name="Update_Customer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="CustomerId" Type="int" Mode="In" />
