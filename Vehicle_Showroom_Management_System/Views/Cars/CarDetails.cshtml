@@ -1,5 +1,6 @@
 ﻿@model Vehicle_Showroom_Management_System.Areas.Admin.Data.Car
 @{
+    ViewBag.Cars = "active";
     ViewBag.Title = Model.CarName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -14,59 +15,16 @@
                         {
                             if (item.Status == 1)
                             {
-                                <img src="~/Areas/Admin/Contents/Images/@item.Name" alt="" class="img-responsive wc-image" width="550px" height="320px">
+                                <img src="~/Areas/Admin/Contents/Images/@item.Name" id="avatar" alt="" width="550px" height="320px">
                             }
                         }
                     </div>
                     <br>
-                    <div class="row">
-                        <div class="col-sm-4 col-xs-6">
-                            <div class="form-group">
-                                <img src="~/Content/img/product-1-720x480.jpg" alt="" class="img-responsive">
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-xs-6">
-                            <div class="form-group">
-                                <img src="~/Content/img/product-2-720x480.jpg" alt="" class="img-responsive">
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-xs-6">
-                            <div class="form-group">
-                                <img src="~/Content/img/product-3-720x480.jpg" alt="" class="img-responsive">
-                            </div>
-                        </div>
-
-                        <div class="col-sm-4 col-xs-6">
-                            <div class="form-group">
-                                <img src="~/Content/img/product-4-720x480.jpg" alt="" class="img-responsive">
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-xs-6">
-                            <div class="form-group">
-                                <img src="~/Content/img/product-5-720x480.jpg" alt="" class="img-responsive">
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-xs-6">
-                            <div class="form-group">
-                                <img src="~/Content/img/product-6-720x480.jpg" alt="" class="img-responsive">
-                            </div>
-                        </div>
-
-                        <div class="col-sm-4 col-xs-6">
-                            <div class="form-group">
-                                <img src="~/Content/img/product-4-720x480.jpg" alt="" class="img-responsive">
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-xs-6">
-                            <div class="form-group">
-                                <img src="~/Content/img/product-5-720x480.jpg" alt="" class="img-responsive">
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-xs-6">
-                            <div class="form-group">
-                                <img src="~/Content/img/product-6-720x480.jpg" alt="" class="img-responsive">
-                            </div>
-                        </div>
+                    <div class="row" style="width: 600px; margin-left: 0px">
+                        @foreach (var item in ViewBag.Images)
+                        {
+                            <img src="~/Areas/Admin/Contents/Images/@item.Name" onclick="changeImage(this)" style="margin-right: 11px; cursor: pointer; margin-bottom:15px" width="174px" height="110px">
+                        }
                     </div>
                 </div>
 
@@ -98,7 +56,7 @@
                                 <div class="clearfix">
                                     <span class="pull-left">Brand</span>
 
-                                    <strong class="pull-right">Lorem ipsum dolor sit</strong>
+                                    <strong class="pull-right">@ViewBag.Brands</strong>
                                 </div>
                             </li>
 
@@ -106,56 +64,39 @@
                                 <div class="clearfix">
                                     <span class="pull-left"> Model</span>
 
-                                    <strong class="pull-right">Lorem ipsum dolor sit</strong>
+                                    <strong class="pull-right">@ViewBag.ModelCars</strong>
                                 </div>
                             </li>
 
                             <li class="list-group-item">
                                 <div class="clearfix">
-                                    <span class="pull-left">First registration</span>
+                                    <span class="pull-left">Kilometer Gone</span>
 
-                                    <strong class="pull-right">05/2010</strong>
+                                    <strong class="pull-right">@Model.KilometerGone km</strong>
                                 </div>
                             </li>
 
                             <li class="list-group-item">
                                 <div class="clearfix">
-                                    <span class="pull-left">Mileage</span>
+                                    <span class="pull-left">Fuel Consumption</span>
 
-                                    <strong class="pull-right">5000 km</strong>
+                                    <strong class="pull-right">@Model.FuelConsumption L/ 100km</strong>
                                 </div>
                             </li>
 
                             <li class="list-group-item">
                                 <div class="clearfix">
-                                    <span class="pull-left">Fuel</span>
+                                    <span class="pull-left">Engine</span>
 
-                                    <strong class="pull-right">Diesel</strong>
+                                    <strong class="pull-right">@Model.Engine</strong>
                                 </div>
                             </li>
-
-                            <li class="list-group-item">
-                                <div class="clearfix">
-                                    <span class="pull-left">Engine size</span>
-
-                                    <strong class="pull-right">1800 cc</strong>
-                                </div>
-                            </li>
-
-                            <li class="list-group-item">
-                                <div class="clearfix">
-                                    <span class="pull-left">Power</span>
-
-                                    <strong class="pull-right">85 hp</strong>
-                                </div>
-                            </li>
-
 
                             <li class="list-group-item">
                                 <div class="clearfix">
                                     <span class="pull-left">Gearbox</span>
 
-                                    <strong class="pull-right">Manual</strong>
+                                    <strong class="pull-right">@Model.Gearbox</strong>
                                 </div>
                             </li>
 
@@ -163,15 +104,7 @@
                                 <div class="clearfix">
                                     <span class="pull-left">Number of seats</span>
 
-                                    <strong class="pull-right">4</strong>
-                                </div>
-                            </li>
-
-                            <li class="list-group-item">
-                                <div class="clearfix">
-                                    <span class="pull-left">Doors</span>
-
-                                    <strong class="pull-right">2/3</strong>
+                                    <strong class="pull-right">@Model.SeatQuantity</strong>
                                 </div>
                             </li>
 
@@ -179,50 +112,21 @@
                                 <div class="clearfix">
                                     <span class="pull-left">Color</span>
 
-                                    <strong class="pull-right">Black</strong>
+                                    <strong class="pull-right">@Model.Color</strong>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="clearfix">
+                                    <span class="pull-left">Created Date</span>
+
+                                    <strong class="pull-right">@ViewBag.CreatedDate</strong>
                                 </div>
                             </li>
                         </ul>
 
                         <div class="accordions">
                             <ul class="accordion">
-                                <li>
-                                    <a class="accordion-trigger">Vehicle Extras</a>
-
-                                    <div class="accordion-content">
-                                        <div class="row">
-                                            <div class="col-sm-6 col-xs-12">
-                                                <p>ABS</p>
-                                            </div>
-
-                                            <div class="col-sm-6 col-xs-12">
-                                                <p>Leather seats</p>
-                                            </div>
-
-                                            <div class="col-sm-6 col-xs-12">
-                                                <p>Power Assisted Steering</p>
-                                            </div>
-
-                                            <div class="col-sm-6 col-xs-12">
-                                                <p>Electric heated seats</p>
-                                            </div>
-
-                                            <div class="col-sm-6 col-xs-12">
-                                                <p>New HU and AU</p>
-                                            </div>
-
-                                            <div class="col-sm-6 col-xs-12">
-                                                <p>Xenon headlights</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="accordion-trigger">Vehicle Description</a>
-                                    <div class="accordion-content">
-                                        <p>- Colour coded bumpers<br>- Tinted glass<br>- Immobiliser<br>- Central locking - remote<br>- Passenger airbag<br>- Electric windows<br>- Rear head rests<br>- Radio<br>- CD player<br>- Ideal first car<br>- Warranty<br>- High level brake light<br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                    </div>
-                                </li>
                                 <li>
                                     <a class="accordion-trigger">Contact Details</a>
 
@@ -279,8 +183,12 @@
 </main>
 
 <script>
-                    $(document).ready(function () {
-                    $("#priceOutput").text(String(@Model.PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $");
-                    $("#kilometerGone").text(String(@Model.KilometerGone).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " Km");
-                });
+    $(document).ready(function () {
+        $("#priceOutput").text(String(@Model.PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $");
+        $("#kilometerGone").text(String(@Model.KilometerGone).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " Km");
+    });
+
+    function changeImage(element) {
+        $("#avatar").attr("src", element.src);
+    };
 </script>

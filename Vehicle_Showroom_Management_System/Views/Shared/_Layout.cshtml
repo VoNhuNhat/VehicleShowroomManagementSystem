@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>PHPJabbers.com | Free Car Dealer Website Template</title>
+    <title>CAR DEALER | Vehicle Showroom</title>
 
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,8 +16,8 @@
     <link rel="stylesheet" href="~/Content/css/style.css">
 
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-    <script src="~/Content/js/jquery-3.5.1.min.js"></script>
     <script src="~/Content/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="~/Areas/Admin/Contents/js/jquery-3.5.1.min.js"></script>
 </head>
 
 <body>
@@ -28,30 +28,20 @@
                 <div class="row">
                     <div class="col-md-12">
                         <button id="primary-nav-button" type="button">Menu</button>
-                        <a href="index.html">
+                        <a href="/Home">
                             <div class="logo">
                                 <img src="~/Content/img/logo.png" alt="Venue Logo">
                             </div>
                         </a>
                         <nav id="primary-nav" class="dropdown cf">
                             <ul class="dropdown menu">
-                                <li class='active'><a href="/Home/Index">Home</a></li>
+                                <li><a href="/Home">Home</a></li>
 
-                                <li><a href="/Cars/Index">Cars</a></li>
+                                <li class='@ViewBag.Cars'><a href="/Cars">Cars</a></li>
 
-                                <li>
-                                    <a href="/Home/About">About</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="/Home/About">About Us</a></li>
-                                        <li><a href="/Blog/Index">Blog</a></li>
-                                        <li><a href="/Home/Team">Team</a></li>
-                                        <li><a href="/Home/Testimonials">Testimonials</a></li>
-                                        <li><a href="/Home/FAQ">FAQ</a></li>
-                                        <li><a href="/Home/Terms">Terms</a></li>
-                                    </ul>
-                                </li>
+                                <li class='@ViewBag.About'><a href="/Home/About">About</a></li>
 
-                                <li><a class="nav-link" href="/Home/Contact">Contact Us</a></li>
+                                <li class='@ViewBag.Contact'><a class="nav-link" href="/Home/Contact">Contact Us</a></li>
                             </ul>
                         </nav><!-- / #primary-nav -->
                     </div>
@@ -100,22 +90,12 @@
                             <h4>Useful Links</h4>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
-                                <ul>
-                                    <li><a href="/Home/Index"><i class="fa fa-stop"></i>Home</a></li>
-                                    <li><a href="/Home/About"><i class="fa fa-stop"></i>About</a></li>
-                                    <li><a href="/Home/Team"><i class="fa fa-stop"></i>Team</a></li>
-                                    <li><a href="/Home/Contact"><i class="fa fa-stop"></i>Contact Us</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6">
-                                <ul>
-                                    <li><a href="/Home/FAQ"><i class="fa fa-stop"></i>FAQ</a></li>
-                                    <li><a href="/Home/Testimonials"><i class="fa fa-stop"></i>Testimonials</a></li>
-                                    <li><a href="/Blog/Index"><i class="fa fa-stop"></i>Blog</a></li>
-                                    <li><a href="/Home/Terms"><i class="fa fa-stop"></i>Terms</a></li>
-                                </ul>
-                            </div>
+                            <ul>
+                                <li><a href="/Home/Index"><i class="fa fa-stop"></i>Home</a></li>
+                                <li><a href="/Cars"><i class="fa fa-stop"></i>Cars</a></li>
+                                <li><a href="/Home/About"><i class="fa fa-stop"></i>About</a></li>
+                                <li><a href="/Home/Contact"><i class="fa fa-stop"></i>Contact Us</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -146,5 +126,6 @@
     <script src="~/Content/js/main.js"></script>
     <script src="~/Content/js/plugins.js"></script>
     <script src="~/Content/js/datepicker.js"></script>
+    <script src="~/Areas/Admin/Contents/js/jquery.twbsPagination.min.js"></script>
 </body>
 </html>

@@ -39,6 +39,7 @@ namespace Vehicle_Showroom_Management_System.Controllers
                             PurchaseOrderDate = c.PurchaseOrderDate,
                             Status = c.Status,
                             PriceOutput = c.PriceOutput,
+                            CreatedDate = c.CreatedDate,
                             ImageName = i.Name
                         }).Take(6).ToList();
             var totalRow = list.Count;

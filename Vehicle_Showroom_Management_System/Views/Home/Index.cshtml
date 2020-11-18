@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>PHPJabbers.com | Free Car Dealer Website Template</title>
+    <title>CAR DEALER | Vehicle Showroom</title>
 
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,6 +23,7 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900" rel="stylesheet">
 
     <script src="~/Content/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="~/Areas/Admin/Contents/js/jquery-3.5.1.min.js"></script>
 </head>
 
 <body>
@@ -34,126 +35,19 @@
                     <div class="row">
                         <div class="col-md-12">
                             <button id="primary-nav-button" type="button">Menu</button>
-                            <a href="/Home/Index">
+                            <a href="/Home">
                                 <div class="logo">
                                     <img src="~/Content/img/logo.png" alt="Venue Logo">
                                 </div>
                             </a>
                             <nav id="primary-nav" class="dropdown cf">
                                 <ul class="dropdown menu">
-                                    <li class='active'><a href="/Home/Index">Home</a></li>
+                                    <li class='active'><a href="/Home">Home</a></li>
 
-                                    <li class="dropbtn dropdown" style="position:initial">
-                                        <a href="/Cars/Index">Cars</a>
-                                        <div class="row dropdown-content">
-                                            <div class="column">
-                                                <h3>Audi</h3>
-
-                                                <a href="#">Audi 3</a>
-                                                <div class="dropdown-incol row">
-                                                    <div style="float:left">
-                                                        <a href="#">Porche 1</a>
-                                                        <a href="#">Porche 2</a>
-                                                        <a href="#">Porche 3</a>
-                                                        <a href="#">Porche 3</a>
-                                                        <a href="#">Porche 3</a>
-                                                        <a href="#">Porche 3</a>
-                                                    </div>
-                                                    <div style="float:left" class="col">
-                                                        <a href="#">Porche 1</a>
-                                                        <a href="#">Porche 2</a>
-                                                        <a href="#">Porche 3</a>
-                                                        <a href="#">Porche 3</a>
-                                                        <a href="#">Porche 3</a>
-                                                        <a href="#">Porche 3</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="column">
-                                                <h3>Porche</h3>
-                                                <a href="#">Porche 1</a>
-                                                <div class="dropdown-incol row">
-                                                    <div style="float:left">
-                                                        <a href="#">Porche 1</a>
-                                                        <a href="#">Porche 2</a>
-                                                        <a href="#">Porche 3</a>
-                                                        <a href="#">Porche 3</a>
-                                                        <a href="#">Porche 3</a>
-                                                        <a href="#">Porche 3</a>
-                                                    </div>
-                                                    <div style="float:left" class="col">
-                                                        <a href="#">Porche 1</a>
-                                                        <a href="#">Porche 2</a>
-                                                        <a href="#">Porche 3</a>
-                                                        <a href="#">Porche 3</a>
-                                                        <a href="#">Porche 3</a>
-                                                        <a href="#">Porche 3</a>
-                                                    </div>
-                                                </div>
-                                                <a href="#">Porche 2</a>
-                                                <a href="#">Porche 3</a>
-                                                <a href="#">Porche 3</a>
-                                                <a href="#">Porche 3</a>
-                                                <a href="#">Porche 3</a>
-                                                <div class="dropdown-incol row">
-                                                    <div style="float:left">
-                                                        <a href="#">Porche 1</a>
-                                                        <a href="#">Porche 2</a>
-                                                        <a href="#">Porche 3</a>
-                                                        <a href="#">Porche 3</a>
-                                                        <a href="#">Porche 3</a>
-                                                        <a href="#">Porche 3</a>
-                                                    </div>
-                                                    <div style="float:left" class="col">
-                                                        <a href="#">Porche 1</a>
-                                                        <a href="#">Porche 2</a>
-                                                        <a href="#">Porche 3</a>
-                                                        <a href="#">Porche 3</a>
-                                                        <a href="#">Porche 3</a>
-                                                        <a href="#">Porche 3</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="column">
-                                                <h3>Toyota</h3>
-                                                <a href="#">Toyota 1</a>
-                                                <a href="#">Toyota 2</a>
-                                                <a href="#">Toyota 3</a>
-                                            </div>
-                                            <div class="column">
-                                                <h3>Madza</h3>
-                                                <a href="#">Madza 1</a>
-                                                <a href="#">Madza 2</a>
-                                                <a href="#">Madza 3</a>
-                                            </div>
-                                            <div class="column">
-                                                <h3>HonDa</h3>
-                                                <a href="#">HonDa 1</a>
-                                                <a href="#">HonDa 2</a>
-                                                <a href="#">HonDa 3</a>
-                                            </div>
-                                            <div class="column">
-                                                <h3>BMV</h3>
-                                                <a href="#">BMV 1</a>
-                                                <a href="#">BMV 2</a>
-                                                <a href="#">BMV 3</a>
-                                            </div>
-                                        </div>
-
-                                    </li>
+                                    <li><a href="/Cars">Cars</a></li>
 
 
-                                    <li>
-                                        <a href="/Home/About">About</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="/Home/About">About Us</a></li>
-                                            <li><a href="/Blog/Index">Blog</a></li>
-                                            <li><a href="/Home/Team">Team</a></li>
-                                            <li><a href="/Home/Testimonials">Testimonials</a></li>
-                                            <li><a href="/Home/FAQ">FAQ</a></li>
-                                            <li><a href="/Home/Terms">Terms</a></li>
-                                        </ul>
-                                    </li>
+                                    <li><a href="/Home/About">About</a></li>
 
                                     <li><a class="nav-link" href="/Home/Contact">Contact Us</a></li>
                                 </ul>
@@ -171,9 +65,9 @@
                 <div class="col-md-10 col-md-offset-1">
                     <div class="banner-caption">
                         <div class="line-dec"></div>
-                        <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
+                        <h2>CAR DEALER | Vehicle Showroom</h2>
                         <div class="blue-button">
-                            <a href="/Home/Contact">Contact Us</a>
+                            <a href="/Cars">View Showroom</a>
                         </div>
                     </div>
                 </div>
@@ -210,104 +104,11 @@
                     <div class="col-md-12">
                         <div class="section-heading">
                             <span>Featured Cars</span>
-                            <h2>Lorem ipsum dolor sit amet ctetur.</h2>
                         </div>
                     </div>
                 </div>
                 <div class="row" id="dataCars">
 
-                </div>
-            </div>
-        </section>
-
-        <section class="featured-places">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="section-heading">
-                            <span>Latest blog posts</span>
-                            <h2>Lorem ipsum dolor sit amet ctetur.</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="featured-item">
-                            <div class="thumb">
-                                <div class="thumb-img">
-                                    <img src="~/Content/img/blog-1-720x480.jpg" alt="">
-                                </div>
-
-                                <div class="overlay-content">
-                                    <strong title="Author"><i class="fa fa-user"></i> John Doe</strong> &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <strong title="Posted on"><i class="fa fa-calendar"></i> 12/06/2020 10:30</strong> &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <strong title="Views"><i class="fa fa-map-marker"></i> 115</strong>
-                                </div>
-                            </div>
-
-                            <div class="down-content">
-                                <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit hic</h4>
-
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim consectetur assumenda nam facere voluptatibus totam veritatis. </p>
-
-                                <div class="text-button">
-                                    <a href="/Blog/BlogDetails">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="featured-item">
-                            <div class="thumb">
-                                <div class="thumb-img">
-                                    <img src="~/Content/img/blog-2-720x480.jpg" alt="">
-                                </div>
-
-                                <div class="overlay-content">
-                                    <strong title="Author"><i class="fa fa-user"></i> John Doe</strong> &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <strong title="Posted on"><i class="fa fa-calendar"></i> 12/06/2020 10:30</strong> &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <strong title="Views"><i class="fa fa-map-marker"></i> 115</strong>
-                                </div>
-                            </div>
-
-                            <div class="down-content">
-                                <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit hic</h4>
-
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim consectetur assumenda nam facere voluptatibus totam veritatis. </p>
-
-                                <div class="text-button">
-                                    <a href="/Blog/BlogDetails">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="featured-item">
-                            <div class="thumb">
-                                <div class="thumb-img">
-                                    <img src="~/Content/img/blog-3-720x480.jpg" alt="">
-                                </div>
-
-                                <div class="overlay-content">
-                                    <strong title="Author"><i class="fa fa-user"></i> John Doe</strong> &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <strong title="Posted on"><i class="fa fa-calendar"></i> 12/06/2020 10:30</strong> &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <strong title="Views"><i class="fa fa-map-marker"></i> 115</strong>
-                                </div>
-                            </div>
-
-                            <div class="down-content">
-                                <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit hic</h4>
-
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim consectetur assumenda nam facere voluptatibus totam veritatis. </p>
-
-                                <div class="text-button">
-                                    <a href="/Blog/BlogDetails">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -324,106 +125,6 @@
 
                     <div class="blue-button">
                         <a href="/Home/Contact">Talk to us</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="popular-places" id="popular">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="section-heading">
-                            <span>Testimonials</span>
-                            <h2>Lorem ipsum dolor sit amet</h2>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="owl-carousel owl-theme">
-                    <div class="item popular-item">
-                        <div class="thumb">
-                            <img src="~/Content/img/popular_item_1.jpg" alt="">
-                            <div class="text-content">
-                                <h4>John Doe</h4>
-                                <span>"Lorem ipsum dolor sit amet, consectetur an adipisicing elit. Itaque, corporis nulla at quia quaerat."</span>
-                            </div>
-                            <div class="plus-button">
-                                <a href="/Home/Testimonials"><i class="fa fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item popular-item">
-                        <div class="thumb">
-                            <img src="~/Content/img/popular_item_2.jpg" alt="">
-                            <div class="text-content">
-                                <h4>John Doe</h4>
-                                <span>"Lorem ipsum dolor sit amet, consectetur an adipisicing elit. Itaque, corporis nulla at quia quaerat."</span>
-                            </div>
-                            <div class="plus-button">
-                                <a href="/Home/Testimonials"><i class="fa fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item popular-item">
-                        <div class="thumb">
-                            <img src="~/Content/img/popular_item_3.jpg" alt="">
-                            <div class="text-content">
-                                <h4>John Doe</h4>
-                                <span>"Lorem ipsum dolor sit amet, consectetur an adipisicing elit. Itaque, corporis nulla at quia quaerat."</span>
-                            </div>
-                            <div class="plus-button">
-                                <a href="/Home/Testimonials"><i class="fa fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item popular-item">
-                        <div class="thumb">
-                            <img src="~/Content/img/popular_item_4.jpg" alt="">
-                            <div class="text-content">
-                                <h4>John Doe</h4>
-                                <span>"Lorem ipsum dolor sit amet, consectetur an adipisicing elit. Itaque, corporis nulla at quia quaerat."</span>
-                            </div>
-                            <div class="plus-button">
-                                <a href="/Home/Testimonials"><i class="fa fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item popular-item">
-                        <div class="thumb">
-                            <img src="~/Content/img/popular_item_5.jpg" alt="">
-                            <div class="text-content">
-                                <h4>John Doe</h4>
-                                <span>"Lorem ipsum dolor sit amet, consectetur an adipisicing elit. Itaque, corporis nulla at quia quaerat."</span>
-                            </div>
-                            <div class="plus-button">
-                                <a href="/Home/Testimonials"><i class="fa fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item popular-item">
-                        <div class="thumb">
-                            <img src="~/Content/img/popular_item_1.jpg" alt="">
-                            <div class="text-content">
-                                <h4>John Doe</h4>
-                                <span>"Lorem ipsum dolor sit amet, consectetur an adipisicing elit. Itaque, corporis nulla at quia quaerat."</span>
-                            </div>
-                            <div class="plus-button">
-                                <a href="/Home/Testimonials"><i class="fa fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item popular-item">
-                        <div class="thumb">
-                            <img src="~/Content/img/popular_item_2.jpg" alt="">
-                            <div class="text-content">
-                                <h4>John Doe</h4>
-                                <span>"Lorem ipsum dolor sit amet, consectetur an adipisicing elit. Itaque, corporis nulla at quia quaerat."</span>
-                            </div>
-                            <div class="plus-button">
-                                <a href="/Home/Testimonials"><i class="fa fa-plus"></i></a>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -454,22 +155,12 @@
                             <h4>Useful Links</h4>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
-                                <ul>
-                                    <li><a href="/Home/Index"><i class="fa fa-stop"></i>Home</a></li>
-                                    <li><a href="/Home/About"><i class="fa fa-stop"></i>About</a></li>
-                                    <li><a href="/Home/Team"><i class="fa fa-stop"></i>Team</a></li>
-                                    <li><a href="/Home/Contact"><i class="fa fa-stop"></i>Contact Us</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6">
-                                <ul>
-                                    <li><a href="/Home/FAQ"><i class="fa fa-stop"></i>FAQ</a></li>
-                                    <li><a href="/Home/Testimonials"><i class="fa fa-stop"></i>Testimonials</a></li>
-                                    <li><a href="/Blog/Index"><i class="fa fa-stop"></i>Blog</a></li>
-                                    <li><a href="/Home/Terms"><i class="fa fa-stop"></i>Terms</a></li>
-                                </ul>
-                            </div>
+                            <ul>
+                                <li><a href="/Home/Index"><i class="fa fa-stop"></i>Home</a></li>
+                                <li><a href="/Cars"><i class="fa fa-stop"></i>Cars</a></li>
+                                <li><a href="/Home/About"><i class="fa fa-stop"></i>About</a></li>
+                                <li><a href="/Home/Contact"><i class="fa fa-stop"></i>Contact Us</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -513,9 +204,12 @@
                         var row = "";
                         for (var i = 0; i < response.data.length; i++) {
                             var status = (response.data[i].Status == 0) ? "New" : "Used";
-                            var date = new Date(parseInt(response.data[i].PurchaseOrderDate.replace('/Date(', '')));
-                            row += "<div class='col-md-4 col-sm-6 col-xs-12 cars' id='" + response.data[i].CarId + "'><div class='featured-item'><div class='thumb'><div class='thumb-img'><img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 400px;height: 200px'/></div><div class='overlay-content'><strong><i class='fa fa-dashboard'></i> " + response.data[i].KilometerGone + "</strong> &nbsp;&nbsp;&nbsp;&nbsp; <strong><i class='fa fa-cube'></i> " + response.data[i].Engine + "</strong>&nbsp;&nbsp;&nbsp;&nbsp;<strong><i class='fa fa-cog'></i> " + response.data[i].Gearbox + "</strong></div></div><div class='down-content' style='text-align: center'><h4>" + response.data[i].CarName + "</h4><br><p>" + response.data[i].Color + "  /  " + response.data[i].FuelConsumption + "  /  " + convert(date) + "  /  " + status + " vehicle</p><p><span><strong><sup>$</sup>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + "</strong></span></p><div class='text-button'><a href='/Cars/CarDetails?ModelNumberCar=" + response.data[i].ModelNumberCar + "'>View More</a></div></div></div></div>"
+                            var date = new Date(parseInt(response.data[i].CreatedDate.replace('/Date(', '')));
+                            row += "<div class='col-md-4 col-sm-6 col-xs-12 cars' id='" + response.data[i].CarId + "'><div class='featured-item'><div class='thumb'><div class='thumb-img'><img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 400px;height: 200px'/></div><div class='overlay-content'><strong><i class='fa fa-dashboard'></i> " + response.data[i].KilometerGone + " km</strong> &nbsp;&nbsp;&nbsp;&nbsp; <strong><i class='fa fa-cube'></i> " + response.data[i].Engine + "</strong>&nbsp;&nbsp;&nbsp;&nbsp;<strong><i class='fa fa-cog'></i> " + response.data[i].Gearbox + "</strong></div></div><div class='down-content' style='text-align: center'><h4>" + response.data[i].CarName + "</h4><br><p>" + response.data[i].Color + "  /  " + convert(date) + "  /  " + status + " vehicle</p><p><span><strong><sup>$</sup>" + String(response.data[i].PriceOutput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + "</strong></span></p><div class='text-button'><a href='/Cars/CarDetails?ModelNumberCar=" + response.data[i].ModelNumberCar + "'>View More</a></div></div></div></div>"
                         }
+                        $("#dataCars").append(row);
+                    } else {
+                        var row = "<h2 style='text-align: center' class='cars'>Currently there are no vehicles in the showroom !</h2>";
                         $("#dataCars").append(row);
                     }
                 }
