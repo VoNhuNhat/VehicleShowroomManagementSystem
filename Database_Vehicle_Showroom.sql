@@ -130,8 +130,6 @@ go
 
 --insert into PurchaseOrders values('SC0000003',1,100,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL,0)
 --go
---select * from PurchaseOrders
---go
 
 --delete from PurchaseOrders
 --go
@@ -193,7 +191,7 @@ begin
 end
 go
 
-	--select * from Cars
+	--select * from Cars where Id = 3
 	--go
 	--delete from Cars
 	--go
@@ -266,6 +264,8 @@ Status int
 )
 go
 
+--select * from Orders
+--go
 
 create proc Insert_Order
 	@OrderId varchar(256),

@@ -234,37 +234,37 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
             ViewBag.importedCar = db.Cars.Where(c => c.Id == Id).Count();
             return View(purchaseOrder);
         }
-        [HttpPost]
-        public JsonResult LoadCars(int page,int pageSize,int Id)
-        {
-            List<Car> listCars = db.Cars.ToList();
-            List<Image> listImages = db.Images.ToList();
-            var list = (from c in listCars
-                        join i in listImages on c.CarId equals i.CarId
-                        where c.Id == Id
-                        select new { ModelNumberCar= c.ModelNumberCar, CarName=c.CarName, PriceInput=c.PriceInput, PriceOutput=c.PriceOutput, SeatQuantity=c.SeatQuantity, Color=c.Color, Gearbox=c.Gearbox, Engine=c.Engine, Status=c.Status, Checking=c.Checking,ImageName = i.Name }).ToList();
-            db.Configuration.ProxyCreationEnabled = false;
-            var model = list.Skip((page - 1) * pageSize).Take(pageSize);
-            var totalRow = list.Count;
-            if (totalRow > 1)
-            {
-                return Json(new
-                {
-                    data = model,
-                    total = totalRow,
-                    status = true
-                }, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(new
-                {
-                    data = list,
-                    total = totalRow,
-                    status = true
-                }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //[HttpPost]
+        //public JsonResult LoadCars(int page,int pageSize,int Id)
+        //{
+        //    List<Car> listCars = db.Cars.ToList();
+        //    List<Image> listImages = db.Images.ToList();
+        //    var list = (from c in listCars
+        //                join i in listImages on c.CarId equals i.CarId
+        //                where c.Id == Id
+        //                select new { ModelNumberCar= c.ModelNumberCar, CarName=c.CarName, PriceInput=c.PriceInput, PriceOutput=c.PriceOutput, SeatQuantity=c.SeatQuantity, Color=c.Color, Gearbox=c.Gearbox, Engine=c.Engine, Status=c.Status, Checking=c.Checking,ImageName = i.Name }).ToList();
+        //    db.Configuration.ProxyCreationEnabled = false;
+        //    var model = list.Skip((page - 1) * pageSize).Take(pageSize);
+        //    var totalRow = list.Count;
+        //    if (totalRow > 1)
+        //    {
+        //        return Json(new
+        //        {
+        //            data = model,
+        //            total = totalRow,
+        //            status = true
+        //        }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    else
+        //    {
+        //        return Json(new
+        //        {
+        //            data = list,
+        //            total = totalRow,
+        //            status = true
+        //        }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
         [HttpPost]
         public JsonResult CheckImportCar(int Id)

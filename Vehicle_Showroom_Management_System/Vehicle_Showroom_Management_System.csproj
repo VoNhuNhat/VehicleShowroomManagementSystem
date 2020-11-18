@@ -140,6 +140,7 @@
     <Compile Include="Areas\Admin\Controllers\BrandController.cs" />
     <Compile Include="Areas\Admin\Controllers\CarController.cs" />
     <Compile Include="Areas\Admin\Controllers\CustomerController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ExportOrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\ExportPurchaseOrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\ModelCarController.cs" />
@@ -282,6 +283,7 @@
     <Content Include="Content\img\team-image-3-646x680.jpg" />
     <Content Include="Content\img\team-image-4-646x680.jpg" />
     <Content Include="Content\js\datepicker.js" />
+    <Content Include="Content\js\jquery-3.5.1.min.js" />
     <Content Include="Content\js\main.js" />
     <Content Include="Content\js\plugins.js" />
     <Content Include="Content\js\vendor\bootstrap.js" />
@@ -355,6 +357,7 @@
     <Content Include="Areas\Admin\Views\Car\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Warning\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ExportPurchaseOrder\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ExportOrder\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

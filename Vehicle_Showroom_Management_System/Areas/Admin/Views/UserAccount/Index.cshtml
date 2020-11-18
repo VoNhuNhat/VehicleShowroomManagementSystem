@@ -99,8 +99,8 @@
             success: function (response) {
                 if (response.data.length > 0) {
                 var row = "";
-                for (var i = 0; i < response.data.length; i++) {
-                    row += "<tr class='dataTable' id='" + response.data[i].UserId + "'>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].UserName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].PhoneNumber + "</td>" + "<td> <a href='/Admin/UserAccount/Details/" + response.data[i].UserId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/UserAccount/Edit/" + response.data[i].UserId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteUser(" + response.data[i].UserId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                    for (var i = 0; i < response.data.length; i++) {
+                        row += "<tr class='dataTable' id='" + response.data[i].UserId + "'>" + "<td style = 'width: 250px'>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].UserName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].PhoneNumber + "</td>" + "<td> <a href='/Admin/UserAccount/Details/" + response.data[i].UserId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/UserAccount/Edit/" + response.data[i].UserId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteUser(" + response.data[i].UserId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                 }
                     $("#tableUser").append(row);
                     $("#pagination").show();
@@ -181,7 +181,7 @@
                             success: function (response) {
                                 var row = "";
                                 for (var i = 0; i < response.data.length; i++) {
-                                    row += "<tr class='dataTable' id='" + response.data[i].UserId + "'>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].UserName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].PhoneNumber + "</td>" + "<td> <a href='/Admin/UserAccount/Details/" + response.data[i].UserId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/UserAccount/Edit/" + response.data[i].UserId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteUser(" + response.data[i].UserId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                                    row += "<tr class='dataTable' id='" + response.data[i].UserId + "'>" + "<td style = 'width: 250px'>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].UserName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].PhoneNumber + "</td>" + "<td> <a href='/Admin/UserAccount/Details/" + response.data[i].UserId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/UserAccount/Edit/" + response.data[i].UserId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteUser(" + response.data[i].UserId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                                 }
                                 $("#tableUser").append(row);
                                 pagination(response.total, function () {
@@ -195,8 +195,8 @@
                         $("#tableUser").find('.dataTable').remove();
                         if (response.data.length > 0) {
                         var row = "";
-                        for (var i = 0; i < response.data.length; i++) {
-                            row += "<tr class='dataTable' id='" + response.data[i].UserId + "'>" + "<td>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].UserName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].PhoneNumber + "</td>" + "<td> <a href='/Admin/UserAccount/Details/" + response.data[i].UserId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/UserAccount/Edit/" + response.data[i].UserId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteUser(" + response.data[i].UserId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                            for (var i = 0; i < response.data.length; i++) {
+                                row += "<tr class='dataTable' id='" + response.data[i].UserId + "'>" + "<td style = 'width: 250px'>" + response.data[i].FullName + "</td>" + "<td>" + response.data[i].UserName + "</td>" + "<td>" + response.data[i].Email + "</td>" + "<td>" + response.data[i].PhoneNumber + "</td>" + "<td> <a href='/Admin/UserAccount/Details/" + response.data[i].UserId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/UserAccount/Edit/" + response.data[i].UserId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteUser(" + response.data[i].UserId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                         }
                         $("#tableUser").append(row);
                         $("#pagination").hide();
