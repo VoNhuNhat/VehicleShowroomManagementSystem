@@ -20,10 +20,8 @@ go
 
 insert into UserAccount values('Administrator','admin','MTIzNDU2','Bach Khoa Aptech','c1808j1@gmail.com','1234567890',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1)
 go
---select * from UserAccount
---go
 /*
-mk: 123456
+password: 123456
 */
 
 
@@ -64,8 +62,7 @@ CreatedDate DateTime,
 UpdatedDate DateTime
 )
 go
---select * from Brands
---go
+
 
 create proc Insert_Brand
 	@BrandName varchar(256),
@@ -128,15 +125,6 @@ insert into PurchaseOrders values(@PurchaseOrderId,@ModelCarId,@QuantityCarImpor
 end
 go
 
---insert into PurchaseOrders values('SC0000003',1,100,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL,0)
---go
-
---delete from PurchaseOrders
---go
-
---select * from PurchaseOrders where OrderDate >= '11/26/2020'
---go
-
 create table Cars(
 CarId int primary key identity,
 ModelNumberCar varchar(100),
@@ -191,12 +179,6 @@ begin
 end
 go
 
-	--select * from Cars where Id = 3
-	--go
-	--delete from Cars
-	--go
-	
-
 create table Images(
 ImageId int primary key identity,
 CarId int references Cars(CarId),
@@ -204,11 +186,6 @@ Name varchar(MAX),
 Status int
 )
 go
-
---select * from Images
---go
---delete from Images
---go
 
 
 create table Customers(
@@ -223,8 +200,7 @@ CreatedDate DateTime,
 UpdatedDate DateTime,
 )
 go
---select * from Customers
---go
+
 create proc Insert_Customer
 	@UserId int,
 	@FullName varchar(256),
@@ -263,9 +239,6 @@ UpdateDate DateTime,
 Status int
 )
 go
-
---select * from Orders
---go
 
 create proc Insert_Order
 	@OrderId varchar(256),

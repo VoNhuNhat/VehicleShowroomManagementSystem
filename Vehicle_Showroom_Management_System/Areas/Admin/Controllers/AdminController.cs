@@ -28,6 +28,10 @@ namespace Vehicle_Showroom_Management_System.Areas.Admin.Controllers
         {
             if (checkLogin())
             {
+                ViewBag.car = db.Cars.ToList().Count();
+                ViewBag.brand = db.Brands.ToList().Count();
+                ViewBag.modelCar = db.ModelCars.ToList().Count();
+                ViewBag.customer = db.Customers.ToList().Count();
                 return View();
             }
             else
