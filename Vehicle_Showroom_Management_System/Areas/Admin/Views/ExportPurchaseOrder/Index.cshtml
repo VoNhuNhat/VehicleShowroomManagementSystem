@@ -1,0 +1,157 @@
+﻿@model Vehicle_Showroom_Management_System.Areas.Admin.Data.PurchaseOrder
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/Index.cshtml";
+}
+<script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+<link type="text/css" href="https://printjs-4de6.kxcdn.com/print.min.css" rel="stylesheet" />
+<div class="container">
+    <div id="content">
+        <br />
+        <img src="~/Content/img/logo.png" width="150px" style="margin-top: -1px; position: absolute" />
+        <h2 style="text-align: center; font-weight: bold; color: red">PURCHASE ORDER</h2>
+        <div style="float: right; margin-top: -62px">
+            <b>Puchase Order ID: @Model.PurchaseOrderId</b>
+            <br />
+            <b>Order Date: @Html.ValueFor(model => model.OrderDate, "{0:MM/dd/yyyy}")</b>
+            <br />
+            <b>Export Date: @DateTime.Now</b>
+            <br /><br /><br />
+            <b>Quantity Imported Car: @ViewBag.importedCar / @Model.QuantityCarImport</b>
+            <br />
+            <b>
+                Status: @if (Model.Status == 1)
+                {
+                    @: Completed
+                }
+                else
+                {
+                    @:Incomplete
+                }
+            </b>
+        </div>
+        <hr style="margin-top:120px;border-top: 3px solid red;" />
+        <br />
+        <div style="float: left">
+            <b>Model Car Id: </b>
+            <br />
+            <b>@ViewBag.modelCarId</b>
+            <br /><br /><br />
+            <b>Model Car Name: </b>
+            <br />
+            <div style="width: 300px">
+            <b>@ViewBag.modelCarName</b>
+            </div>
+        </div>
+        <div style="float:left;margin-left: 280px">
+            <b>Brand Name: </b>
+            <br />
+            <b>@ViewBag.brandName</b>
+            <br /><br /><br />
+            <b>Logo Brand: </b>
+            <br />
+            <img width="100px" src="/Areas/Admin/Contents/Images/@ViewBag.imageBrand" />
+        </div>
+        <hr style="margin-top:200px;border-top: 3px solid red;" />
+        <table style="margin-top: 20px" class="table table-bordered" id="tableCar" cellpadding="10px">
+            <tr>
+                <th style="width: 250px; text-align:left">
+                    <b>Car Name</b>
+                </th>
+                <th style="text-align: center">
+                    <b>Image</b>
+                </th>
+                <th style="width: 150px;text-align: center">
+                    <b>Price Input</b>
+                </th>
+                <th style="text-align: center">
+                    <b>Status</b>
+                </th>
+                <th style="text-align: center">
+                    <b>Checking</b>
+                </th>
+                <th style="text-align: center">
+                    <b>In stock</b>
+                </th>
+            </tr>
+            <tbody>
+            </tbody>
+        </table>
+        <br />
+        <div style="float: right">
+            <h5><b>TOTAL VALUE:</b> <span style="color: red; font-weight: bold" id="totalMoney"></span></h5>
+            -----------------------------
+                  <br />
+                  <b>Authorised Signatory</b>
+        </div>
+        <h5 style="position:absolute;text-align:center;color: blue;"><b>SHOWROOM CAR MANAGEMENT SYSTEM</b></h5>
+    </div>
+    <br /><br /><br />
+    <div style="margin-top: 50px; margin-left: 800px">
+        <a href="/Admin/PurchaseOrder/Details?Id=@Model.Id" style="margin-left:-800px; margin-top: 1px" class="btn btn-primary"><b>Back to Detail</b></a>
+        <button class="btn btn-success" style="font-weight: bold; float: right" type="button" onclick="printJS({
+    printable: 'content',
+    gridHeaderStyle: 'color: red;  border: 2px solid #3971A5;',
+    gridStyle: 'border: 2px solid #3971A5;',
+	    type: 'html'
+        })">
+            Export Purchase Order
+        </button>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+</div>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+                type: "POST",
+            url: "/Admin/ExportPurchaseOrder/LoadAllCarInPurchaseOrder",
+                data: '{' + 'Id: ' + @Model.Id + ' }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+            success: function (response) {
+                    if (response.data.length > 0) {
+                        var row = "";
+                        var totalMoney = 0;
+                        for (var i = 0; i < response.data.length; i++) {
+                            var status = (response.data[i].Status == 0) ? "New" : "Used";
+                            var checking = (response.data[i].Checking == 0) ? "Available" : "Unavailable";
+                            var inStock = (response.data[i].InStock == 0) ? "In stock" : "Out of stock";
+                            row += "<tr class='dataTable' id='" + response.data[i].CarId + "'>" + "<td>" + response.data[i].CarName + "</td>" + "<td style = 'text-align: center'>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].ImageName + "' style = 'width: 150px;height: 100px'/>" + "</td>" + "<td style = 'text-align: center'>" + String(response.data[i].PriceInput).replace(/(.)(?=(\d{3})+$)/g, '$1,') + " $ " + "</td>" + "<td style = 'text-align: center'>" + status + "</td>" + "<td style = 'text-align: center'>" + checking + "</td>" + "<td style = 'text-align: center'>" + inStock + "</td>" + "</tr>"
+                            totalMoney += response.data[i].PriceInput;
+                        }
+                        $("#totalMoney").text(String(totalMoney).replace(/(.)(?=(\d{3})+$)/g, '$1,')+" $");
+                        $("#tableCar").append(row);
+                    } else {
+                        $("#totalMoney").text(0+" $");
+                    }
+                }
+            });
+    })
+
+    function convert(str) {
+        var date = new Date(str),
+            month = ("0" + (date.getMonth() + 1)).slice(-2),
+            day = ("0" + date.getDate()).slice(-2);
+        return [month, day, date.getFullYear()].join("/");
+    }
+
+    function convertCU(str) {
+        var date = new Date(str),
+            month = ("0" + (date.getMonth() + 1)).slice(-2),
+            day = ("0" + date.getDate()).slice(-2);
+        hour = date.getHours();
+        minute = date.getMinutes();
+        second = date.getSeconds();
+        return [month, day, date.getFullYear(), " Time: " + hour + ":" + minute + ":" + second].join("/");
+    }
+
+    $(document).ready(function () {
+
+    });
+</script>
+

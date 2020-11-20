@@ -206,8 +206,9 @@
                         }
                         reader.readAsDataURL(file[0]);
                     } else {
-                        alert(file[0].name + " is not a valid image file.");
+                        swal("There was a problem !!!", file[0].name +" is not a valid image file", "error").then(() => { $("#Images").focus(); });
                         dvPreview.html("");
+                        $("#Images").val('');
                         return false;
                     }
                 });
@@ -216,6 +217,19 @@
             }
             
         });
+
+        function is_image_valid(src) {
+            // Create new offscreen image to test
+            var image_new = new Image();
+            image_new.src = src;
+            // Get accurate measurements from that.
+            if ((image_new.width > 0) && (image_new.height > 0)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
     });
 
     $("#formCreate").keydown(function (e) {

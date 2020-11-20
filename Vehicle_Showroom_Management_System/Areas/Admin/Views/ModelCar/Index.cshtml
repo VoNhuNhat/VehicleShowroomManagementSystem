@@ -18,7 +18,7 @@
                 <th>
                     <b>Car Model Name</b>
                 </th>
-                <th>
+                <th style="text-align: center">
                     <b> Logo Brand</b>
                 </th>
                 <th style="text-align: center">
@@ -61,7 +61,7 @@
                 if (response.data.length > 0) {
                     var row = "";
                     for (var i = 0; i < response.data.length; i++) {
-                        row += "<tr class='dataTable' id='" + response.data[i].ModelCarId + "'>" + "<td style = 'width: 300px'>" + response.data[i].ModelCarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].LogoBrand + "' style = 'width: 110px' title='" + response.data[i].BrandName + "' />" + "</td>" + "<td style = 'text-align: center'>" + response.data[i].CountCar + "</td>" + "<td> <a href='/Admin/ModelCar/Details?ModelCarId=" + response.data[i].ModelCarId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/ModelCar/Edit?ModelCarId=" + response.data[i].ModelCarId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteModelCar(" + response.data[i].ModelCarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                        row += "<tr class='dataTable' id='" + response.data[i].ModelCarId + "'>" + "<td style = 'width: 300px'>" + response.data[i].ModelCarName + "</td>" + "<td style = 'text-align: center'>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].LogoBrand + "' style = 'width: 110px' title='" + response.data[i].BrandName + "' />" + "</td>" + "<td style = 'text-align: center'>" + response.data[i].CountCar + "</td>" + "<td> <a href='/Admin/ModelCar/Details?ModelCarId=" + response.data[i].ModelCarId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/ModelCar/Edit?ModelCarId=" + response.data[i].ModelCarId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteModelCar(" + response.data[i].ModelCarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                     }
                     $("#tableModelCar").append(row);
                     $("#pagination").show();
@@ -91,7 +91,7 @@
                 if (response.data.length > 0) {
                     var row = "";
                     for (var i = 0; i < response.data.length; i++) {
-                        row += "<tr class='dataTable' id='" + response.data[i].ModelCarId + "'>" + "<td style = 'width: 300px'>" + response.data[i].ModelCarName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].LogoBrand + "' style = 'width: 110px' title='" + response.data[i].BrandName + "' />" + "</td>" + "<td style = 'text-align: center'>" + response.data[i].CountCar + "</td>" + "<td> <a href='/Admin/ModelCar/Details?ModelCarId=" + response.data[i].ModelCarId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/ModelCar/Edit?ModelCarId=" + response.data[i].ModelCarId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteModelCar(" + response.data[i].ModelCarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                        row += "<tr class='dataTable' id='" + response.data[i].ModelCarId + "'>" + "<td style = 'width: 300px'>" + response.data[i].ModelCarName + "</td>" + "<td style = 'text-align: center'>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].LogoBrand + "' style = 'width: 110px' title='" + response.data[i].BrandName + "' />" + "</td>" + "<td style = 'text-align: center'>" + response.data[i].CountCar + "</td>" + "<td> <a href='/Admin/ModelCar/Details?ModelCarId=" + response.data[i].ModelCarId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/ModelCar/Edit?ModelCarId=" + response.data[i].ModelCarId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteModelCar(" + response.data[i].ModelCarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                     }
                     $("#tableModelCar").append(row);
                     $("#paginationSearchMutiplePages").hide();
@@ -145,7 +145,7 @@
                             success: function (response) {
                                 var row = "";
                                 for (var i = 0; i < response.data.length; i++) {
-                                    row += "<tr class='dataTable' id='" + response.data[i].ModelCarId + "'>" + "<td style = 'width: 300px'>" + response.data[i].ModelCarName + "</td>" + "<td>" + response.data[i].BrandName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].LogoBrand + "' style = 'width: 110px' title='" + response.data[i].BrandName + "' />" + "</td>" + "<td> <a href='/Admin/ModelCar/Details?ModelCarId=" + response.data[i].ModelCarId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/ModelCar/Edit?ModelCarId=" + response.data[i].ModelCarId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteModelCar(" + response.data[i].ModelCarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                                    row += "<tr class='dataTable' id='" + response.data[i].ModelCarId + "'>" + "<td style = 'width: 300px'>" + response.data[i].ModelCarName + "</td>" + "<td style = 'text-align: center'>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].LogoBrand + "' style = 'width: 110px' title='" + response.data[i].BrandName + "' />" + "</td>" + "<td style = 'text-align: center'>" + response.data[i].CountCar + "</td>" + "<td> <a href='/Admin/ModelCar/Details?ModelCarId=" + response.data[i].ModelCarId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/ModelCar/Edit?ModelCarId=" + response.data[i].ModelCarId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteModelCar(" + response.data[i].ModelCarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                                 }
                                 $("#tableModelCar").append(row);
                                 pagination(response.total, function () {
@@ -158,7 +158,7 @@
                         if (response.data.length > 0) {
                         var row = "";
                             for (var i = 0; i < response.data.length; i++) {
-                                row += "<tr class='dataTable' id='" + response.data[i].ModelCarId + "'>" + "<td style = 'width: 300px'>" + response.data[i].ModelCarName + "</td>" + "<td>" + response.data[i].BrandName + "</td>" + "<td>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].LogoBrand + "' style = 'width: 110px' title='" + response.data[i].BrandName + "' />" + "</td>" + "<td> <a href='/Admin/ModelCar/Details?ModelCarId=" + response.data[i].ModelCarId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/ModelCar/Edit?ModelCarId=" + response.data[i].ModelCarId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteModelCar(" + response.data[i].ModelCarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
+                                row += "<tr class='dataTable' id='" + response.data[i].ModelCarId + "'>" + "<td style = 'width: 300px'>" + response.data[i].ModelCarName + "</td>" + "<td style = 'text-align: center'>" + "<img src='/Areas/Admin/Contents/Images/" + response.data[i].LogoBrand + "' style = 'width: 110px' title='" + response.data[i].BrandName + "' />" + "</td>" + "<td style = 'text-align: center'>" + response.data[i].CountCar + "</td>" + "<td> <a href='/Admin/ModelCar/Details?ModelCarId=" + response.data[i].ModelCarId + "' class='btn btn-info' style = 'font-weight: bold'>Details</a> <a href='/Admin/ModelCar/Edit?ModelCarId=" + response.data[i].ModelCarId + "' class='btn btn-success' style = 'font-weight: bold'>Edit</a> <a onclick = deleteModelCar(" + response.data[i].ModelCarId + ") class='btn btn-danger' style = 'font-weight: bold; color: white'>Delete</a> </td>" + "</tr>"
                         }
                         $("#tableModelCar").append(row);
                         $("#pagination").hide();

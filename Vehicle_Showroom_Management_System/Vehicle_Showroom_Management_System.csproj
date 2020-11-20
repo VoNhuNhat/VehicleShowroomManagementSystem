@@ -140,6 +140,8 @@
     <Compile Include="Areas\Admin\Controllers\BrandController.cs" />
     <Compile Include="Areas\Admin\Controllers\CarController.cs" />
     <Compile Include="Areas\Admin\Controllers\CustomerController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ExportOrderController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ExportPurchaseOrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\ModelCarController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
@@ -212,6 +214,7 @@
     <Content Include="Areas\Admin\Contents\js\bootstrap.bundle.min.js" />
     <Content Include="Areas\Admin\Contents\js\jquery-3.5.1.min.js" />
     <Content Include="Areas\Admin\Contents\js\jquery.twbsPagination.min.js" />
+    <Content Include="Areas\Admin\Contents\js\jspdf.min.js" />
     <Content Include="Areas\Admin\Contents\js\scripts.js" />
     <Content Include="Areas\Admin\Contents\js\sweetalert.js" />
     <Content Include="Areas\Admin\Data\Database.Context.tt">
@@ -352,6 +355,8 @@
     <Content Include="Areas\Admin\Views\Order\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Car\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Warning\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ExportPurchaseOrder\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ExportOrder\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
